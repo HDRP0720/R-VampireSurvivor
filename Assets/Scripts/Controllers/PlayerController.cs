@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -11,39 +8,32 @@ public class PlayerController : MonoBehaviour
   // Property
   public Vector2 MoveDir
   {
-    get { return _moveDir; }
-    set { _moveDir = value.normalized; }
+    get => _moveDir;
+    set => _moveDir = value.normalized;
   }
-  
+
+  private void Start()
+  {
+    Managers.Game.OnMoveDirChanged += HandleOnMoveDirChanged;
+  }
   private void Update()
   {
-    // HandleInput();
-
     MovePlayer();
   }
-
-  private void HandleInput()
+  private void OnDestroy()
   {
-    Vector2 moveDir = Vector2.zero;
-
-    if (Input.GetKey(KeyCode.W))
-      moveDir.y += 1;
-    
-    if (Input.GetKey(KeyCode.S))
-      moveDir.y -= 1;
-    
-    if (Input.GetKey(KeyCode.A))
-      moveDir.x -= 1;
-    
-    if (Input.GetKey(KeyCode.D))
-      moveDir.x += 1;
-
-    _moveDir = moveDir.normalized;
+    if(Managers.Game != null)
+      Managers.Game.OnMoveDirChanged -= HandleOnMoveDirChanged;
   }
 
   private void MovePlayer()
   {
-    Vector3 dir = _moveDir * _speed * Time.deltaTime;
-    transform.position += dir;
+    Vector2 dir = _moveDir * (_speed * Time.deltaTime);
+    transform.position += new Vector3(dir.x, dir.y, 0);
+  }
+
+  private void HandleOnMoveDirChanged(Vector2 dir)
+  {
+    _moveDir = dir;
   }
 }
