@@ -6,10 +6,12 @@ public class GameScene : MonoBehaviour
   [SerializeField] private GameObject snakePrefab;
   [SerializeField] private GameObject slimePrefab;
   [SerializeField] private GameObject goblinPrefab;
+  [SerializeField] private GameObject joystickPrefab;
 
   private GameObject _snake;
   private GameObject _slime;
   private GameObject _goblin;
+  private GameObject _joystick;
 
   private void Start()
   {
@@ -18,6 +20,10 @@ public class GameScene : MonoBehaviour
     _goblin = GameObject.Instantiate(goblinPrefab, go.transform);
     _snake.name = snakePrefab.name;
     _goblin.name = goblinPrefab.name;
+    
+    // Input
+    _joystick = GameObject.Instantiate(joystickPrefab);
+    _joystick.name = joystickPrefab.name;
     
     // Player
     _slime = GameObject.Instantiate(slimePrefab);
