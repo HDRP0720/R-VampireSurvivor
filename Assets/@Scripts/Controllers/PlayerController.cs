@@ -1,7 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : CreatureController
 {
   private Vector2 _moveDir = Vector2.zero;
   private float _speed = 5.0f;
@@ -31,6 +31,24 @@ public class PlayerController : MonoBehaviour
   {
     Vector2 dir = _moveDir * (_speed * Time.deltaTime);
     transform.position += new Vector3(dir.x, dir.y, 0);
+  }
+  
+  private void OnCollisionEnter2D(Collision2D other)
+  {
+    MonsterController target = other.gameObject.GetComponent<MonsterController>();
+    if (target == null) return;
+    
+    
+  }
+
+  public override void OnDamaged(BaseController attacker, int damage)
+  {
+    base.OnDamaged(attacker, damage);
+    Debug.Log($"OnDamaged! {HP}");
+    
+    // TODO: This is temp code
+    CreatureController cc = attacker as CreatureController;
+    cc?.OnDamaged(this, 10000);
   }
 
   private void HandleOnMoveDirChanged(Vector2 dir)
