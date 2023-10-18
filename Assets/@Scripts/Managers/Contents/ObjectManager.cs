@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ObjectManager
 {
+  public List<GameObject> _game = new List<GameObject>();
   // Properties
   public PlayerController Player { get; private set; }
   public HashSet<MonsterController> Monsters { get; } = new HashSet<MonsterController>();

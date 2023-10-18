@@ -12,6 +12,7 @@ public class GameScene : MonoBehaviour
   // private GameObject _slime;
   // private GameObject _goblin;
   // private GameObject _joystick;
+  private SpawningPool _spawningPool;
 
   private void Start()
   {
@@ -48,6 +49,8 @@ public class GameScene : MonoBehaviour
 
   private void StartLoaded2()
   {
+    _spawningPool = gameObject.AddComponent<SpawningPool>();
+    
     // Map
     var map = Managers.Resource.Instantiate("Map.prefab");
     
@@ -55,7 +58,7 @@ public class GameScene : MonoBehaviour
     var player = Managers.Object.Spawn<PlayerController>();
     
     // Monster
-    for (int i = 0; i < 1000; i++)
+    for (int i = 0; i < 100; i++)
     {
       MonsterController mc = Managers.Object.Spawn<MonsterController>(Random.Range(0, 2));
       mc.transform.position = new Vector2(Random.Range(-5, 5), Random.Range(-5, 5));
