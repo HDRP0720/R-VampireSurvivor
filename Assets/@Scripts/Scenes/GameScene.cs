@@ -2,16 +2,6 @@ using UnityEngine;
 
 public class GameScene : MonoBehaviour
 {
-  // [SerializeField] private GameObject snakePrefab;
-  // [SerializeField] private GameObject slimePrefab;
-  // [SerializeField] private GameObject goblinPrefab;
-  // [SerializeField] private GameObject joystickPrefab;
-
-  // private GameObject _map;
-  // private GameObject _snake;
-  // private GameObject _slime;
-  // private GameObject _goblin;
-  // private GameObject _joystick;
   private SpawningPool _spawningPool;
 
   private void Start()
@@ -21,7 +11,13 @@ public class GameScene : MonoBehaviour
       Debug.Log($"{key} : {count}/{totalCount}");
 
       if (count == totalCount)
-        StartLoaded2();
+      {
+        Managers.Resource.LoadAllAsync<TextAsset>("Data", (key3, count3, totalCount3) =>
+        {
+          if (count3 == totalCount3)
+            StartLoaded2();
+        });
+      }
     });
   }
 
@@ -70,5 +66,12 @@ public class GameScene : MonoBehaviour
     // Camera
     if (Camera.main != null) 
       Camera.main.GetComponent<CameraController>().target = player.gameObject;
+    
+    // Data test
+    Managers.Data.Init();
+    foreach (var playerData in Managers.Data.PlayerDic.Values)
+    {
+      Debug.Log($"Lvl : {playerData.level}, HP{playerData.maxHp}");
+    }
   }
 }

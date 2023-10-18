@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Utils
 {
-  public static T GetOrAddComponent<T>(GameObject go) where T : UnityEngine.Component
+  public static T GetOrAddComponent<T>(GameObject go) where T : Component
   {
     T component = go.GetComponent<T>();
     if (component == null)
