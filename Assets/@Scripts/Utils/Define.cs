@@ -9,5 +9,7 @@ public class Define
   public enum ESound { BGM, Effect }
   
   public enum EObjectType { Player, Monster, Projectile, Env }
+
+  public const string EXP_GEM_PREFAB = "EXPGem.prefab";
 }
 

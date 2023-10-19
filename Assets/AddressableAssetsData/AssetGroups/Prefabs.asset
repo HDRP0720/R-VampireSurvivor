@@ -21,22 +21,27 @@ MonoBehaviour:
     m_Address: Slime_01.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Prefabs
+    - Preload
   - m_GUID: a31116fe46e22084db354d5b3cd30543
     m_Address: Goblin_01.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Prefabs
+    - Preload
   - m_GUID: efc770a58ced8b842aabed66474f2d64
     m_Address: Snake_01.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Prefabs
+    - Preload
   - m_GUID: 98265dd325fe0b6428c26111c71c233a
     m_Address: Map.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Prefabs
+    - Preload
+  - m_GUID: 0065c1a29745c6342b566a8a162744ca
+    m_Address: EXPGem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 612673dc2b4536b43b12c7d3f407b27a, type: 2}
   m_SchemaSet:

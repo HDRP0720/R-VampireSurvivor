@@ -55,9 +55,13 @@ public class ResourceManager
       callback?.Invoke(resource as T);
       return;
     }
+
+    string loadKey = key;
+    if (key.Contains("sprite"))
+      loadKey = $"{key}[{key.Replace(".sprite", "")}]";
     
     // Start asynchronous loading of resources
-    var asyncOperation = Addressables.LoadAssetAsync<T>(key);
+    var asyncOperation = Addressables.LoadAssetAsync<T>(loadKey);
     asyncOperation.Completed += (op) =>
     {
       _resources.Add(key, op.Result);

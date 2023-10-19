@@ -62,6 +62,9 @@ public class MonsterController : CreatureController
     if(_coDotDamage != null)
       StopCoroutine(_coDotDamage);
     _coDotDamage = null;
+    
+    // Whenever monster died, spawn exp gem
+    GemController gc = Managers.Object.Spawn<GemController>(transform.position);
 
     Managers.Object.Despawn(this);
   }

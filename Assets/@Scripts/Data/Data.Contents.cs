@@ -62,16 +62,16 @@ namespace Data
   #endregion
 
   #region Collect Data From MonsterData xml
-  public class MonsterData
-  {
-    [XmlAttribute] public string name;
-    [XmlAttribute] public string prefab;
-    [XmlAttribute] public int level;
-    [XmlAttribute] public int maxHp;
-    [XmlAttribute] public int attack;
-    [XmlAttribute] public float speed;
-    
-    // TODO: DropData
-  }
+  // public class MonsterData
+  // {
+  //   [XmlAttribute] public string name;
+  //   [XmlAttribute] public string prefab;
+  //   [XmlAttribute] public int level;
+  //   [XmlAttribute] public int maxHp;
+  //   [XmlAttribute] public int attack;
+  //   [XmlAttribute] public float speed;
+  //   
+  //   // TODO: DropData
+  // }
   #endregion
 }

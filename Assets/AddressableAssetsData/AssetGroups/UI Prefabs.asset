@@ -21,7 +21,7 @@ MonoBehaviour:
     m_Address: UI_Joystick.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Prefabs
+    - Preload
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 612673dc2b4536b43b12c7d3f407b27a, type: 2}
   m_SchemaSet:
