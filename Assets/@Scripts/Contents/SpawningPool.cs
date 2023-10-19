@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawningPool : MonoBehaviour
 {
-  private float _spawnInterval = 1.0f;
+  private float _spawnInterval = 0.1f;
   private int _maxMonsterCount = 100;
   private Coroutine _coUpdateSpawningPool;
 

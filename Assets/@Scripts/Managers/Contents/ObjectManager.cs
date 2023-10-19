@@ -52,6 +52,9 @@ public class ObjectManager
       Sprite sprite = Managers.Resource.Load<Sprite>(key);
       go.GetComponent<SpriteRenderer>().sprite = sprite;
       
+      // TODO: This is temporal test code
+      GameObject.Find("Grid").GetComponent<GridController>().Add(go);
+      
       return null;
     }
 
@@ -79,6 +82,9 @@ public class ObjectManager
     {
       Gems.Remove(obj as GemController);
       Managers.Resource.Destroy(obj.gameObject);
+      
+      // TODO: This is temporal test code
+      GameObject.Find("Grid").GetComponent<GridController>().Remove(obj.gameObject);
     }
   }
 }
