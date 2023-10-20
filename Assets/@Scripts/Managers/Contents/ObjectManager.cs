@@ -92,10 +92,7 @@ public class ObjectManager
   public void Despawn<T>(T obj) where T : BaseController
   {
     // TODO: This is a test code for detecting pool despawn
-    if (obj.IsValid() == false)
-    {
-      int a = 3;
-    }
+    if (obj.IsValid() == false) return;
     
     System.Type type = typeof(T);
     if (type == typeof(PlayerController))
@@ -115,10 +112,15 @@ public class ObjectManager
       // TODO: This is temporal test code
       GameObject.Find("Grid").GetComponent<GridController>().Remove(obj.gameObject);
     }
-    else if (typeof(T).IsSubclassOf(typeof(ProjectileController)))
+    else if(type == typeof(ProjectileController))
     {
       Projectiles.Remove(obj as ProjectileController);
       Managers.Resource.Destroy(obj.gameObject);
     }
+    // else if (typeof(T).IsSubclassOf(typeof(ProjectileController)))
+    // {
+    //   Projectiles.Remove(obj as ProjectileController);
+    //   Managers.Resource.Destroy(obj.gameObject);
+    // }
   }
 }
