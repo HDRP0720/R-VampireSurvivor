@@ -30,7 +30,9 @@ public class MonsterController : CreatureController
   private void OnCollisionEnter2D(Collision2D other)
   {
     PlayerController target = other.gameObject.GetComponent<PlayerController>();
-    if (target == null) return;
+    if (target.IsValid() == false) return;
+
+    if (this.IsValid() == false) return;
     
     if(_coDotDamage != null)
       StopCoroutine(_coDotDamage);
@@ -40,7 +42,9 @@ public class MonsterController : CreatureController
   private void OnCollisionExit2D(Collision2D other)
   {
     PlayerController target = other.gameObject.GetComponent<PlayerController>();
-    if (target == null) return;
+    if (target.IsValid() == false) return;
+
+    if (this.IsValid() == false) return;
     
     if(_coDotDamage != null)
       StopCoroutine(_coDotDamage);

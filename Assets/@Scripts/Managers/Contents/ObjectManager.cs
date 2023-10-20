@@ -55,7 +55,19 @@ public class ObjectManager
       // TODO: This is temporal test code
       GameObject.Find("Grid").GetComponent<GridController>().Add(go);
       
-      return null;
+      return gc as T;
+    }
+    // else if (typeof(T).IsSubclassOf(typeof(ProjectileController)))
+    else if (type == typeof(ProjectileController))
+    {
+      GameObject go = Managers.Resource.Instantiate(Define.FIRE_PROJECTILE, pooling:true);
+      go.transform.position = position;
+
+      ProjectileController pc = go.GetOrAddComponent<ProjectileController>();
+      Projectiles.Add(pc);
+      pc.Init();
+
+      return pc as T;
     }
 
     return null;
@@ -63,6 +75,12 @@ public class ObjectManager
 
   public void Despawn<T>(T obj) where T : BaseController
   {
+    // TODO: This is a test code for detecting pool despawn
+    if (obj.IsValid() == false)
+    {
+      int a = 3;
+    }
+    
     System.Type type = typeof(T);
     if (type == typeof(PlayerController))
     {
@@ -73,11 +91,6 @@ public class ObjectManager
       Monsters.Remove(obj as MonsterController);
       Managers.Resource.Destroy(obj.gameObject);
     }
-    else if (type == typeof(ProjectileController))
-    {
-      Projectiles.Remove(obj as ProjectileController);
-      Managers.Resource.Destroy(obj.gameObject);
-    }
     else if (type == typeof(GemController))
     {
       Gems.Remove(obj as GemController);
@@ -85,6 +98,11 @@ public class ObjectManager
       
       // TODO: This is temporal test code
       GameObject.Find("Grid").GetComponent<GridController>().Remove(obj.gameObject);
+    }
+    else if (typeof(T).IsSubclassOf(typeof(ProjectileController)))
+    {
+      Projectiles.Remove(obj as ProjectileController);
+      Managers.Resource.Destroy(obj.gameObject);
     }
   }
 }

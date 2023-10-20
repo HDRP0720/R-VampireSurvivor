@@ -1,11 +1,14 @@
+using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : CreatureController
 {
+  [SerializeField] private Transform indicator;
+  [SerializeField] private Transform projectilePointer;
   private Vector2 _moveDir = Vector2.zero;
-  private float _speed = 5.0f;
+  
   private float EnvCollectDist { get; set; } = 1.0f;
   
   // Property
@@ -15,10 +18,6 @@ public class PlayerController : CreatureController
     set => _moveDir = value.normalized;
   }
 
-  private void Start()
-  {
-    Managers.Game.OnMoveDirChanged += HandleOnMoveDirChanged;
-  }
   private void Update()
   {
     MovePlayer();
@@ -30,10 +29,27 @@ public class PlayerController : CreatureController
       Managers.Game.OnMoveDirChanged -= HandleOnMoveDirChanged;
   }
 
+  public override bool Init()
+  {
+    if (base.Init() == false) return false;
+
+    _speed = 5.0f;
+    Managers.Game.OnMoveDirChanged += HandleOnMoveDirChanged;
+    
+    StartProjectile();
+
+    return true;
+  }
+
   private void MovePlayer()
   {
     Vector2 dir = _moveDir * (_speed * Time.deltaTime);
     transform.position += new Vector3(dir.x, dir.y, 0);
+
+    if (_moveDir != Vector2.zero)
+      indicator.eulerAngles = new Vector3(0, 0, Mathf.Atan2(-dir.x, dir.y) * 180 / Mathf.PI);
+
+    GetComponent<Rigidbody2D>().velocity = Vector2.zero;
   }
 
   private void CollectGems()
@@ -79,4 +95,28 @@ public class PlayerController : CreatureController
   {
     _moveDir = dir;
   }
+  
+  // TODO: this is temporal code for projectile
+  #region Fire Projectile Test
+  private Coroutine _coFireProjectile;
+  private void StartProjectile()
+  {
+    if(_coFireProjectile != null)
+      StopCoroutine(_coFireProjectile);
+
+    _coFireProjectile = StartCoroutine(CoStartProjectile());
+  }
+
+  private IEnumerator CoStartProjectile()
+  {
+    WaitForSeconds wait = new WaitForSeconds(0.5f);
+    while (true)
+    {
+      ProjectileController pc = Managers.Object.Spawn<ProjectileController>(projectilePointer.position, 1);
+      pc.SetInfo(1, this, (projectilePointer.position - indicator.position).normalized);
+      
+      yield return wait;
+    }
+  }
+  #endregion
 }

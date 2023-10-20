@@ -74,4 +74,32 @@ namespace Data
   //   // TODO: DropData
   // }
   #endregion
+
+  #region Collect Data From SkillData xml
+  public class SkillData
+  {
+    [XmlAttribute] public int templateID;
+    [XmlAttribute] public Define.ESkillType skillType = Define.ESkillType.None;
+    [XmlAttribute] public string prefab;
+    [XmlAttribute] public int damage;
+  }
+  [System.Serializable, XmlRoot("SkillDatas")]
+  public class SkillDataLoader : ILoader<int, SkillData>
+  {
+    [XmlElement("SkillData")]
+    public List<SkillData> skills = new List<SkillData>();
+
+    public Dictionary<int, SkillData> MakeDict()
+    {
+      Dictionary<int, SkillData> dict = new Dictionary<int, SkillData>();
+      foreach (SkillData skill in skills)
+      {
+        dict.Add(skill.templateID, skill);
+      }
+
+      return dict;
+    }
+  }
+
+  #endregion
 }

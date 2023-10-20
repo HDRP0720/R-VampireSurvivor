@@ -1,3 +1,4 @@
+using Data;
 using UnityEngine;
 
 public class GameScene : MonoBehaviour
@@ -18,6 +19,8 @@ public class GameScene : MonoBehaviour
   
   private void StartLoaded()
   {
+    Managers.Data.Init();
+    
     _spawningPool = gameObject.AddComponent<SpawningPool>();
     
     // Map
@@ -41,10 +44,9 @@ public class GameScene : MonoBehaviour
       Camera.main.GetComponent<CameraController>().target = player.gameObject;
     
     // Data test
-    Managers.Data.Init();
     foreach (var playerData in Managers.Data.PlayerDic.Values)
     {
-      Debug.Log($"Lvl : {playerData.level}, HP{playerData.maxHp}");
+      Debug.Log($"Lvl : {playerData.level}, HP : {playerData.maxHp}");
     }
   }
 }
