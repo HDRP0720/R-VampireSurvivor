@@ -24501,6 +24501,7 @@ GameObject:
   - component: {fileID: 3879975523637581710}
   - component: {fileID: 4152181725643790294}
   - component: {fileID: 4275180597620909992}
+  - component: {fileID: 6353136181957090091}
   m_Layer: 8
   m_Name: EgoSword
   m_TagString: Weapon
@@ -24600,6 +24601,23 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &6353136181957090091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4217842100069291762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b711ea0425d82e744b8ef4610dc4efc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swingParticles:
+  - {fileID: 1681808170223585276}
+  - {fileID: 6985662887103722227}
+  - {fileID: 2805518476969034538}
+  - {fileID: 7808535720102256075}
 --- !u!1 &6478390955051475138
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,7 +28,7 @@ public class SpawningPool : MonoBehaviour
     if (monsterCount >= _maxMonsterCount) return;
     
     // TODO: change temp ID to Data ID
-    Vector3 randPos = new Vector2(UnityEngine.Random.Range(-5, 5), UnityEngine.Random.Range(-5, 5));
+    Vector3 randPos = Utils.GenerateMonsterSpawnPoint(Managers.Game.Player.transform.position, 10, 15);
     MonsterController mc = Managers.Object.Spawn<MonsterController>(randPos,UnityEngine.Random.Range(0, 2));
   }
 }

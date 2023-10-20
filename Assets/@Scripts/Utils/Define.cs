@@ -12,6 +12,8 @@ public class Define
   
   public enum ESkillType{ None, Melee, Projectile, Etc }
 
+  public const int EGO_SWORD_ID = 10;
+
   public const string EXP_GEM_PREFAB = "EXPGem.prefab";
   public const string FIRE_PROJECTILE = "FireProjectile.prefab";
 }

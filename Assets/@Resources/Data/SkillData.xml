@@ -2,6 +2,8 @@
 <SkillDatas>
 	<SkillData templateID="1" name="화염구" type="Projectile" prefab="FireProjectile.prefab" damage="1000" speed="2" >
 	</SkillData>
+	<SkillData templateID="10" name="평타" type="Melee" prefab="EgoSword.prefab" damage="1000" >
+	</SkillData>
 	
 	<!--<SkillData templateID="1" name="화염구" type="projectile" prefab="FireProjectile.prefab" damage="1000">
 		<ProjectileData speed="3" damage="10" hitCount="1">

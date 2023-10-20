@@ -37,6 +37,7 @@ public class PlayerController : CreatureController
     Managers.Game.OnMoveDirChanged += HandleOnMoveDirChanged;
     
     StartProjectile();
+    StartEgoSword();
 
     return true;
   }
@@ -56,9 +57,12 @@ public class PlayerController : CreatureController
   {
     float sqrCollectDist = EnvCollectDist * EnvCollectDist;
     
-    List<GemController> gems = Managers.Object.Gems.ToList();
-    foreach (GemController gem in gems)
+    var findGems = GameObject.Find("Grid").GetComponent<GridController>()
+      .GatherObjects(transform.position, EnvCollectDist + 0.5f);
+
+    foreach (GameObject go in findGems)
     {
+      GemController gem = go.GetComponent<GemController>();
       Vector3 dir = gem.transform.position - transform.position;
       if (dir.sqrMagnitude <= sqrCollectDist)
       {
@@ -66,11 +70,6 @@ public class PlayerController : CreatureController
         Managers.Object.Despawn(gem);
       }
     }
-
-    var findGems = GameObject.Find("Grid").GetComponent<GridController>()
-      .GatherObjects(transform.position, EnvCollectDist + 0.5f);
-
-    Debug.Log($"SearchGems({findGems.Count}) || TotalGems({gems.Count})");
   }
   
   private void OnCollisionEnter2D(Collision2D other)
@@ -97,7 +96,7 @@ public class PlayerController : CreatureController
   }
   
   // TODO: this is temporal code for projectile
-  #region Fire Projectile Test
+  #region Skill Test: Fire Projectile 
   private Coroutine _coFireProjectile;
   private void StartProjectile()
   {
@@ -118,5 +117,19 @@ public class PlayerController : CreatureController
       yield return wait;
     }
   }
+  #endregion
+
+  #region Skill Test: Ego Sword Test
+  private EgoSwordController _egoSword;
+  private void StartEgoSword()
+  {
+    if (_egoSword.IsValid()) return;
+
+    _egoSword = Managers.Object.Spawn<EgoSwordController>(indicator.position, Define.EGO_SWORD_ID);
+    _egoSword.transform.SetParent(indicator);
+    
+    _egoSword.ActivateSkill();
+  }
+
   #endregion
 }

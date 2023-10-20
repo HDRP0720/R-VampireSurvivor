@@ -4,6 +4,7 @@ using UnityEngine;
 public class ObjectManager
 {
   public List<GameObject> _game = new List<GameObject>();
+  
   // Properties
   public PlayerController Player { get; private set; }
   public HashSet<MonsterController> Monsters { get; } = new HashSet<MonsterController>();
@@ -68,6 +69,21 @@ public class ObjectManager
       pc.Init();
 
       return pc as T;
+    }
+    else if (typeof(T).IsSubclassOf(typeof(SkillController)))
+    {
+      if (Managers.Data.SkillDic.TryGetValue(templateID, out Data.SkillData skillData) == false)
+      {
+        Debug.LogError($"ObjectManager Spawn Skill Failed {templateID}");
+        return null;
+      }
+
+      GameObject go = Managers.Resource.Instantiate(skillData.prefab, pooling: true);
+      go.transform.position = position;
+      T t = go.GetOrAddComponent<T>();
+      t.Init();
+
+      return t;
     }
 
     return null;
