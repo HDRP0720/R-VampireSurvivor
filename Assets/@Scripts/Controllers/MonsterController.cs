@@ -4,10 +4,26 @@ using UnityEngine;
 
 public class MonsterController : CreatureController
 {
+  protected Animator animator;
+  
   private Coroutine _coDotDamage;
+  private Define.ECreatureState _creatureState = Define.ECreatureState.Moving;
+  
+  // Property
+  public virtual Define.ECreatureState CreatureState
+  {
+    get => _creatureState;
+    set
+    {
+      _creatureState = value;
+      UpdateAnimation();
+    }
+  }
   
   private void FixedUpdate()
   {
+    if (CreatureState != Define.ECreatureState.Moving) return;
+    
     PlayerController pc = Managers.Object.Player;
     if (pc == null) return;
 
@@ -21,8 +37,10 @@ public class MonsterController : CreatureController
   public override bool Init()
   {
     if (base.Init()) return false;
-    
+
+    animator = GetComponent<Animator>();
     ObjectType = Define.EObjectType.Monster;
+    CreatureState = Define.ECreatureState.Moving;
     
     return true;
   }
@@ -75,4 +93,31 @@ public class MonsterController : CreatureController
 
     Managers.Object.Despawn(this);
   }
+
+  #region Boss State pattern
+  protected virtual void UpdateAnimation() { }
+  public override void HandleUpdate()
+  {
+    base.HandleUpdate();
+    switch (CreatureState)
+    {
+      case Define.ECreatureState.Idle:
+        UpdateIdle();
+        break;
+      case Define.ECreatureState.Skill:
+        UpdateSkill();
+        break;
+      case Define.ECreatureState.Moving:
+        UpdateMoving();
+        break;
+      case Define.ECreatureState.Dead:
+        UpdateDead();
+        break;
+    }
+  }
+  protected virtual void UpdateIdle(){}
+  protected virtual void UpdateSkill(){}
+  protected virtual void UpdateMoving(){}
+  protected virtual void UpdateDead(){}
+  #endregion
 }

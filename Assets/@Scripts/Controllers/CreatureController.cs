@@ -11,6 +11,8 @@ public class CreatureController : BaseController
 
   public virtual void OnDamaged(BaseController attacker, int damage)
   {
+    if (HP <= 0) return;
+    
     HP -= damage;
     if (HP <= 0)
     {
@@ -19,8 +21,5 @@ public class CreatureController : BaseController
     }
   }
 
-  protected virtual void OnDead()
-  {
-    
-  }
+  protected virtual void OnDead() { }
 }
