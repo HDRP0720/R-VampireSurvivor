@@ -2082,7 +2082,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: -4914203402944774512}
         m_TargetAssemblyTypeName: UI_SkillCardItem, Assembly-CSharp
         m_MethodName: OnClickItem
         m_Mode: 1

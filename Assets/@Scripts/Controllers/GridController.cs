@@ -33,9 +33,9 @@ public class GridController : BaseController
     int minY = bottom.y;
     int maxY = top.y;
 
-    for (int x = minX; x < maxX; x++)
+    for (int x = minX; x <= maxX; x++)
     {
-      for (int y = minY; y < maxY; y++)
+      for (int y = minY; y <= maxY; y++)
       {
         if(_cells.ContainsKey(new Vector3Int(x, y, 0)) == false) continue;
         

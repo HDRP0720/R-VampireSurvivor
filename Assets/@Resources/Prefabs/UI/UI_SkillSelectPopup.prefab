@@ -3073,7 +3073,7 @@ GameObject:
   - component: {fileID: 1070249085600625429}
   - component: {fileID: 1070249085600625428}
   m_Layer: 5
-  m_Name: SkillCardSelectListObject
+  m_Name: SkillCardSelectListParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
