@@ -9761,7 +9761,6 @@ GameObject:
   - component: {fileID: 7611122528864475029}
   - component: {fileID: 5424948678280997412}
   - component: {fileID: 386795571532462481}
-  - component: {fileID: 5420558569123431466}
   m_Layer: 0
   m_Name: PoisonField_AOE_01
   m_TagString: Untagged
@@ -14649,18 +14648,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 2.88
---- !u!114 &5420558569123431466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6072921829808845438}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dacfd2858af677140b6a372178dbcb1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7349184956274832338
 GameObject:
   m_ObjectHideFlags: 0

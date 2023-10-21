@@ -244,7 +244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indicator: {fileID: 806907485256565807}
-  projectilePointer: {fileID: 320894203248388580}
+  projectilePoint: {fileID: 320894203248388580}
 --- !u!1 &8352494470476085988
 GameObject:
   m_ObjectHideFlags: 0

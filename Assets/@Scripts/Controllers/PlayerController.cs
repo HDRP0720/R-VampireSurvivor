@@ -6,17 +6,19 @@ using UnityEngine;
 public class PlayerController : CreatureController
 {
   [SerializeField] private Transform indicator;
-  [SerializeField] private Transform projectilePointer;
+  [SerializeField] private Transform projectilePoint;
   private Vector2 _moveDir = Vector2.zero;
-  
-  private float EnvCollectDist { get; set; } = 1.0f;
-  
+
   // Property
+  public Transform Indicator { get => indicator; }
+  public Vector3 ProjectilePoint { get => projectilePoint.position; }
   public Vector2 MoveDir
   {
     get => _moveDir;
     set => _moveDir = value.normalized;
   }
+  public Vector3 ShootDir { get => (projectilePoint.position - indicator.position).normalized; }
+  private float EnvCollectDist { get; set; } = 1.0f;
 
   private void Update()
   {
@@ -36,9 +38,10 @@ public class PlayerController : CreatureController
     _speed = 5.0f;
     Managers.Game.OnMoveDirChanged += HandleOnMoveDirChanged;
     
-    StartProjectile();
-    StartEgoSword();
-
+    // TODO:
+    Skills.AddSkill<FireballSkill>(transform.position);
+    Skills.AddSkill<EgoSword>(indicator.position);
+    
     return true;
   }
 
@@ -93,42 +96,4 @@ public class PlayerController : CreatureController
   {
     _moveDir = dir;
   }
-  
-  // TODO: this is temporal code for projectile
-  #region Skill Test: Fire Projectile 
-  private Coroutine _coFireProjectile;
-  private void StartProjectile()
-  {
-    if(_coFireProjectile != null)
-      StopCoroutine(_coFireProjectile);
-
-    _coFireProjectile = StartCoroutine(CoStartProjectile());
-  }
-
-  private IEnumerator CoStartProjectile()
-  {
-    WaitForSeconds wait = new WaitForSeconds(0.5f);
-    while (true)
-    {
-      ProjectileController pc = Managers.Object.Spawn<ProjectileController>(projectilePointer.position, 1);
-      pc.SetInfo(1, this, (projectilePointer.position - indicator.position).normalized);
-      
-      yield return wait;
-    }
-  }
-  #endregion
-
-  #region Skill Test: Ego Sword Test
-  private EgoSwordController _egoSword;
-  private void StartEgoSword()
-  {
-    if (_egoSword.IsValid()) return;
-
-    _egoSword = Managers.Object.Spawn<EgoSwordController>(indicator.position, Define.EGO_SWORD_ID);
-    _egoSword.transform.SetParent(indicator);
-    
-    _egoSword.ActivateSkill();
-  }
-
-  #endregion
 }

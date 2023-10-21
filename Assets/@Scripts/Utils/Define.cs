@@ -10,7 +10,7 @@ public class Define
   
   public enum EObjectType { Player, Monster, Projectile, Env }
   
-  public enum ESkillType { None, Melee, Projectile, Etc }
+  public enum ESkillType { None, Sequence, Repeat, Etc }
   
   public enum EStageType { Normal, Boss }
   
@@ -22,6 +22,7 @@ public class Define
  
 
   public const int EGO_SWORD_ID = 10;
+  public const int FIRE_BALL_ID = 11;
 
   public const string EXP_GEM_PREFAB = "EXPGem.prefab";
   public const string FIRE_PROJECTILE = "FireProjectile.prefab";
