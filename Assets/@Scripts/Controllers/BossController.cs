@@ -5,15 +5,19 @@ using UnityEngine;
 
 public class BossController : MonsterController
 {
-  private float _range = 2.0f;
-  
   public override bool Init()
   {
     base.Init();
-
     animator = GetComponent<Animator>();
     CreatureState = Define.ECreatureState.Moving;
-    HP = 10000;
+    HP = 10000000;
+    
+    CreatureState = Define.ECreatureState.Skill;
+    Skills.AddSkill<Move>(transform.position);
+    Skills.AddSkill<Dash>(transform.position);
+    Skills.AddSkill<Dash>(transform.position);
+    Skills.AddSkill<Dash>(transform.position);
+    Skills.StartNextSequenceSkill();
 
     return true;
   }
@@ -29,34 +33,17 @@ public class BossController : MonsterController
         animator.Play("Moving");
         break;
       case Define.ECreatureState.Skill:
-        animator.Play("Attack");
         break;
       case Define.ECreatureState.Dead:
         animator.Play("Death");
         break;
     }
   }
-  protected override void UpdateMoving()
-  {
-    PlayerController pc = Managers.Object.Player;
-    if (pc.IsValid() == false) return;
-
-    Vector3 dir = pc.transform.position - transform.position;
-    if (dir.magnitude < _range)
-    {
-      CreatureState = Define.ECreatureState.Skill;
-      float animLength = 0.41f; // animator.runtimeAnimatorController.animationClips~~
-      Wait(animLength);
-    }
-  }
-  protected override void UpdateSkill()
-  {
-    if (_coWait == null)
-      CreatureState = Define.ECreatureState.Moving;
-  }
 
   protected override void UpdateDead()
   {
+    Skills.StopSkills();
+    
     if(_coWait == null)
       Managers.Object.Despawn(this);
   }
@@ -76,7 +63,8 @@ public class BossController : MonsterController
   private Coroutine _coWait;
   private void Wait(float waitSeconds)
   {
-    if(_coWait != null) StopCoroutine(_coWait);
+    if(_coWait != null) 
+      StopCoroutine(_coWait);
  
     _coWait = StartCoroutine(CoStartWait(waitSeconds));
   }

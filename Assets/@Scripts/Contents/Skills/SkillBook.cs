@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class SkillBook : MonoBehaviour
 {
-  public List<SkillBase> Skills { get; } = new List<SkillBase>();
+  private int _sequenceIndex = 0;
+  private bool _isStoppedSkill = false;
   
+  // Properties
+  public List<SkillBase> Skills { get; } = new List<SkillBase>();
   public List<SkillBase> RepeatedSkills { get; } = new List<SkillBase>();
   public List<SequenceSkill> SequenceSkills { get; } = new List<SequenceSkill>();
 
@@ -34,11 +37,39 @@ public class SkillBook : MonoBehaviour
 
       return fireball as T;
     }
-    else
+    else if (type.IsSubclassOf(typeof(SequenceSkill)))
     {
+      var skill = gameObject.GetOrAddComponent<T>();
       
+      Skills.Add(skill);
+      SequenceSkills.Add(skill as SequenceSkill);
+
+      return skill as T;
     }
 
     return null;
+  }
+
+  public void StartNextSequenceSkill()
+  {
+    if (_isStoppedSkill) return;
+
+    if (SequenceSkills.Count == 0) return;
+    
+    SequenceSkills[_sequenceIndex].DoSkill(OnFinishedSequenceSkill);
+  }
+  private void OnFinishedSequenceSkill()
+  {
+    _sequenceIndex = (_sequenceIndex + 1) % SequenceSkills.Count;
+    StartNextSequenceSkill();
+  }
+  
+  public void StopSkills()
+  {
+    _isStoppedSkill = true;
+    foreach (var skill in RepeatedSkills)
+    {
+      skill.StopAllCoroutines();
+    }
   }
 }
