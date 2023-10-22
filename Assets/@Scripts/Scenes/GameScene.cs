@@ -1,6 +1,5 @@
 using UnityEngine;
 using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
 
 public class GameScene : MonoBehaviour
 {

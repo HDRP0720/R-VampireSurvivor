@@ -1,9 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Define
+public static class Define
 {
+  #region UI
+  public enum UIEvent
+  {
+    Click,
+    Pressed,
+    PointerDown,
+    PointerUp,
+    BeginDrag,
+    Drag,
+    EndDrag,
+  }
+  #endregion
+  
   public enum EScene { Unknown, DevScene, GameScene }
   
   public enum ESound { BGM, Effect }
