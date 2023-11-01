@@ -5,12 +5,17 @@ using UnityEngine;
 public class ObjectManager
 {
   public List<GameObject> _game = new List<GameObject>();
-  
-  // Properties
+
+  #region Properties
   public PlayerController Player { get; private set; }
   public HashSet<MonsterController> Monsters { get; } = new HashSet<MonsterController>();
-  public HashSet<ProjectileController> Projectiles { get; } = new HashSet<ProjectileController>();
   public HashSet<GemController> Gems { get; } = new HashSet<GemController>();
+  public HashSet<SoulController> Souls { get; } = new HashSet<SoulController>();
+  public HashSet<DropItemController> DropItems { get; } = new HashSet<DropItemController>();
+  public HashSet<ProjectileController> Projectiles { get; } = new HashSet<ProjectileController>();
+  #endregion
+  
+
 
   public T Spawn<T>(Vector3 position, int templateID = 0) where T : BaseController
   {
@@ -143,5 +148,13 @@ public class ObjectManager
     var monsters = Monsters.ToList();
     foreach (var monster in monsters)
       Despawn<MonsterController>(monster);
+  }
+  
+  public void Clear()
+  {
+    Monsters.Clear();
+    Gems.Clear();
+    Souls.Clear();
+    Projectiles.Clear();
   }
 }

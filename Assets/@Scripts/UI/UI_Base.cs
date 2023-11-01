@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -96,5 +97,11 @@ public class UI_Base : MonoBehaviour
         evt.OnEndDragHandler += dragAction;
         break;
     }
+  }
+
+  public void PopupOpenAnimation(GameObject contentObject)
+  {
+    contentObject.transform.localPosition = new Vector3(0.8f, 0.8f, 1);
+    contentObject.transform.DOScale(1f, 0.1f).SetEase(Ease.InOutBack).SetUpdate(true);
   }
 }

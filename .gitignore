@@ -74,3 +74,6 @@ crashlytics-build.properties
 # Rider & RiderFlow
 /.idea
 /Assets/Plugins
+
+# Licensed Assets
+/Assets/Licensed Assets

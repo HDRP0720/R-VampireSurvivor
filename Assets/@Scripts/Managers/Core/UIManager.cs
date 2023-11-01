@@ -1,48 +1,165 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class UIManager
 {
-  private UI_Base _sceneUI;
-  private Stack<UI_Base> _uiStack = new Stack<UI_Base>();
+  private int _order = 10;
+  private int _toastOrder = 500;
+  
+  private UI_Scene _sceneUI = null;
+  private Stack<UI_Popup> _popupStack = new Stack<UI_Popup>();
+  private Stack<UI_Toast> _toastStack = new Stack<UI_Toast>();
+  
+  // Property
+  public UI_Scene SceneUI => _sceneUI;
+  public GameObject Root
+  {
+    get
+    {
+      GameObject root = GameObject.Find("UI_Root");
+      if (root == null)
+        root = new GameObject { name = "UI_Root" };
+      return root;
+    }
+  }
+  
+  // Action
+  public event Action<int> OnTimeScaleChanged;
+  
+  public void SetCanvas(GameObject go, bool sort = true, int sortOrder = 0, bool isToast = false)
+  {
+    Canvas canvas = Utils.GetOrAddComponent<Canvas>(go);
+    if (canvas == null)
+    {
+      canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+      canvas.overrideSorting = true;
+    }
+
+    CanvasScaler cs = go.GetOrAddComponent<CanvasScaler>();
+    if (cs != null)
+    {
+      cs.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+      cs.referenceResolution = new Vector2(1080, 1920);
+    }
+
+    go.GetOrAddComponent<GraphicRaycaster>();
+
+    if (sort)
+    {
+      canvas.sortingOrder = _order;
+      _order++;
+    }
+    else
+    {
+      canvas.sortingOrder = sortOrder;
+    }
+
+    if (isToast)
+    {
+      _toastOrder++;
+      canvas.sortingOrder = _toastOrder;
+    }
+
+  }
 
   public T GetSceneUI<T>() where T : UI_Base
   {
     return _sceneUI as T;
   }
-  public T ShowSceneUI<T>() where T : UI_Base
+  public T ShowSceneUI<T>(string name = null) where T : UI_Scene
   {
-    if (_sceneUI != null) return GetSceneUI<T>();
+    if (string.IsNullOrEmpty(name)) name = typeof(T).Name;
 
-    string key = typeof(T).Name + ".prefab";
-    T ui = Managers.Resource.Instantiate(key, pooling: true).GetOrAddComponent<T>();
-    _sceneUI = ui;
-    return ui;
+    GameObject go = Managers.Resource.Instantiate($"{name}");
+    T sceneUI = Utils.GetOrAddComponent<T>(go);
+    _sceneUI = sceneUI;
+    
+    go.transform.SetParent(Root.transform);
+    
+    return sceneUI;
   }
 
-  public T ShowPopup<T>() where T : UI_Base
+  public T ShowPopupUI<T>(string name = null) where T : UI_Popup
   {
-    string key = typeof(T).Name + ".prefab";
-    T ui = Managers.Resource.Instantiate(key, pooling: true).GetComponent<T>();
-    _uiStack.Push(ui);
+    if (string.IsNullOrEmpty(name)) name = typeof(T).Name;
+
+    GameObject go = Managers.Resource.Instantiate($"{name}");
+    T popup = Utils.GetOrAddComponent<T>(go);
+    _popupStack.Push(popup);
+
+    go.transform.SetParent(Root.transform);
+
     RefreshTimeScale();
 
-    return ui;
+    return popup;
   }
-  public void ClosePopup()
+  
+  public void ClosePopupUI()
   {
-    if (_uiStack.Count == 0) return;
+    if (_popupStack.Count == 0) return;
 
-    UI_Base ui = _uiStack.Pop();
-    Managers.Resource.Destroy(ui.gameObject);
+    UI_Popup popup = _popupStack.Pop();
+    Managers.Resource.Destroy(popup.gameObject);
+    popup = null;
+    
+    _order--;
+    
     RefreshTimeScale();
+  }
+  
+  public void CloseAllPopupUI()
+  {
+    while (_popupStack.Count > 0)
+      ClosePopupUI();
+  }
+
+  public void Clear()
+  {
+    CloseAllPopupUI();
+    Time.timeScale = 1;
+    _sceneUI = null;
   }
 
   private void RefreshTimeScale()
   {
-    if (_uiStack.Count > 0)
+    if (SceneManager.GetActiveScene().name != Define.EScene.GameScene.ToString())
+    {
+      Time.timeScale = 1;
+      return;
+    }
+    
+    if (_popupStack.Count > 0 || IsActiveSoulShop)
       Time.timeScale = 0;
     else
       Time.timeScale = 1;
+    
+    DOTween.timeScale = 1;
+    OnTimeScaleChanged?.Invoke((int)Time.timeScale);
   }
+  
+  // TODO : temporal code
+  #region Temporal code
+  bool _isActiveSoulShop = false;
+  public bool IsActiveSoulShop 
+  {
+    get => _isActiveSoulShop;
+    set
+    {
+      _isActiveSoulShop = value;
+
+      if (_isActiveSoulShop == true)
+        Time.timeScale = 0;
+      else
+        Time.timeScale = 1;
+
+      DOTween.timeScale = 1;
+      OnTimeScaleChanged?.Invoke((int)Time.timeScale);
+    }
+  }
+
+  #endregion
 }
