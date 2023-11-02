@@ -1,4 +1,9 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
+using Transform = UnityEngine.Transform;
+
+using static Define;
 
 public class Utils
 {
@@ -59,5 +64,13 @@ public class Utils
     Vector2 spawnPosition = characterPosiion + new Vector2(xDist, yDist);
     
     return spawnPosition;
+  }
+  
+  public static Color HexToColor(string color)
+  {
+    Color parsedColor;
+    ColorUtility.TryParseHtmlString("#"+color, out parsedColor);
+
+    return parsedColor;
   }
 }

@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ObjectManager
 {
-  public List<GameObject> _game = new List<GameObject>();
-
   #region Properties
   public PlayerController Player { get; private set; }
   public HashSet<MonsterController> Monsters { get; } = new HashSet<MonsterController>();
@@ -15,98 +13,162 @@ public class ObjectManager
   public HashSet<ProjectileController> Projectiles { get; } = new HashSet<ProjectileController>();
   #endregion
   
-
-
-  public T Spawn<T>(Vector3 position, int templateID = 0) where T : BaseController
+  // Constructor
+  public ObjectManager()
   {
-    System.Type type = typeof(T);
-    if (type == typeof(PlayerController))
-    {
-      // TODO: Change Slime_01.prefab to Data
-      GameObject go = Managers.Resource.Instantiate("Slime_01.prefab");
-      go.name = "Player";
-      go.transform.position = position;
-
-      PlayerController pc = go.GetOrAddComponent<PlayerController>();
-      Player = pc;
-      pc.Init();
-      
-      return pc as T;
-    }
-    else if (type == typeof(MonsterController))
-    {
-      string name = "";
-      switch (templateID)
-      {
-        case Define.GOBLIN_ID:
-          name = "Goblin_01";
-          break;
-        case Define.SNAKE_ID:
-          name = "Snake_01";
-          break;
-        case Define.BOSS_ID:
-          name = "Boss_01";
-          break;
-      }
-      
-      GameObject go = Managers.Resource.Instantiate(name + ".prefab", pooling:true);
-      go.transform.position = position;
-
-      MonsterController mc = go.GetOrAddComponent<MonsterController>();
-      Monsters.Add(mc);
-      mc.Init();
-      
-      return mc as T;
-    }
-    else if (type == typeof(GemController))
-    {
-      GameObject go = Managers.Resource.Instantiate(Define.EXP_GEM_PREFAB, pooling:true);
-      go.transform.position = position;
-
-      GemController gc = go.GetOrAddComponent<GemController>();
-      Gems.Add(gc);
-      gc.Init();
-      
-      // TODO: temporal test code be changed
-      string key = Random.Range(0, 2) == 0 ? "EXPGem_01.sprite" : "EXPGem_02.sprite";
-      Sprite sprite = Managers.Resource.Load<Sprite>(key);
-      go.GetComponent<SpriteRenderer>().sprite = sprite;
-      
-      // TODO: This is temporal test code
-      GameObject.Find("Grid").GetComponent<GridController>().Add(go);
-      
-      return gc as T;
-    }
-    // else if (typeof(T).IsSubclassOf(typeof(ProjectileController)))
-    else if (type == typeof(ProjectileController))
-    {
-      GameObject go = Managers.Resource.Instantiate(Define.FIRE_PROJECTILE, pooling:true);
-      go.transform.position = position;
-
-      ProjectileController pc = go.GetOrAddComponent<ProjectileController>();
-      Projectiles.Add(pc);
-      pc.Init();
-
-      return pc as T;
-    }
-    else if (typeof(T).IsSubclassOf(typeof(SkillBase)))
-    {
-      if (Managers.Data.SkillDic.TryGetValue(templateID, out Data.SkillData skillData) == false)
-      {
-        Debug.LogError($"ObjectManager Spawn Skill Failed {templateID}");
-        return null;
-      }
-
-      GameObject go = Managers.Resource.Instantiate(skillData.prefab, pooling: true);
-      go.transform.position = position;
-      T t = go.GetOrAddComponent<T>();
-      t.Init();
-
-      return t;
-    }
-
-    return null;
+    Init();
   }
+  
+  public void Init() { }
+
+  public void LoadMap(string mapName)
+  {
+    GameObject objMap = Managers.Resource.Instantiate(mapName);
+    objMap.transform.position = Vector3.zero;
+    objMap.name = "Map";
+
+    objMap.GetComponent<Map>().Init();
+  }
+  
+  public void ShowDamageFont(Vector2 pos, float damage, float healAmount, Transform parent, bool isCritical = false)
+  {
+    string prefabName;
+    if (isCritical)
+      prefabName = "CriticalDamageFont";
+    else
+      prefabName = "DamageFont";
+
+    GameObject go = Managers.Resource.Instantiate(prefabName, pooling: true);
+    DamageFont damageText = go.GetOrAddComponent<DamageFont>();
+    damageText.SetInfo(pos, damage, healAmount, parent, isCritical);
+  }
+
+  public T Spawn<T>(Vector3 position, int templateID = 0, string prefabName = "") where T : BaseController
+    {
+        System.Type type = typeof(T);
+
+        if (type == typeof(PlayerController))
+        {
+            GameObject go = Managers.Resource.Instantiate(Managers.Data.CreatureDic[templateID].prefabLabel);
+            go.transform.position = position;
+            PlayerController pc = go.GetOrAddComponent<PlayerController>();
+            pc.SetInfo(templateID);
+            Player = pc;
+            Managers.Game.Player = pc;
+
+            return pc as T;
+        }
+        else if (type == typeof(MonsterController))
+        {
+            Data.CreatureData cd = Managers.Data.CreatureDic[templateID];
+            GameObject go = Managers.Resource.Instantiate($"{cd.PrefabLabel}", pooling: true);
+            MonsterController mc = go.GetOrAddComponent<MonsterController>();
+            go.transform.position = position;
+            mc.SetInfo(templateID);
+            go.name = cd.PrefabLabel;
+            Monsters.Add(mc);
+
+            return mc as T;
+        }
+        else if (type == typeof(EliteController))
+        {
+            Data.CreatureData cd = Managers.Data.CreatureDic[templateID];
+            GameObject go = Managers.Resource.Instantiate($"{cd.PrefabLabel}", pooling: true);
+            EliteController mc = go.GetOrAddComponent<EliteController>();
+            go.transform.position = position;
+            mc.SetInfo(templateID);
+            go.name = cd.PrefabLabel;
+            Monsters.Add(mc);
+
+            return mc as T;
+        }
+
+        else if (type == typeof(BossController))
+        {
+            Data.CreatureData cd = Managers.Data.CreatureDic[templateID];
+
+            GameObject go = Managers.Resource.Instantiate($"{cd.PrefabLabel}");
+            BossController mc = go.GetOrAddComponent<BossController>();
+            mc.enabled = true; // Disabled 상태로 Attatch됨
+            go.transform.position = position;
+            mc.SetInfo(templateID);
+            go.name = cd.PrefabLabel;
+            Monsters.Add(mc);
+
+            return mc as T;
+        }
+        else if (type == typeof(GemController))
+        {
+            GameObject go = Managers.Resource.Instantiate("ExpGem", pooling: true);
+            GemController gc = go.GetOrAddComponent<GemController>();
+            go.transform.position = position;
+            Gems.Add(gc);
+            Managers.Game.CurrentMap.Grid.Add(gc);
+
+            return gc as T;
+        }
+        else if (type == typeof(SoulController))
+        {
+            GameObject go = Managers.Resource.Instantiate("Soul", pooling: true);
+            SoulController gc = go.GetOrAddComponent<SoulController>();
+            go.transform.position = position;
+            Souls.Add(gc);
+            Managers.Game.CurrentMap.Grid.Add(gc);
+
+            return gc as T;
+        }
+        else if (type == typeof(PotionController))
+        {
+            GameObject go = Managers.Resource.Instantiate("Potion", pooling: true);
+            PotionController pc = go.GetOrAddComponent<PotionController>();
+            go.transform.position = position;
+            DropItems.Add(pc);
+            Managers.Game.CurrentMap.Grid.Add(pc);
+
+            return pc as T;
+        }
+        else if (type == typeof(BombController))
+        {
+            GameObject go = Managers.Resource.Instantiate("Bomb", pooling: true);
+            BombController bc = go.GetOrAddComponent<BombController>();
+            go.transform.position = position;
+            DropItems.Add(bc);
+            Managers.Game.CurrentMap.Grid.Add(bc);
+
+            return bc as T;
+        }
+        else if (type == typeof(MagnetController))
+        {
+            GameObject go = Managers.Resource.Instantiate("Magnet", pooling: true);
+            MagnetController mc = go.GetOrAddComponent<MagnetController>();
+            go.transform.position = position;
+            DropItems.Add(mc);
+            Managers.Game.CurrentMap.Grid.Add(mc);
+
+            return mc as T;
+        }
+        else if (type == typeof(EliteBoxController))
+        {
+            GameObject go = Managers.Resource.Instantiate("DropBox", pooling: true);
+            EliteBoxController bc = go.GetOrAddComponent<EliteBoxController>();
+            go.transform.position = position;
+            DropItems.Add(bc);
+            Managers.Game.CurrentMap.Grid.Add(bc);
+            Managers.Sound.Play(Sound.Effect, "Drop_Box");
+            return bc as T;
+        }
+        else if (type == typeof(ProjectileController))
+        {
+            GameObject go = Managers.Resource.Instantiate(prefabName, pooling: true);
+            ProjectileController pc = go.GetOrAddComponent<ProjectileController>();
+            go.transform.position = position;
+            Projectiles.Add(pc);
+
+            return pc as T;
+        }
+
+        return null;
+    }
 
   public void Despawn<T>(T obj) where T : BaseController
   {

@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Data;
 
-public class Character : MonoBehaviour
+public class Character
 {
   #region Variables
-  public Data.CreatureData data;
   public bool isCurrentCharacter = false;
+  
+  private CreatureData _data;
   #endregion
 
   #region Properties
@@ -22,20 +21,20 @@ public class Character : MonoBehaviour
   public void SetInfo(int key)
   {
     DataId = key;
-    data = Managers.Data.CreatureDic[key];
-    MaxHp = (int)((Data.MaxHp + Level * Data.MaxHpBonus) * Data.HpRate);
-    Atk = (int)(Data.Atk + (Level * Data.AtkBonus) * Data.AtkRate);
-    Def = (int)Data.Def;
-    MoveSpeed = Data.MoveSpeed * Data.MoveSpeedRate;
+    _data = Managers.Data.CreatureDic[key];
+    MaxHp = (int)((_data.maxHp + Level * _data.maxHpBonus) * _data.hpRate);
+    Atk = (int)(_data.atk + (Level * _data.atkBonus) * _data.atkRate);
+    Def = (int)_data.def;
+    MoveSpeed = _data.moveSpeed * _data.moveSpeedRate;
   }
 
   public void LevelUp()
   {
     Level++;
-    data = Managers.Data.CreatureDic[DataId];
-    MaxHp = (int)((Data.MaxHp + Level * Data.MaxHpBonus) * Data.HpRate);
-    Atk = (int)(Data.Atk + (Level * Data.AtkBonus) * Data.AtkRate);
-    Def = (int)Data.Def;
-    MoveSpeed = Data.MoveSpeed * Data.MoveSpeedRate;
+    _data = Managers.Data.CreatureDic[DataId];
+    MaxHp = (int)((_data.maxHp + Level * _data.maxHpBonus) * _data.hpRate);
+    Atk = (int)(_data.atk + (Level * _data.atkBonus) * _data.atkRate);
+    Def = (int)_data.def;
+    MoveSpeed = _data.moveSpeed * _data.moveSpeedRate;
   }
 }

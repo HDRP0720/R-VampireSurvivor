@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using UnityEngine.Serialization;
+using System;
+using System.Collections.Generic;
 using static Define;
-
 
 namespace Data
 {
@@ -158,15 +158,12 @@ namespace Data
 
         public bool CheckRecommendationCondition()
         {
-            if (isLocked == true || Managers.Game.SoulShopList.Contains(this) == true)
-            {
-                return false;
-            }
+            if (isLocked == true || Managers.Game.SoulShopList.Contains(this) == true) return false;
 
             if (supportSkillType == Define.ESupportSkillType.Special)
             {
                 //내가 가지고 있는 장비스킬이 아니면 false
-                if (Managers.Game.EquippedEquipments.TryGetValue(Define.EquipmentType.Weapon, out Equipment myWeapon))
+                if (Managers.Game.EquippedEquipments.TryGetValue(Define.EEquipmentType.Weapon, out Equipment myWeapon))
                 {
                     int skillId = myWeapon.EquipmentData.BasicSkill;
                     ESkillType type = Util.GetSkillTypeFromInt(skillId);
@@ -299,44 +296,44 @@ namespace Data
     [Serializable]
     public class EquipmentData
     {
-        public string DataId;
-        public Define.GachaRarity GachaRarity;
-        public Define.EquipmentType EquipmentType;
-        public Define.EquipmentGrade EquipmentGrade;
-        public string NameTextID;
-        public string DescriptionTextID;
-        public string SpriteName;
-        public string HpRegen;
-        public int MaxHpBonus;
-        public int MaxHpBonusPerUpgrade;
-        public int AtkDmgBonus;
-        public int AtkDmgBonusPerUpgrade;
-        public int MaxLevel;
-        public int UncommonGradeSkill;
-        public int RareGradeSkill;
-        public int EpicGradeSkill;
-        public int LegendaryGradeSkill;
-        public int BasicSkill;
-        public Define.MergeEquipmentType MergeEquipmentType1;
-        public string MergeEquipment1;
-        public Define.MergeEquipmentType MergeEquipmentType2;
-        public string MergeEquipment2;
-        public string MergedItemCode;
-        public int LevelupMaterialID;
-        public string DowngradeEquipmentCode;
-        public string DowngradeMaterialCode;
-        public int DowngradeMaterialCount;
+        public string dataId;
+        public EGachaRarity gachaRarity;
+        public EEquipmentType equipmentType;
+        public EEquipmentGrade equipmentGrade;
+        public string nameTextID;
+        public string descriptionTextID;
+        public string spriteName;
+        public string hpRegen;
+        public int maxHpBonus;
+        public int maxHpBonusPerUpgrade;
+        public int atkDmgBonus;
+        public int atkDmgBonusPerUpgrade;
+        public int maxLevel;
+        public int uncommonGradeSkill;
+        public int rareGradeSkill;
+        public int epicGradeSkill;
+        public int legendaryGradeSkill;
+        public int basicSkill;
+        public EMergeEquipmentType mergeEquipmentType1;
+        public string mergeEquipment1;
+        public EMergeEquipmentType mergeEquipmentType2;
+        public string mergeEquipment2;
+        public string mergedItemCode;
+        public int levelupMaterialID;
+        public string downgradeEquipmentCode;
+        public string downgradeMaterialCode;
+        public int downgradeMaterialCount;
     }
 
     [Serializable]
     public class EquipmentDataLoader : ILoader<string, EquipmentData>
     {
-        public List<EquipmentData> Equipments = new List<EquipmentData>();
+        public List<EquipmentData> equipments = new List<EquipmentData>();
         public Dictionary<string, EquipmentData> MakeDict()
         {
             Dictionary<string, EquipmentData> dict = new Dictionary<string, EquipmentData>();
-            foreach (EquipmentData equip in Equipments)
-                dict.Add(equip.DataId, equip);
+            foreach (EquipmentData equip in equipments)
+                dict.Add(equip.dataId, equip);
             return dict;
         }
     }
@@ -420,20 +417,19 @@ namespace Data
     #region GachaData
     public class GachaTableData
     {
-        public Define.GachaType Type;
-        public List<GachaRateData> GachaRateTable = new List<GachaRateData>();
+        public Define.EGachaType type;
+        public List<GachaRateData> gachaRateTable = new List<GachaRateData>();
     }
 
-
     [Serializable]
-    public class GachaDataLoader : ILoader<Define.GachaType, GachaTableData>
+    public class GachaDataLoader : ILoader<Define.EGachaType, GachaTableData>
     {
-        public List<GachaTableData> GachaTable = new List<GachaTableData>();
-        public Dictionary<Define.GachaType, GachaTableData> MakeDict()
+        public List<GachaTableData> gachaTable = new List<GachaTableData>();
+        public Dictionary<Define.EGachaType, GachaTableData> MakeDict()
         {
-            Dictionary<Define.GachaType, GachaTableData> dict = new Dictionary<Define.GachaType, GachaTableData>();
-            foreach (GachaTableData gacha in GachaTable)
-                dict.Add(gacha.Type, gacha);
+            Dictionary<Define.EGachaType, GachaTableData> dict = new Dictionary<Define.EGachaType, GachaTableData>();
+            foreach (GachaTableData gacha in gachaTable)
+                dict.Add(gacha.type, gacha);
             return dict;
         }
     }
@@ -442,10 +438,9 @@ namespace Data
     #region GachaRateData
     public class GachaRateData
     {
-        public string EquipmentID;
-        public float GachaRate;
-        public Define.EquipmentGrade EquipGrade;
-
+        public string equipmentID;
+        public float gachaRate;
+        public Define.EEquipmentGrade equipGrade;
     }
 
     #endregion
@@ -481,7 +476,7 @@ namespace Data
         public int MissionId;
         public Define.MissionType MissionType;
         public string DescriptionTextID;
-        public Define.MissionTarget MissionTarget;
+        public Define.EMissionTarget MissionTarget;
         public int MissionTargetValue;
         public int ClearRewardItmeId;
         public int RewardValue;
@@ -519,11 +514,11 @@ namespace Data
     [Serializable]
     public class AchievementDataLoader : ILoader<int, AchievementData>
     {
-        public List<AchievementData> Achievements = new List<AchievementData>();
+        public List<AchievementData> achievements = new List<AchievementData>();
         public Dictionary<int, AchievementData> MakeDict()
         {
             Dictionary<int, AchievementData> dict = new Dictionary<int, AchievementData>();
-            foreach (AchievementData ach in Achievements)
+            foreach (AchievementData ach in achievements)
                 dict.Add(ach.AchievementID, ach);
             return dict;
         }

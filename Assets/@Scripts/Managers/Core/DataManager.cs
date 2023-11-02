@@ -1,8 +1,9 @@
-using System.IO;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 using UnityEngine;
+// using System.Xml.Serialization;
+
+using Data;
 
 public interface ILoader<Key, Value>
 {
@@ -11,15 +12,15 @@ public interface ILoader<Key, Value>
 
 public class DataManager
 {
-  public Dictionary<int, Data.MaterialData> MaterialDic { get; private set; } = new Dictionary<int, Data.MaterialData>();
-  public Dictionary<int, Data.SupportSkillData> SupportSkillDic { get; private set; } = new Dictionary<int, Data.SupportSkillData>();
-  public Dictionary<int, Data.StageData> StageDic { get; private set; } = new Dictionary<int, Data.StageData>();
-  public Dictionary<int, Data.SkillData> SkillDic { get; private set; } = new Dictionary<int, Data.SkillData>();
-  public Dictionary<int, Data.CreatureData> CreatureDic { get; private set; } = new Dictionary<int, Data.CreatureData>();
-  public Dictionary<int, Data.LevelData> LevelDataDic { get; private set; } = new Dictionary<int, Data.LevelData>();
-  public Dictionary<string, Data.EquipmentData> EquipDataDic { get; private set; } = new Dictionary<string, Data.EquipmentData>();
-  public Dictionary<int, Data.EquipmentLevelData> EquipLevelDataDic { get; private set; } = new Dictionary<int, Data.EquipmentLevelData>();
-  public Dictionary<Define.GachaType, GachaTableData> GachaTableDataDic { get; private set; } = new Dictionary<Define.GachaType, GachaTableData>();
+  public Dictionary<int, MaterialData> MaterialDic { get; private set; } = new Dictionary<int, MaterialData>();
+  public Dictionary<int, SupportSkillData> SupportSkillDic { get; private set; } = new Dictionary<int, SupportSkillData>();
+  public Dictionary<int, StageData> StageDic { get; private set; } = new Dictionary<int, StageData>();
+  public Dictionary<int, SkillData> SkillDic { get; private set; } = new Dictionary<int, SkillData>();
+  public Dictionary<int, CreatureData> CreatureDic { get; private set; } = new Dictionary<int, CreatureData>();
+  public Dictionary<int, LevelData> LevelDataDic { get; private set; } = new Dictionary<int, LevelData>();
+  public Dictionary<string, EquipmentData> EquipDataDic { get; private set; } = new Dictionary<string, EquipmentData>();
+  public Dictionary<int, EquipmentLevelData> EquipLevelDataDic { get; private set; } = new Dictionary<int, EquipmentLevelData>();
+  public Dictionary<Define.EGachaType, GachaTableData> GachaTableDataDic { get; private set; } = new Dictionary<Define.EGachaType, GachaTableData>();
   public Dictionary<int, MissionData> MissionDataDic { get; private set; } = new Dictionary<int, MissionData>();
   public Dictionary<int, AchievementData> AchievementDataDic { get; private set; } = new Dictionary<int, AchievementData>();
   public Dictionary<int, DropItemData> DropItemDataDic { get; private set; } = new Dictionary<int, DropItemData>();
@@ -28,41 +29,41 @@ public class DataManager
 
   public void Init()
   {
-    MaterialDic = LoadJson<Data.MaterialDataLoader, int, Data.MaterialData>("MaterialData").MakeDict();
-    SupportSkillDic = LoadJson<Data.SupportSkillDataLoader, int, Data.SupportSkillData>("SupportSkillData").MakeDict();
-    StageDic = LoadJson<Data.StageDataLoader, int, Data.StageData>("StageData").MakeDict();
-    CreatureDic = LoadJson<Data.CreatureDataLoader, int, Data.CreatureData>("CreatureData").MakeDict();
-    SkillDic = LoadJson<Data.SkillDataLoader, int, Data.SkillData>("SkillData").MakeDict();
-    LevelDataDic = LoadJson<Data.LevelDataLoader, int, Data.LevelData>("LevelData").MakeDict();
-    EquipDataDic = LoadJson<Data.EquipmentDataLoader, string, Data.EquipmentData>("EquipmentData").MakeDict();
-    EquipLevelDataDic = LoadJson<Data.EquipmentLevelDataLoader, int, Data.EquipmentLevelData>("EquipmentLevelData").MakeDict();
-    GachaTableDataDic = LoadJson<Data.GachaDataLoader, Define.GachaType, Data.GachaTableData>("GachaTableData").MakeDict();
-    MissionDataDic = LoadJson<Data.MissionDataLoader, int, Data.MissionData>("MissionData").MakeDict();
-    AchievementDataDic = LoadJson<Data.AchievementDataLoader, int, Data.AchievementData>("AchievementData").MakeDict();
-    DropItemDataDic = LoadJson<Data.DropItemDataLoader, int, Data.DropItemData>("DropItemData").MakeDict();
-    CheckOutDataDic = LoadJson<Data.CheckOutDataLoader, int, Data.CheckOutData>("CheckOutData").MakeDict();
-    OfflineRewardDataDic = LoadJson<Data.OfflineRewardDataLoader, int, Data.OfflineRewardData>("OfflineRewardData").MakeDict();
+    MaterialDic = LoadJson<MaterialDataLoader, int, MaterialData>("MaterialData").MakeDict();
+    SupportSkillDic = LoadJson<SupportSkillDataLoader, int, SupportSkillData>("SupportSkillData").MakeDict();
+    StageDic = LoadJson<StageDataLoader, int, StageData>("StageData").MakeDict();
+    CreatureDic = LoadJson<CreatureDataLoader, int, CreatureData>("CreatureData").MakeDict();
+    SkillDic = LoadJson<SkillDataLoader, int, SkillData>("SkillData").MakeDict();
+    LevelDataDic = LoadJson<LevelDataLoader, int, LevelData>("LevelData").MakeDict();
+    EquipDataDic = LoadJson<EquipmentDataLoader, string, EquipmentData>("EquipmentData").MakeDict();
+    EquipLevelDataDic = LoadJson<EquipmentLevelDataLoader, int, EquipmentLevelData>("EquipmentLevelData").MakeDict();
+    GachaTableDataDic = LoadJson<GachaDataLoader, Define.EGachaType, GachaTableData>("GachaTableData").MakeDict();
+    MissionDataDic = LoadJson<MissionDataLoader, int, MissionData>("MissionData").MakeDict();
+    AchievementDataDic = LoadJson<AchievementDataLoader, int, AchievementData>("AchievementData").MakeDict();
+    DropItemDataDic = LoadJson<DropItemDataLoader, int, DropItemData>("DropItemData").MakeDict();
+    CheckOutDataDic = LoadJson<CheckOutDataLoader, int, CheckOutData>("CheckOutData").MakeDict();
+    OfflineRewardDataDic = LoadJson<OfflineRewardDataLoader, int, OfflineRewardData>("OfflineRewardData").MakeDict();
   }
 
   Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
   {
     TextAsset textAsset = Managers.Resource.Load<TextAsset>($"{path}");
-    return JsonUtility.FromJson<Loader>(textAsset.text);
+    return JsonConvert.DeserializeObject<Loader>(textAsset.text);
   }
   
-  Loader LoadXml<Loader, Key, Item>(string name) where Loader : ILoader<Key, Item>, new()
-  {
-    XmlSerializer xs = new XmlSerializer(typeof(Loader));
-    TextAsset textAsset = Managers.Resource.Load<TextAsset>(name);
-    using (MemoryStream stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(textAsset.text)))
-      return (Loader)xs.Deserialize(stream);
-  }
-
-  Item LoadSingleXml<Item>(string name)
-  {
-    XmlSerializer xs = new XmlSerializer(typeof(Item));
-    TextAsset textAsset = Managers.Resource.Load<TextAsset>(name);
-    using (MemoryStream stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(textAsset.text)))
-      return (Item)xs.Deserialize(stream);
-  }
+  // Loader LoadXml<Loader, Key, Item>(string name) where Loader : ILoader<Key, Item>, new()
+  // {
+  //   XmlSerializer xs = new XmlSerializer(typeof(Loader));
+  //   TextAsset textAsset = Managers.Resource.Load<TextAsset>(name);
+  //   using (MemoryStream stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(textAsset.text)))
+  //     return (Loader)xs.Deserialize(stream);
+  // }
+  //
+  // Item LoadSingleXml<Item>(string name)
+  // {
+  //   XmlSerializer xs = new XmlSerializer(typeof(Item));
+  //   TextAsset textAsset = Managers.Resource.Load<TextAsset>(name);
+  //   using (MemoryStream stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(textAsset.text)))
+  //     return (Item)xs.Deserialize(stream);
+  // }
 }

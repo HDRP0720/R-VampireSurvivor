@@ -1,51 +1,95 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
+using Data;
+using static Define;
+
 public class SkillBase : BaseController
 {
-  private Coroutine _coDestroy;
-  
-  // Property
+  private ESkillType _skillType;
+  private SkillData _skillData;
+  private int _level = 0;
+
+  #region Properties
   public CreatureController Owner { get; set; }
-  public Define.ESkillType SkillType { get; set; } = Define.ESkillType.None;
-  public Data.SkillData SkillData { get; protected set; }
-  public int SkillLevel { get; set; } = 0;
-  public bool IsLearnedSkill { get => SkillLevel > 0; }
+  public ESkillType SkillType
+  {
+    get => _skillType;
+    set => _skillType = value;
+  }
+  public SkillData SkillData 
+  {
+    get => _skillData;
+    set => _skillData = value;
+  }
+  public int Level
+  {
+    get => _level;
+    set => _level = value;
+  }
+  public float TotalDamage { get; set; } = 0;
+  public bool IsLearnedSkill => Level > 0;
   public int Damage { get; set; } = 100;
+  #endregion
   
-  // Constructor
-  public SkillBase(Define.ESkillType skillType)
+  public virtual void OnLevelUp()
   {
-    SkillType = skillType;
-  }
-  
-  public virtual void ActivateSkill() { }
-  protected virtual void GenerateProjectile(int templateID, CreatureController owner, Vector3 startPos, Vector3 dir, Vector3 targetPos)
-  {
-    ProjectileController pc = Managers.Object.Spawn<ProjectileController>(startPos, templateID);
-    pc.SetInfo(templateID, owner, dir);
-  }
-
-  public void StartDestroy(float delaySeconds)
-  {
-    StopDestroy();
-    _coDestroy = StartCoroutine(CoDestroy(delaySeconds));
-  }
-
-  public void StopDestroy()
-  {
-    if (_coDestroy != null)
-    {
-      StopCoroutine(_coDestroy);
-      _coDestroy = null;
-    }
-  }
-
-  private IEnumerator CoDestroy(float delaySeconds)
-  {
-    yield return new WaitForSeconds(delaySeconds);
+    if (Level == 0) ActivateSkill();
+      
+    Level++;
     
-    if(this.IsValid())
-      Managers.Object.Despawn(this);
+    UpdateSkillData();
   }
+  public virtual void ActivateSkill()
+  {
+    UpdateSkillData();
+  }
+  public SkillData UpdateSkillData(int dataId = 0)
+  {
+    int id = 0;
+    if (dataId == 0)
+      id = Level < 2 ? (int)SkillType : (int)SkillType + Level - 1;
+    else
+      id = dataId;
+
+    SkillData skillData = new SkillData();
+    if (Managers.Data.SkillDic.TryGetValue(id, out skillData) == false)
+      return SkillData;
+
+    foreach (SupportSkillData support in Managers.Game.Player.Skills.supportSkills)
+    {
+      if (SkillType.ToString() == support.supportSkillName.ToString())
+      {
+        skillData.projectileSpacing += support.projectileSpacing;
+        skillData.duration += support.duration;
+        skillData.numProjectiles += support.numProjectiles;
+        skillData.attackInterval += support.attackInterval;
+        skillData.numBounce += support.numBounce;
+        skillData.projRange += support.projRange;
+        skillData.rotateSpeed += support.rotateSpeed;
+        skillData.scaleMultiplier += support.scaleMultiplier;
+        skillData.numPenetrations += support.numPenetrations;
+      }
+    }
+    SkillData = skillData;
+    OnChangedSkillData();
+    return SkillData;
+  }
+  protected virtual void OnChangedSkillData() { }
+  
+  protected virtual void GenerateProjectile(CreatureController owner, string prefabName, Vector3 startPos, Vector3 dir, Vector3 targetPos, SkillBase skill)
+  {
+    ProjectileController pc = Managers.Object.Spawn<ProjectileController>(startPos, prefabName: prefabName);
+    pc.SetInfo(owner, startPos, dir, targetPos, skill);
+  }
+}
+
+[Serializable]
+public class SkillStat
+{
+  public ESkillType skillType;
+  public int level;
+  public float maxHp;
+  public SkillData skillData;
 }

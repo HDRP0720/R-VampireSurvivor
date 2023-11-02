@@ -13,10 +13,10 @@ public class UIManager
   private UI_Scene _sceneUI = null;
   private Stack<UI_Popup> _popupStack = new Stack<UI_Popup>();
   private Stack<UI_Toast> _toastStack = new Stack<UI_Toast>();
-  
-  // Property
+
+  #region Properties
   public UI_Scene SceneUI => _sceneUI;
-  public GameObject Root
+  private GameObject Root
   {
     get
     {
@@ -26,6 +26,7 @@ public class UIManager
       return root;
     }
   }
+  #endregion
   
   // Action
   public event Action<int> OnTimeScaleChanged;
@@ -98,16 +99,37 @@ public class UIManager
     return popup;
   }
   
-  public void ClosePopupUI()
+  public T MakeSubItem<T>(Transform parent = null, string name = null, bool pooling = true) where T : UI_Base
+  {
+    if (string.IsNullOrEmpty(name))
+      name = typeof(T).Name;
+
+    GameObject go = Managers.Resource.Instantiate($"{name}", parent, pooling);
+    go.transform.SetParent(parent);
+    return Utils.GetOrAddComponent<T>(go);
+  }
+  
+  public void ClosePopupUI(UI_Popup popup)
   {
     if (_popupStack.Count == 0) return;
+
+    if (_popupStack.Peek() != popup)
+    {
+      Debug.Log("Close Popup Failed!");
+      return;
+    }
+    Managers.Sound.PlayPopupClose();
+    ClosePopupUI();
+  }
+  public void ClosePopupUI()
+  {
+    if (_popupStack.Count == 0)
+        return;
 
     UI_Popup popup = _popupStack.Pop();
     Managers.Resource.Destroy(popup.gameObject);
     popup = null;
-    
     _order--;
-    
     RefreshTimeScale();
   }
   

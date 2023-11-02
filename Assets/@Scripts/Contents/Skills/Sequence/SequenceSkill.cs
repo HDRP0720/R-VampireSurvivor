@@ -2,9 +2,8 @@ using System;
 
 public abstract class SequenceSkill : SkillBase
 {
-  // Constructor
-  public SequenceSkill() : base(Define.ESkillType.Sequence){ }
+  public int dataId;
+  public string animagtionName;
 
   public abstract void DoSkill(Action callback = null);
-
 }

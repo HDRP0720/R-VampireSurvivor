@@ -23,4 +23,19 @@ public static class Extension
   {
     return bc != null && bc.isActiveAndEnabled;
   }
+  
+  public static void DestroyChildren(this GameObject go)
+  {
+    Transform[] children = new Transform[go.transform.childCount];
+    for (int i = 0; i < go.transform.childCount; i++)
+    {
+      children[i] = go.transform.GetChild(i);
+    }
+
+    // 모든 자식 오브젝트 삭제
+    foreach (Transform child in children)
+    {
+      Managers.Resource.Destroy(child.gameObject);
+    }
+  }
 }
