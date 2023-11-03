@@ -73,4 +73,21 @@ public class Utils
 
     return parsedColor;
   }
+  
+  public static ESkillType GetSkillTypeFromInt(int value)
+  {
+    foreach (ESkillType skillType in Enum.GetValues(typeof(ESkillType)))
+    {
+      int minValue = (int)skillType;
+      int maxValue = minValue + 5; // 100501~ 100506 사이 값이면 100501값 리턴
+
+      if (value >= minValue && value <= maxValue)
+      {
+        return skillType;
+      }
+    }
+
+    Debug.LogError($" Faild add skill : {value}");
+    return ESkillType.None;
+  }
 }

@@ -9,8 +9,8 @@ using static Define;
 public class PlayerController : CreatureController
 {
   public PlayerStat statViewer = new PlayerStat();
+  public Transform indicator;
   
-  [SerializeField] private Transform _indicator;
   [SerializeField] private Transform _indicatorSprite;
   
   private Vector2 _moveDir = Vector2.zero;
@@ -178,11 +178,11 @@ public class PlayerController : CreatureController
   }
   public float SoulCount
   {
-    get { return Managers.Game.ContinueInfo.SoulCount; }
+    get { return Managers.Game.ContinueInfo.soulCount; }
 
     set
     {
-      Managers.Game.ContinueInfo.SoulCount = Mathf.Round(value);
+      Managers.Game.ContinueInfo.soulCount = Mathf.Round(value);
 
       OnPlayerDataUpdated?.Invoke();
     }
@@ -194,22 +194,20 @@ public class PlayerController : CreatureController
       LevelData currentLevelData;
       if (Managers.Data.LevelDataDic.TryGetValue(Level, out currentLevelData))
       {
-        int currentLevelExp = currentLevelData.TotalExp;
+        int currentLevelExp = currentLevelData.totalExp;
         int nextLevelExp = currentLevelExp;
         int previousLevelExp = 0;
 
         LevelData prevLevelData;
         if (Managers.Data.LevelDataDic.TryGetValue(Level - 1, out prevLevelData))
         {
-          previousLevelExp = prevLevelData.TotalExp;
+          previousLevelExp = prevLevelData.totalExp;
         }
-
-        // 만렙이 아닌 경우
+        
+        // If the player isn't max level
         LevelData nextLevelData;
         if (Managers.Data.LevelDataDic.TryGetValue(Level + 1, out nextLevelData))
-        {
-          nextLevelExp = nextLevelData.TotalExp;
-        }
+          nextLevelExp = nextLevelData.totalExp;
 
         return (float)(Exp - previousLevelExp) / (currentLevelExp - previousLevelExp);
       }
@@ -217,12 +215,15 @@ public class PlayerController : CreatureController
       return 0f;
     }
   }
+  public float ItemCollectDist { get; } = 4.0f;
   
-  
-  
-  
-  
-
+  public Vector2 MoveDir
+  {
+    get => _moveDir;
+    set => _moveDir = value.normalized;
+  }
+  public Vector3 PlayerCenterPos => indicator.transform.position;
+  public Vector3 PlayerDirection => (_indicatorSprite.transform.position - PlayerCenterPos).normalized;
   #endregion
   
   #region Action
@@ -233,10 +234,19 @@ public class PlayerController : CreatureController
   public Action OnPlayerMove;
   #endregion
 
+  private void Start()
+  {
+    StartCoroutine(CoSelfRecovery());
+    if (Managers.Game.ContinueInfo.IsContinue == true)
+      LoadSkill();
+    else
+      InitSkill();
+  }
   private void Update()
   {
+    HandlePlayerDirection();
     MovePlayer();
-    CollectGems();
+    CollectEnv();
   }
   private void OnDestroy()
   {
@@ -246,56 +256,101 @@ public class PlayerController : CreatureController
 
   public override bool Init()
   {
-    if (base.Init() == false) return false;
+    base.Init();
 
-    _speed = 5.0f;
+    ObjectType = EObjectType.Player;
+
+    //event
     Managers.Game.OnMoveDirChanged += HandleOnMoveDirChanged;
-    
-    // TODO:
-    Skills.AddSkill<FireballSkill>(transform.position);
-    Skills.AddSkill<EgoSword>(indicator.position);
-    
+
+    //camera
+    FindObjectOfType<CameraController>()._playerTransform = gameObject.transform;
+    transform.localScale = Vector3.one;
     return true;
   }
-
-  private void MovePlayer()
+  public override void InitSkill()
   {
-    Vector2 dir = _moveDir * (_speed * Time.deltaTime);
-    transform.position += new Vector3(dir.x, dir.y, 0);
-
-    if (_moveDir != Vector2.zero)
-      indicator.eulerAngles = new Vector3(0, 0, Mathf.Atan2(-dir.x, dir.y) * 180 / Mathf.PI);
-
-    GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-  }
-
-  private void CollectGems()
-  {
-    float sqrCollectDist = EnvCollectDist * EnvCollectDist;
+    base.InitSkill();
     
-    var findGems = GameObject.Find("Grid").GetComponent<GridController>()
-      .GatherObjects(transform.position, EnvCollectDist + 0.5f);
-
-    foreach (GameObject go in findGems)
+    Equipment item;
+    Managers.Game.EquippedEquipments.TryGetValue(EEquipmentType.Weapon, out item);
+    if (item != null)
     {
-      GemController gem = go.GetComponent<GemController>();
-      Vector3 dir = gem.transform.position - transform.position;
-      if (dir.sqrMagnitude <= sqrCollectDist)
+      // 베이스 스킬
+      ESkillType type = Utils.GetSkillTypeFromInt(item.equipmentData.basicSkill);
+      if (type != ESkillType.None)
       {
-        Managers.Game.Gem += 1;
-        Managers.Object.Despawn(gem);
+        Skills.AddSkill(type, item.equipmentData.basicSkill);
+        Skills.LevelUpSkill(type);
+      }
+
+      SupportSkillData uncommonSkill;
+      SupportSkillData rareSkill;
+      SupportSkillData epicSkill;
+      SupportSkillData legendSkill;
+      
+      //등급별 서포트 스킬
+      foreach (Equipment equip in Managers.Game.EquippedEquipments.Values)
+      {
+        switch (equip.equipmentData.equipmentGrade)
+        {
+          case EEquipmentGrade.Uncommon:
+            if (Managers.Data.SupportSkillDic.TryGetValue(equip.equipmentData.uncommonGradeSkill, out uncommonSkill))
+              Skills.AddSupportSkill(uncommonSkill);
+            break;
+          case EEquipmentGrade.Rare:
+            if (Managers.Data.SupportSkillDic.TryGetValue(equip.equipmentData.uncommonGradeSkill, out uncommonSkill))
+              Skills.AddSupportSkill(uncommonSkill);
+            if (Managers.Data.SupportSkillDic.TryGetValue(equip.equipmentData.rareGradeSkill, out rareSkill))
+              Skills.AddSupportSkill(rareSkill);
+            break;
+          case EEquipmentGrade.Epic:
+          case EEquipmentGrade.Epic1:
+          case EEquipmentGrade.Epic2:
+            if (Managers.Data.SupportSkillDic.TryGetValue(equip.equipmentData.uncommonGradeSkill, out uncommonSkill))
+              Skills.AddSupportSkill(uncommonSkill);
+            if (Managers.Data.SupportSkillDic.TryGetValue(equip.equipmentData.rareGradeSkill, out rareSkill))
+              Skills.AddSupportSkill(rareSkill);
+            if (Managers.Data.SupportSkillDic.TryGetValue(equip.equipmentData.epicGradeSkill, out epicSkill))
+              Skills.AddSupportSkill(epicSkill);
+            break;
+          case EEquipmentGrade.Legendary:
+          case EEquipmentGrade.Legendary1:
+          case EEquipmentGrade.Legendary2:
+          case EEquipmentGrade.Legendary3:
+            if (Managers.Data.SupportSkillDic.TryGetValue(equip.equipmentData.uncommonGradeSkill, out uncommonSkill))
+              Skills.AddSupportSkill(uncommonSkill);
+            if (Managers.Data.SupportSkillDic.TryGetValue(equip.equipmentData.rareGradeSkill, out rareSkill))
+              Skills.AddSupportSkill(rareSkill);
+            if (Managers.Data.SupportSkillDic.TryGetValue(equip.equipmentData.epicGradeSkill, out epicSkill))
+              Skills.AddSupportSkill(epicSkill);
+            if (Managers.Data.SupportSkillDic.TryGetValue(equip.equipmentData.legendaryGradeSkill, out legendSkill))
+              Skills.AddSupportSkill(legendSkill);
+            break;
+        }
       }
     }
   }
-  
-  private void LevelUp(int level = 0)
+  public override void InitCreatureStat(bool isFullHp = true)
   {
-    if (Level > 1)
-      OnPlayerLevelUp?.Invoke();
+    // 현재 케릭터의 Stat 가져오기
+    MaxHp = Managers.Game.CurrentCharacter.MaxHp;
+    Atk = Managers.Game.CurrentCharacter.Atk;
+    MoveSpeed = creatureData.moveSpeed * creatureData.moveSpeedRate;
 
-    Skills.OnPlayerLevelUpBonus();
+    //장비 합산 데이터 다 가져오기
+    var (equip_hp, equip_attack) = Managers.Game.GetCurrentChracterStat();
+    MaxHp += equip_hp;
+    Atk += equip_attack;
+
+    MaxHp *= MaxHpBonusRate;
+    Atk *= AttackRate;
+    Def *= DefRate;
+    MoveSpeed *= MoveSpeedRate;
+
+    if (isFullHp == true)
+      Hp = MaxHp;
   }
-  
   public override void UpdatePlayerStat()
   {
     InitCreatureStat(false);
@@ -305,6 +360,66 @@ public class PlayerController : CreatureController
     Atk *= AttackRate;
     Def *= DefRate;
     MoveSpeed *= MoveSpeedRate;
+  }
+
+  private void HandlePlayerDirection()
+  {
+    if (_moveDir.x < 0)
+      creatureSprite.flipX = false;
+    else
+      creatureSprite.flipX = true;
+  }
+  private void MovePlayer()
+  {
+    if (CreatureState == ECreatureState.OnDamaged) return;
+     
+    Rb.velocity = Vector2.zero;
+
+    Vector3 dir = _moveDir * MoveSpeed * Time.deltaTime;
+    transform.position += dir;
+
+    if (dir != Vector3.zero)
+    {
+      indicator.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(-dir.x, dir.y) * 180 / Mathf.PI);
+      OnPlayerMove?.Invoke();
+    }
+    else
+      Rb.velocity = Vector2.zero;
+  }
+  private void CollectEnv()
+  {
+    List<DropItemController> items = Managers.Game.CurrentMap.grid.GatherObjects(transform.position, ItemCollectDist + 0.5f);
+
+    foreach (DropItemController item in items)
+    {
+      Vector3 dir = item.transform.position - transform.position;
+      switch (item.itemType)
+      {
+        case EObjectType.DropBox:
+        case EObjectType.Potion:
+        case EObjectType.Magnet:
+        case EObjectType.Bomb:
+          if (dir.sqrMagnitude <= item.CollectDist * item.CollectDist)
+          {
+            item.GetItem();
+          }
+          break;
+        default:
+          float cd = item.CollectDist * CollectDistBonus;
+          if (dir.sqrMagnitude <= cd * cd)
+          {
+            item.GetItem();
+          }
+          break;
+      }
+    }
+  }
+  private void LevelUp(int level = 0)
+  {
+    if (Level > 1)
+      OnPlayerLevelUp?.Invoke();
+
+    Skills.OnPlayerLevelUpBonus();
   }
   
   public override void Healing(float amount, bool isEffect = true)
@@ -318,26 +433,46 @@ public class PlayerController : CreatureController
       Managers.Resource.Instantiate("HealEffect", transform);
   }
   
-  private void OnCollisionEnter2D(Collision2D other)
-  {
-    MonsterController target = other.gameObject.GetComponent<MonsterController>();
-    if (target == null) return;
-    
-    
-  }
 
-  public override void OnDamaged(BaseController attacker, int damage)
+  
+
+
+
+  public override void OnDamaged(BaseController attacker, SkillBase skill = null, float damage = 0)
   {
-    base.OnDamaged(attacker, damage);
-    
-    // TODO: This is temp code
-    CreatureController cc = attacker as CreatureController;
-    cc?.OnDamaged(this, 10000);
+    //무적 시 코드 주석 #Neo
+    float totalDamage = 0;
+    CreatureController creatureController = attacker as CreatureController;
+    if (creatureController != null)
+    {
+      //몬스터와 닿았을때
+      if (skill == null)
+        totalDamage = creatureController.Atk;
+      else//몬스터 스킬맞았을때
+        totalDamage = creatureController.Atk + (creatureController.Atk * skill.SkillData.damageMultiplier);
+    }
+    else// 중력장에 닿았을때
+      totalDamage = damage;
+
+    totalDamage *= 1 - DamageReduction;
+    Managers.Game.CameraController.ShakeCamera();
+    base.OnDamaged(attacker, null, totalDamage);
+
   }
 
   private void HandleOnMoveDirChanged(Vector2 dir)
   {
     _moveDir = dir;
+  }
+  
+  public override void OnDeathAnimationEnd() { }
+  private IEnumerator CoSelfRecovery()
+  {
+    while (true)
+    {
+      yield return new WaitForSeconds(1f);
+      Healing(HpRegen, false);
+    }
   }
 }
 

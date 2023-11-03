@@ -67,7 +67,7 @@ public static class Define
   
   public enum EStageType { Normal, Boss }
   
-  public enum ECreatureState { Idle, Moving, Skill, Dead }
+  public enum ECreatureState { Idle, Moving, Skill, OnDamaged, Dead }
   public enum EEquipmentSortType { Level, Grade } // TODO: 획득 순 정렬 추가 필요
   public enum EMergeEquipmentType{ None, ItemCode, Grade }
   public enum EEquipmentGrade
@@ -104,9 +104,6 @@ public static class Define
   
   public enum EGachaRarity { Normal, Special }
   public enum EGachaType { None, CommonGacha, AdvancedGacha, PickupGacha, }
-  
-
-
   
   // 미션 조건
   public enum EMissionTarget 
@@ -201,6 +198,68 @@ public static class Define
     Boots,
   }
   
+  #region Default Character & Equipment ID
+  public const int CHARACTER_DEFAULT_ID = 201000;
+  public const string WEAPON_DEFAULT_ID = "N00301";
+  public const string GLOVES_DEFAULT_ID = "N10101";
+  public const string RING_DEFAULT_ID = "N20201";
+  public const string BELT_DEFAULT_ID = "N30101";
+  public const string ARMOR_DEFAULT_ID = "N40101";
+  public const string BOOTS_DEFAULT_ID = "N50101";
+  #endregion
+  
+  #region Gem Exp Amount
+  public const int SMALL_EXP_AMOUNT = 1;
+  public const int GREEN_EXP_AMOUNT = 2;
+  public const int BLUE_EXP_AMOUNT = 5;
+  public const int YELLOW_EXP_AMOUNT = 10;
+  #endregion
+
+  #region Gacha Probability
+  public static readonly float[] SUPPORTSKILL_GRADE_PROB = new float[]
+  {
+    0.4f,   // Common 확률
+    0.4f,   // Uncommon 확률
+    0.1f,   // Rare 확률
+    0.07f,  // Epic 확률
+    0.03f,  // Legend 확률
+  };
+  public static readonly float[] COMMON_GACHA_GRADE_PROB = new float[]
+  {
+    0,
+    0.62f,   // Common 확률
+    0.18f,   // Uncommon 확률
+    0.15f,   // Rare 확률
+    0.05f,  // Epic 확률
+  };
+  public static readonly float[] ADVENCED_GACHA_GRADE_PROB = new float[]
+  {
+    0,
+    0.55f,   // Common 확률
+    0.20f,   // Uncommon 확률
+    0.15f,   // Rare 확률
+    0.10f,  // Epic 확률
+  };
+  public static readonly float[] PICKUP_GACHA_GRADE_PROB = new float[]
+  {
+    0,
+    0.55f,   // Common 확률
+    0.20f,   // Uncommon 확률
+    0.15f,   // Rare 확률
+    0.10f,  // Epic 확률
+  };
+  public static readonly float[] SOUL_SHOP_COST_PROB = new float[]
+  {
+    0,
+    45,   // Common 가격
+    55,   // Uncommon 가격
+    80,  // Rare 가격
+    160,  // Epic 가격
+    320,  // Legend 가격
+    80,   // 리롤 가격
+  };
+  #endregion
+  
   public static int MAX_STAMINA = 50;
   public static int GAME_PER_STAMINA = 3;
   
@@ -241,6 +300,15 @@ public static class Define
   public static int ID_BOOTS_SCROLL = 50106;
 
   public static string GOLD_SPRITE_NAME = "Gold_Icon";
+  #endregion
+  
+  #region sortingOrder
+  public static readonly int UI_GAMESCENE_SORT_CLOSED = 321;
+  public static readonly int SOUL_SORT = 105;
+    
+  // When soul moves, sort order change
+  public static readonly int UI_GAMESCENE_SORT_OPEN = 323;
+  public static readonly int SOUL_SORT_GETITEM = 322;
   #endregion
 }
 

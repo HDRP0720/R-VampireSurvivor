@@ -205,6 +205,20 @@ public class ObjectManager
     // }
   }
 
+  public void KillAllMonsters()
+  {
+    UI_GameScene scene = Managers.UI.SceneUI as UI_GameScene;
+
+    if(scene != null)
+      scene.DoWhiteFlash(); 
+    foreach (MonsterController monster in Monsters.ToList())
+    {
+      if (monster.ObjectType == ObjectType.Monster)
+        monster.OnDead();
+    }
+    DespawnAllMonsterProjectiles();
+  }
+  
   public void DespawnAllMonsters()
   {
     var monsters = Monsters.ToList();

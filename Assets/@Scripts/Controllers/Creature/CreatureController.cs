@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 using Data;
 using static Define;
 
-public class CreatureController : BaseController
+public abstract class CreatureController : BaseController
 {
   public CreatureData creatureData;
   public Material defaultMat;
@@ -83,9 +83,8 @@ public class CreatureController : BaseController
   protected virtual void UpdateMoving() { }
   protected virtual void UpdateDead() { }
   
-  
 
-  public virtual void OnDamaged(BaseController attacker, int damage)
+  public virtual void OnDamaged(BaseController attacker, SkillBase skill = null, float damage = 0)
   {
     bool isCritical = false;
     PlayerController player = attacker as PlayerController;
@@ -99,14 +98,139 @@ public class CreatureController : BaseController
       }
     }
 
-    if (skill)
-      skill.TotalDamage += damage;
+    if (skill) skill.TotalDamage += damage;
+      
     Hp -= damage;
     Managers.Object.ShowDamageFont(CenterPosition, damage, 0, transform, isCritical);
 
     if (gameObject.IsValid() || this.IsValid())
       StartCoroutine(PlayDamageAnimation());
   }
+  
+  public virtual void OnDead()
+  {
+    Rb.simulated = false;
+    transform.localScale = new Vector3(1, 1, 1);
+    CreatureState = ECreatureState.Dead;
+  }
+  
+  public abstract void OnDeathAnimationEnd();
+  
+  public virtual void InitCreatureStat(bool isFullHp = true)
+  {
+    float waveRate = Managers.Game.CurrentWaveData.HpIncreaseRate;
+    
+    // Only for Elite monster, monsters except boss, player
+    MaxHp = (creatureData.maxHp + (creatureData.maxHpBonus * Managers.Game.CurrentStageData.StageLevel)) * (creatureData.hpRate + waveRate);
+    Atk = (creatureData.atk + (creatureData.atkBonus * Managers.Game.CurrentStageData.StageLevel)) * creatureData.atkRate;
+    Hp = MaxHp;
+    MoveSpeed = creatureData.moveSpeed * creatureData.moveSpeedRate;
+  }
+  public virtual void UpdatePlayerStat() { }
+  public virtual void Healing(float amount, bool isEffect = true) { }
+  
+  public void SetInfo(int creatureId)
+  {
+    DataId = creatureId;
+    Dictionary<int, CreatureData> dict = Managers.Data.CreatureDic;
+    creatureData = dict[creatureId];
+    InitCreatureStat();
+    Sprite sprite = Managers.Resource.Load<Sprite>(creatureData.iconLabel);
+    creatureSprite.sprite = Managers.Resource.Load<Sprite>(creatureData.iconLabel);
 
-  protected virtual void OnDead() { }
+    Init();
+  }
+  
+  public void LoadSkill()
+  {
+    foreach (KeyValuePair<ESkillType, int> pair in Managers.Game.ContinueInfo.savedBattleSkill.ToList())
+    {
+      Skills.LoadSkill(pair.Key, pair.Value);
+    }
+    foreach (SupportSkillData supportSkill in Managers.Game.ContinueInfo.savedSupportSkill.ToList())
+    {
+      Skills.AddSupportSkill(supportSkill, true);
+    }
+  }
+  
+  public virtual void InitSkill()
+  {
+    foreach (int skillId in creatureData.skillTypeList)
+    {
+      ESkillType type = Utils.GetSkillTypeFromInt(skillId);
+      if (type != ESkillType.None)
+        Skills.AddSkill(type, skillId);
+    }
+  }
+  
+  public bool IsMonster()
+  {
+    switch (ObjectType)
+    {
+      case EObjectType.Boss:
+      case EObjectType.Monster:
+      case EObjectType.EliteMonster:
+        return true;
+      case EObjectType.Player:
+      case EObjectType.Projectile:
+        return false; ;
+      default:
+        return false;
+    }
+  }
+  
+  private IEnumerator PlayDamageAnimation()
+  {
+    if (isPlayDamagedAnim == false)
+    {
+      isPlayDamagedAnim = true;
+      defaultMat = Managers.Resource.Load<Material>("CreatureDefaultMat");
+      hitEffectmat = Managers.Resource.Load<Material>("PaintWhite");
+      
+      // Damaged Animation
+      creatureSprite.material = hitEffectmat;
+      yield return new WaitForSeconds(0.1f);
+      creatureSprite.material = defaultMat;
+
+      if (Hp <= 0)
+      {
+        transform.localScale = new Vector3(1, 1, 1);
+        switch (ObjectType)
+        {
+          case EObjectType.Player:
+            // Check Resurrection count
+            SupportSkillData resurrection = Skills.supportSkills
+              .FirstOrDefault(skill => skill.supportSkillName == ESupportSkillName.Resurrection);
+
+            if (resurrection == null)
+            {
+              OnDead();
+            }
+            else
+            {
+              Resurrection(resurrection.healRate, resurrection.moveSpeedRate, resurrection.atkRate);
+              //
+              Skills.supportSkills.Remove(resurrection);
+              Skills.OnSkillBookChanged();
+            }
+            break;
+          
+          default:
+            OnDead();
+            break;
+        }
+      }
+      isPlayDamagedAnim = false;
+    }
+  }
+  
+  public void Resurrection(float healRate, float moveSpeed = 0, float atkRate = 0)
+  {
+    Healing(healRate, false);
+    Managers.Resource.Instantiate("Revival", transform);
+    MoveSpeedRate += moveSpeed;
+    AttackRate += atkRate;
+    UpdatePlayerStat();
+    Managers.Object.KillAllMonsters();
+  }
 }

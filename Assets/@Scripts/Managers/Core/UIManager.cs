@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -109,6 +110,33 @@ public class UIManager
     return Utils.GetOrAddComponent<T>(go);
   }
   
+  public UI_Toast ShowToast(string msg)
+  {
+    string name = typeof(UI_Toast).Name;
+    GameObject go = Managers.Resource.Instantiate($"{name}", pooling: true);
+    UI_Toast popup = Utils.GetOrAddComponent<UI_Toast>(go);
+    popup.SetInfo(msg);
+    _toastStack.Push(popup);
+    go.transform.SetParent(Root.transform);
+    CoroutineManager.StartCoroutine(CoCloseToastUI());
+    return popup;
+  }
+  private IEnumerator CoCloseToastUI()
+  {
+    yield return new WaitForSeconds(1f);
+    CloseToastUI();
+  }
+  private void CloseToastUI()
+  {
+    if (_toastStack.Count == 0)
+      return;
+
+    UI_Toast toast = _toastStack.Pop();
+    Managers.Resource.Destroy(toast.gameObject);
+    toast = null;
+    _toastOrder--;
+  }
+  
   public void ClosePopupUI(UI_Popup popup)
   {
     if (_popupStack.Count == 0) return;
@@ -132,8 +160,7 @@ public class UIManager
     _order--;
     RefreshTimeScale();
   }
-  
-  public void CloseAllPopupUI()
+  private void CloseAllPopupUI()
   {
     while (_popupStack.Count > 0)
       ClosePopupUI();

@@ -91,6 +91,7 @@ public class SkillBook : MonoBehaviour
 
     SequenceSkills[_sequenceIndex].DoSkill(OnFinishedSequenceSkill);
   }
+  
   private void OnFinishedSequenceSkill()
   {
     _sequenceIndex = (_sequenceIndex + 1) % SequenceSkills.Count;
@@ -253,7 +254,110 @@ public class SkillBook : MonoBehaviour
     player.UpdatePlayerStat();
   }
   #endregion
-  
-  
-  
+
+  #region Functions For Skill Gacha
+  public SkillBase RecommendDropSkill()
+  {
+    List<SkillBase> skillList = Managers.Game.Player.Skills.SkillList.ToList();
+    List<SkillBase> activeSkills = skillList.FindAll(skill => skill.IsLearnedSkill);
+
+    List<SkillBase> recommendSkills = activeSkills.FindAll(s => s.Level < 5);
+    recommendSkills.Shuffle();
+ 
+    return recommendSkills[0];
+  }
+  public List<SkillBase> RecommendSkills()
+  {
+    List<SkillBase> skillList = Managers.Game.Player.Skills.SkillList.ToList();
+    List<SkillBase> activeSkills = skillList.FindAll(skill => skill.IsLearnedSkill);
+
+    //1. 이미 6개의 스킬을 배웠으면 배운 스킬중 5렙 미만인 스킬을 추천
+    if (activeSkills.Count == MAX_SKILL_COUNT)
+    {
+      List<SkillBase> recommendSkills = activeSkills.FindAll(s => s.Level < MAX_SKILL_LEVEL);
+      recommendSkills.Shuffle();
+
+      return recommendSkills.Take(3).ToList();
+    }
+    else
+    {
+      // 레벨이 5 미만인 스킬 
+      List<SkillBase> recommendSkills = skillList.FindAll(s => s.Level < MAX_SKILL_LEVEL);
+      recommendSkills.Shuffle();
+ 
+      return recommendSkills.Take(3).ToList();
+    }
+  }
+  public List<SupportSkillData> RecommendSupportkills()
+  {
+    GameManager game = Managers.Game;
+    game.SoulShopList.Clear();
+
+    foreach (SupportSkillData skill in LockedSupportSkills)
+    {
+      skill.isLocked = true;
+      game.SoulShopList.Add(skill);
+    }
+
+    int recommendCount = 4 - game.SoulShopList.Count;
+
+    for (int i = 0; i < recommendCount; i++)
+    {
+      ESupportSkillGrade grade = GetRandomGrade();
+      // 2. 해당 등급 스킬 목록 가져오기
+      List<SupportSkillData> skills = GetSupportSkills(grade);
+
+      if (skills.Count > 0)
+        game.SoulShopList.Add(skills[UnityEngine.Random.Range(0, skills.Count)]);
+      else
+        AddRecommendSkills(grade);
+    }
+
+    return game.SoulShopList;
+  }
+  public static ESupportSkillGrade GetRandomGrade()
+  {
+    float randomValue = UnityEngine.Random.value;
+    if (randomValue < SUPPORTSKILL_GRADE_PROB[(int)ESupportSkillGrade.Common])
+    {
+      return ESupportSkillGrade.Common;
+    }
+    else if (randomValue < SUPPORTSKILL_GRADE_PROB[(int)ESupportSkillGrade.Common] + SUPPORTSKILL_GRADE_PROB[(int)ESupportSkillGrade.Uncommon])
+    {
+      return ESupportSkillGrade.Uncommon;
+    }
+    else if (randomValue < SUPPORTSKILL_GRADE_PROB[(int)ESupportSkillGrade.Common] + SUPPORTSKILL_GRADE_PROB[(int)ESupportSkillGrade.Uncommon] + SUPPORTSKILL_GRADE_PROB[(int)ESupportSkillGrade.Epic])
+    {
+      return ESupportSkillGrade.Epic;
+    }
+    else if (randomValue < SUPPORTSKILL_GRADE_PROB[(int)ESupportSkillGrade.Common] + SUPPORTSKILL_GRADE_PROB[(int)ESupportSkillGrade.Uncommon] + SUPPORTSKILL_GRADE_PROB[(int)ESupportSkillGrade.Epic] + SUPPORTSKILL_GRADE_PROB[(int)ESupportSkillGrade.Rare])
+    {
+      return ESupportSkillGrade.Rare;
+    }
+    else
+    {
+      return ESupportSkillGrade.Legend;
+    }
+  }
+  private List<SupportSkillData> GetSupportSkills(ESupportSkillGrade grade)
+  {
+    return Managers.Data.SupportSkillDic.Values
+      .Where(skill => skill.supportSkillGrade == grade && skill.CheckRecommendationCondition())
+      .ToList();
+  }
+  private void AddRecommendSkills(ESupportSkillGrade grade)
+  {
+    if ((int)grade > Enum.GetValues(typeof(ESupportSkillGrade)).Length)
+      return;
+    List<SupportSkillData> commonSkills = new List<SupportSkillData>();
+    ESupportSkillGrade nextGrade = grade + 1;
+ 
+    commonSkills = GetSupportSkills(nextGrade);
+
+    if (commonSkills.Count > 0)
+      Managers.Game.SoulShopList.Add(commonSkills[UnityEngine.Random.Range(0, commonSkills.Count)]);
+    else
+      AddRecommendSkills(nextGrade);
+  }
+  #endregion
 }

@@ -12,10 +12,11 @@ public class Map : MonoBehaviour
   public Color backgroundColor;
   public Color patternColor;
   
+  // Property
   public Vector2 MapSize
   {
-    get { return spriteBackground.size; }
-    set { spriteBackground.size = value;}
+    get => spriteBackground.size;
+    set => spriteBackground.size = value;
   }
 
   public void Init()

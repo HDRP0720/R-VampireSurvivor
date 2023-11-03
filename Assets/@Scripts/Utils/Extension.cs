@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -32,10 +33,20 @@ public static class Extension
       children[i] = go.transform.GetChild(i);
     }
 
-    // 모든 자식 오브젝트 삭제
+    // Delete All children objects
     foreach (Transform child in children)
-    {
       Managers.Resource.Destroy(child.gameObject);
+  }
+  public static void Shuffle<T>(this IList<T> list)
+  {
+    int n = list.Count;
+    while (n > 1)
+    {
+      n--;
+      int k = UnityEngine.Random.Range(0, n + 1);
+      T value = list[k];
+      list[k] = list[n];
+      list[n] = value;
     }
   }
 }

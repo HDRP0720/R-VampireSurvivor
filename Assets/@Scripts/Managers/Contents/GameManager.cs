@@ -1,9 +1,13 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using Data;
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
+
 using UnityEngine;
+using Random = UnityEngine.Random;
+
+using Data;
 using static Define;
 
 [Serializable]
@@ -159,6 +163,7 @@ public class ContinueData
 public class GameManager
 {
   public bool isLoaded = false;
+  public bool isGameEnd = false;
   
   private GameData _gameData = new GameData();
   private int _gem;
@@ -201,6 +206,9 @@ public class GameManager
     }
   }
   public PlayerController Player => Managers.Object?.Player;
+  public Vector3 SoulDestination { get; set; }
+  public CameraController CameraController { get; set; }
+  public Character CurrentCharacter => _gameData.characters.Find(c => c.isCurrentCharacter == true);
 
   #region GameData Properties
   public Map CurrentMap { get; set; }
@@ -472,6 +480,189 @@ public class GameManager
     set => _gameData.joystickType = value;
   }
   #endregion
+
+  #region Functions For In-Game
+  public GemInfo GetGemInfo()
+  {
+    float smallGemChance = CurrentWaveData.SmallGemDropRate;
+    float greenGemChance = CurrentWaveData.GreenGemDropRate + smallGemChance;
+    float blueGemChance = CurrentWaveData.BlueGemDropRate + greenGemChance;
+    float yellowGemChance = CurrentWaveData.YellowGemDropRate + blueGemChance;
+    float rand = Random.value;
+
+    if (rand < smallGemChance)
+      return new GemInfo(GemInfo.EGemType.Small, new Vector3(0.65f, 0.65f, 0.65f));
+    else if (rand < greenGemChance)
+      return new GemInfo(GemInfo.EGemType.Green, Vector3.one);
+    else if (rand < blueGemChance)
+      return new GemInfo(GemInfo.EGemType.Blue, Vector3.one);
+    else if (rand < yellowGemChance)
+      return new GemInfo(GemInfo.EGemType.Yellow, Vector3.one);
+
+    return null;
+  }
+  public GemInfo GetGemInfo(GemInfo.EGemType type)
+  {
+    if(type == GemInfo.EGemType.Small)
+      return new GemInfo(GemInfo.EGemType.Small, new Vector3(0.65f, 0.65f, 0.65f));
+
+    return new GemInfo(type, Vector3.one);
+  }
+  public void GameOver()
+  {
+    isGameEnd = true;
+    Player.StopAllCoroutines();
+    Managers.UI.ShowPopupUI<UI_GameoverPopup>().SetInfo();
+  }
+  public (int hp, int atk) GetCurrentChracterStat()
+  {
+    int hpBonus = 0;
+    int AtkBonus = 0;
+    var (equipHpBonus, equipAtkBonus) = GetEquipmentBonus();
+
+    Character ch = CurrentCharacter;
+
+    hpBonus = (equipHpBonus);
+    AtkBonus = (equipAtkBonus);
+
+    return (hpBonus, AtkBonus);
+  }
+  #endregion
+
+  #region Functions For Equipment
+  public void SetBaseEquipment()
+  {
+    //초기아이템 설정
+    Equipment weapon = new Equipment(WEAPON_DEFAULT_ID);
+    Equipment gloves = new Equipment(GLOVES_DEFAULT_ID);
+    Equipment ring = new Equipment(RING_DEFAULT_ID);
+    Equipment belt = new Equipment(BELT_DEFAULT_ID);
+    Equipment armor = new Equipment(ARMOR_DEFAULT_ID);
+    Equipment boots = new Equipment(BOOTS_DEFAULT_ID);
+
+    OwnedEquipments = new List<Equipment>
+    {
+      weapon,
+      gloves,
+      ring,
+      belt,
+      armor,
+      boots
+    };
+
+    EquippedEquipments = new Dictionary<EEquipmentType, Equipment>();
+    EquipItem(EEquipmentType.Weapon, weapon);
+    EquipItem(EEquipmentType.Gloves, gloves);
+    EquipItem(EEquipmentType.Ring, ring);
+    EquipItem(EEquipmentType.Belt, belt);
+    EquipItem(EEquipmentType.Armor, armor);
+    EquipItem(EEquipmentType.Boots, boots);
+  }
+  public void EquipItem(EEquipmentType type, Equipment equipment)
+  {
+    if (EquippedEquipments.ContainsKey(type))
+    {
+      EquippedEquipments[type].IsEquipped = false;
+      EquippedEquipments.Remove(type);
+    }
+
+    // 새로운 장비를 착용
+    EquippedEquipments.Add(type, equipment);
+    equipment.IsEquipped = true;
+    equipment.IsConfirmed = true;
+
+    // 장비변경 이벤트 호출
+    OnEquipInfoChanged?.Invoke();
+  }
+  public void UnEquipItem(Equipment equipment)
+  {
+    // 착용중인 장비를 제거한다.
+    if (EquippedEquipments.ContainsKey(equipment.equipmentData.equipmentType))
+    {
+      EquippedEquipments[equipment.equipmentData.equipmentType].IsEquipped = false;
+      EquippedEquipments.Remove(equipment.equipmentData.equipmentType);
+    }
+    
+    // 장비변경 이벤트 호출
+    OnEquipInfoChanged?.Invoke();
+  }
+  public Equipment AddEquipment(string key)
+  {
+    if (key.Equals("None")) return null;
+
+    Equipment equip = new Equipment(key);
+    equip.IsConfirmed = false;
+    OwnedEquipments.Add(equip);
+    OnEquipInfoChanged?.Invoke();
+
+    return equip;
+  }
+  public Equipment MergeEquipment(Equipment equipment, Equipment mergeEquipment1, Equipment mergeEquipment2, bool isAllMerge = false)
+  {
+    equipment = OwnedEquipments.Find(equip => equip == equipment);
+    if (equipment == null) return null;
+     
+    mergeEquipment1 = OwnedEquipments.Find(equip => equip == mergeEquipment1);
+    if (mergeEquipment1 == null) return null;
+
+    if (mergeEquipment2 != null)
+    {
+      mergeEquipment2 = OwnedEquipments.Find(equip => equip == mergeEquipment2);
+      if (mergeEquipment2 == null) return null;
+    }
+
+    int level = equipment.Level;
+    bool isEquipped = equipment.IsEquipped;
+    string mergedItemCode = equipment.equipmentData.mergedItemCode;
+    Equipment newEquipment = AddEquipment(mergedItemCode);
+    newEquipment.Level = level;
+    newEquipment.IsEquipped = isEquipped;
+
+    OwnedEquipments.Remove(equipment);
+    OwnedEquipments.Remove(mergeEquipment1);
+    OwnedEquipments.Remove(mergeEquipment2);
+
+    if (Managers.Game.DicMission.TryGetValue(EMissionTarget.EquipmentMerge, out MissionInfo mission))
+      mission.progress++;
+
+    //자동합성인 경우는 SAVE게임 하지않고 다끝난후에 한번에 한다.
+    if(isAllMerge == false)
+      SaveGame();
+
+    Debug.Log(newEquipment.equipmentData.equipmentGrade);
+    return newEquipment;
+  }
+  public void SortEquipment(EEquipmentSortType sortType)
+  {
+    if (sortType == EEquipmentSortType.Grade)
+    {
+      //OwnedEquipments = OwnedEquipments.OrderBy(item => item.EquipmentGrade).ThenBy(item => item.Level).ThenBy(item => item.EquipmentType).ToList();
+      OwnedEquipments = OwnedEquipments.OrderBy(item => item.equipmentData.equipmentGrade)
+        .ThenBy(item => item.IsEquipped)
+        .ThenBy(item => item.Level)
+        .ThenBy(item => item.equipmentData.equipmentType).ToList();
+    }
+    else if (sortType == EEquipmentSortType.Level)
+    {
+      OwnedEquipments = OwnedEquipments.OrderBy(item => item.Level)
+        .ThenBy(item => item.IsEquipped)
+        .ThenBy(item => item.equipmentData.equipmentGrade)
+        .ThenBy(item => item.equipmentData.equipmentType).ToList();
+    }
+  }
+  private (int hp, int atk) GetEquipmentBonus()
+  {
+    int hpBonus = 0;
+    int atkBonus = 0;
+
+    foreach (KeyValuePair<EEquipmentType, Equipment> pair in EquippedEquipments)
+    {
+      hpBonus += pair.Value.MaxHpBonus;
+      atkBonus += pair.Value.AttackBonus;
+    }
+    return (hpBonus, atkBonus);
+  }
+  #endregion
   
   public int GetMaxStageClearIndex()
   {
@@ -483,21 +674,6 @@ public class GameManager
         MaxStageClearIndex = Mathf.Max(MaxStageClearIndex, stageClearInfo.stageIndex);
     }
     return MaxStageClearIndex;
-  }
-  
-  public void EquipItem(EEquipmentType type, Equipment equipment)
-  {
-    if (EquippedEquipments.ContainsKey(type))
-    {
-      EquippedEquipments[type].IsEquipped = false;
-      EquippedEquipments.Remove(type);
-    }
-  
-    EquippedEquipments.Add(type, equipment);
-    equipment.IsEquipped = true;
-    equipment.IsConfirmed = true;
- 
-    OnEquipInfoChanged?.Invoke();
   }
   
 

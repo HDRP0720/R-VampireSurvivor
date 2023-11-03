@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Cell
 {
-  public HashSet<GameObject> Objects { get; } = new HashSet<GameObject>();
+  public HashSet<DropItemController> Objects { get; } = new HashSet<DropItemController>();
 }
 public class GridController : BaseController
 {
@@ -18,9 +18,9 @@ public class GridController : BaseController
     return true;
   }
 
-  public List<GameObject> GatherObjects(Vector3 pos, float range)
+  public List<DropItemController> GatherObjects(Vector3 pos, float range)
   {
-    List<GameObject> objects = new List<GameObject>();
+    List<DropItemController> objects = new List<DropItemController>();
 
     Vector3Int left = _grid.WorldToCell(pos + new Vector3(-range, 0));
     Vector3Int right = _grid.WorldToCell(pos + new Vector3(+range, 0));
@@ -45,7 +45,7 @@ public class GridController : BaseController
     return objects;
   }
 
-  public void Add(GameObject go)
+  public void Add(DropItemController go)
   {
     Vector3Int cellPos = _grid.WorldToCell(go.transform.position);
 
@@ -55,7 +55,7 @@ public class GridController : BaseController
     cell.Objects.Add(go);
   }
 
-  public void Remove(GameObject go)
+  public void Remove(DropItemController go)
   {
     Vector3Int cellPos = _grid.WorldToCell(go.transform.position);
 

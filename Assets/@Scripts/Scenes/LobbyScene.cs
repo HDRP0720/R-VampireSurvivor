@@ -1,6 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+using static Define;
 
 public class LobbyScene : BaseScene
 {
@@ -8,15 +8,14 @@ public class LobbyScene : BaseScene
   {
     base.Init();
 
-    SceneType = Define.EScene.LobbyScene;
+    SceneType = EScene.LobbyScene;
 
     //TitleUI
     Managers.UI.ShowSceneUI<UI_LobbyScene>();
     Screen.sleepTimeout = SleepTimeout.SystemSetting;
 
-    Managers.Sound.Play(Define.ESound.BGM, "Bgm_Lobby");
+    Managers.Sound.Play(ESound.BGM, "Bgm_Lobby");
   }
   
   public override void Clear() {}
- 
 }
