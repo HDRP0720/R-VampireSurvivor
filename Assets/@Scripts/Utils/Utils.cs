@@ -53,7 +53,7 @@ public class Utils
     return null;
   }
 
-  public static Vector2 GenerateMonsterSpawnPoint(Vector2 characterPosiion, float minDistance = 10.0f, float maxDistance = 20.0f)
+  public static Vector2 GenerateMonsterSpawnPosition(Vector2 characterPosition, float minDistance = 20.0f, float maxDistance = 25.0f)
   {
     float angle = Random.Range(0, 360) * Mathf.Deg2Rad;
     float distance = Random.Range(minDistance, maxDistance);
@@ -61,7 +61,24 @@ public class Utils
     float xDist = Mathf.Cos(angle) * distance;
     float yDist = Mathf.Sin(angle) * distance;
 
-    Vector2 spawnPosition = characterPosiion + new Vector2(xDist, yDist);
+    Vector2 spawnPosition = characterPosition + new Vector2(xDist, yDist);
+    
+    // Change spawn position to ellipse shape if outside map boundaries
+    float size = Managers.Game.CurrentMap.MapSize.x * 0.5f;
+    if (Mathf.Abs(spawnPosition.x) > size || Mathf.Abs(spawnPosition.y) > size)
+    {
+      float ellipseFactorX = Mathf.Lerp(1f, 0.5f, Mathf.Abs(characterPosition.x) / size);
+      float ellipseFactorY = Mathf.Lerp(1f, 0.5f, Mathf.Abs(characterPosition.y) / size);
+
+      xDist *= ellipseFactorX;
+      yDist *= ellipseFactorY;
+
+      spawnPosition = Vector2.zero + new Vector2(xDist, yDist);
+
+      // Change spawn position inside of map boundaries
+      spawnPosition.x = Mathf.Clamp(spawnPosition.x, -size, size);
+      spawnPosition.y = Mathf.Clamp(spawnPosition.y, -size, size);
+    }
     
     return spawnPosition;
   }

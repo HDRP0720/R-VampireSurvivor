@@ -1,22 +1,46 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using static Define;
 
 public class BossController : MonsterController
 {
+  private void Start()
+  {
+    Init();
+    CreatureState = ECreatureState.Skill;
+    Skills.StartNextSequenceSkill();
+    InvokeMonsterData();
+  }
+
+  public override void OnCollisionEnter2D(Collision2D other)
+  {
+    base.OnCollisionEnter2D(other);
+    
+    PlayerController target = other.gameObject.GetComponent<PlayerController>();
+    if (target.IsValid() == false) return;
+  
+    if (this.IsValid() == false) return;
+  }
+
+  public override void OnCollisionExit2D(Collision2D other)
+  {
+    base.OnCollisionExit2D(other);
+    
+    PlayerController target = other.gameObject.GetComponent<PlayerController>();
+    if (target.IsValid() == false) return;
+  
+    if (this.IsValid() == false) return;
+  }
+
   public override bool Init()
   {
     base.Init();
-    animator = GetComponent<Animator>();
-    CreatureState = Define.ECreatureState.Moving;
-    HP = 10000000;
     
-    CreatureState = Define.ECreatureState.Skill;
-    Skills.AddSkill<Move>(transform.position);
-    Skills.AddSkill<Dash>(transform.position);
-    Skills.AddSkill<Dash>(transform.position);
-    Skills.AddSkill<Dash>(transform.position);
-    Skills.StartNextSequenceSkill();
-
+    ObjectType = EObjectType.Boss;
+    transform.localScale = new Vector3(2f, 2f, 2f);
+    CreatureState = ECreatureState.Skill;
+    
     return true;
   }
 
@@ -24,52 +48,25 @@ public class BossController : MonsterController
   {
     switch (CreatureState)
     {
-      case Define.ECreatureState.Idle:
-        animator.Play("Idle");
+      case ECreatureState.Idle:
+        Anim.Play("Idle");
         break;
-      case Define.ECreatureState.Moving:
-        animator.Play("Moving");
+      case ECreatureState.Moving:
+        Anim.Play("Moving");
         break;
-      case Define.ECreatureState.Skill:
+      case ECreatureState.Skill:
         break;
-      case Define.ECreatureState.Dead:
-        animator.Play("Death");
+      case ECreatureState.Dead:
+        Skills.StopSkills();
         break;
     }
   }
 
-  protected override void UpdateDead()
+  public override void InitCreatureStat(bool isFullHp = true)
   {
-    Skills.StopSkills();
-    
-    if(_coWait == null)
-      Managers.Object.Despawn(this);
+    MaxHp = (creatureData.maxHp + (creatureData.maxHpBonus * Managers.Game.CurrentStageData.StageLevel)) * creatureData.hpRate;
+    Atk = (creatureData.atk + (creatureData.atkBonus * Managers.Game.CurrentStageData.StageLevel)) * creatureData.atkRate;
+    Hp = MaxHp;
+    MoveSpeed = creatureData.moveSpeed * creatureData.moveSpeedRate;
   }
-
-  public override void OnDamaged(BaseController attacker, int damage)
-  {
-    base.OnDamaged(attacker, damage);
-  }
-
-  protected override void OnDead()
-  {
-    CreatureState = Define.ECreatureState.Dead;
-    Wait(2.0f);
-  }
-
-  #region  Wait Coroutine
-  private Coroutine _coWait;
-  private void Wait(float waitSeconds)
-  {
-    if(_coWait != null) 
-      StopCoroutine(_coWait);
- 
-    _coWait = StartCoroutine(CoStartWait(waitSeconds));
-  }
-  private IEnumerator CoStartWait(float waitSeconds)
-  {
-    yield return new WaitForSeconds(waitSeconds);
-    _coWait = null;
-  }
-  #endregion
 }

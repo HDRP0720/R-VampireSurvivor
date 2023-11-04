@@ -16,12 +16,12 @@ public class SkillBase : BaseController
   public ESkillType SkillType
   {
     get => _skillType;
-    set => _skillType = value;
+    protected set => _skillType = value;
   }
   public SkillData SkillData 
   {
     get => _skillData;
-    set => _skillData = value;
+    private set => _skillData = value;
   }
   public int Level
   {
@@ -33,18 +33,6 @@ public class SkillBase : BaseController
   public int Damage { get; set; } = 100;
   #endregion
   
-  public virtual void OnLevelUp()
-  {
-    if (Level == 0) ActivateSkill();
-      
-    Level++;
-    
-    UpdateSkillData();
-  }
-  public virtual void ActivateSkill()
-  {
-    UpdateSkillData();
-  }
   public SkillData UpdateSkillData(int dataId = 0)
   {
     int id = 0;
@@ -77,7 +65,18 @@ public class SkillBase : BaseController
     return SkillData;
   }
   protected virtual void OnChangedSkillData() { }
-  
+  public virtual void ActivateSkill()
+  {
+    UpdateSkillData();
+  }
+  public virtual void OnLevelUp()
+  {
+    if (Level == 0) ActivateSkill();
+      
+    Level++;
+    
+    UpdateSkillData();
+  }
   protected virtual void GenerateProjectile(CreatureController owner, string prefabName, Vector3 startPos, Vector3 dir, Vector3 targetPos, SkillBase skill)
   {
     ProjectileController pc = Managers.Object.Spawn<ProjectileController>(startPos, prefabName: prefabName);

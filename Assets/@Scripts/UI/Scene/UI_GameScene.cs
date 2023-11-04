@@ -258,6 +258,11 @@ public class UI_GameScene : UI_Scene
     LayoutRebuilder.ForceRebuildLayoutImmediate(GetObject((int)GameObjects.WaveObject).GetComponent<RectTransform>());
   }
 
+  public void DoWhiteFlash()
+  {
+    StartCoroutine(CoWhiteScreen());
+  }
+  
   private void SetBattleSkill()
   {
     GameObject container = GetObject((int)GameObjects.BattleSkillSlotGroupObject);
@@ -366,7 +371,6 @@ public class UI_GameScene : UI_Scene
       Managers.Game.SoulShopList.Add(skill);
     }
   }
-  
   
   private void ResetSupportCard()
   {

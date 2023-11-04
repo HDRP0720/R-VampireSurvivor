@@ -205,7 +205,7 @@ public class GameManager
       OnMoveDirChanged?.Invoke(_moveDir);
     }
   }
-  public PlayerController Player => Managers.Object?.Player;
+  public PlayerController Player { get; set; }
   public Vector3 SoulDestination { get; set; }
   public CameraController CameraController { get; set; }
   public Character CurrentCharacter => _gameData.characters.Find(c => c.isCurrentCharacter == true);

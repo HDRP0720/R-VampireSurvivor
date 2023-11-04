@@ -16,6 +16,12 @@ public static class Define
     Drag,
     EndDrag,
   }
+  public enum UI_ItemParentType //장비아이템에서 인벤토리에 있는지 케릭터 장비 에 있는지
+  {
+    CharacterEquipmentGroup,
+    EquipInventoryGroup,
+    GachaResultPopup,
+  }
   
   public enum EScene { Unknown, TitleScene, LobbyScene, GameScene }
   
@@ -206,6 +212,23 @@ public static class Define
   public const string BELT_DEFAULT_ID = "N30101";
   public const string ARMOR_DEFAULT_ID = "N40101";
   public const string BOOTS_DEFAULT_ID = "N50101";
+  #endregion
+  
+  #region Data About Stage
+  public static readonly int STAGE_SOULCOUNT = 10;
+  public static readonly float STAGE_SOULDROP_RATE = 0.05f;
+  public static readonly int BOSS_GEN_TIME = 5; // 웨이브 시작 10초 후 보스 젠
+  public static readonly float MAPSIZE_REDUCTION_VALUE = 0.9f; // 웨이브 시작시 줄어드는 맵 크기
+  #endregion
+  
+  #region Data About Knockback
+  /// <summary>
+  ///  KNOCKBACK_SPEED의 속력으로 KNOCKBACK_TIME 시간동안 밀려난다.
+  ///  KNOCKBACK_COOLTIME 동안은 넉백이 재발생하지 않는다
+  /// </summary>
+  public static float KNOCKBACK_TIME = 0.1f;
+  public static float KNOCKBACK_SPEED = 10;
+  public static float KNOCKBACK_COOLTIME = 0.5f;  
   #endregion
   
   #region Gem Exp Amount
