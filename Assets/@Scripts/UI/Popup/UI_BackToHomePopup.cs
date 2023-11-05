@@ -73,12 +73,12 @@ public class UI_BackToHomePopup : UI_Popup
     Managers.Game.Player.StopAllCoroutines();
 
     StageClearInfo info;
-    if (Managers.Game.DicStageClearInfo.TryGetValue(Managers.Game.CurrentStageData.StageIndex, out info))
+    if (Managers.Game.DicStageClearInfo.TryGetValue(Managers.Game.CurrentStageData.stageIndex, out info))
     {
       if (Managers.Game.CurrentWaveIndex > info.maxWaveIndex)
       {
         info.maxWaveIndex = Managers.Game.CurrentWaveIndex;
-        Managers.Game.DicStageClearInfo[Managers.Game.CurrentStageData.StageIndex] = info;
+        Managers.Game.DicStageClearInfo[Managers.Game.CurrentStageData.stageIndex] = info;
       }
     }
 

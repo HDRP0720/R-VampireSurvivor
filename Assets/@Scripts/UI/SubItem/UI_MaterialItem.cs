@@ -78,10 +78,10 @@ public class UI_MaterialItem : UI_Base
     _makeSubItemParents = makeSubItemParents;
     _materialData = data;
 
-    GetImage((int)Images.MaterialItemImage).sprite = Managers.Resource.Load<Sprite>(_materialData.SpriteName);
+    GetImage((int)Images.MaterialItemImage).sprite = Managers.Resource.Load<Sprite>(_materialData.spriteName);
     GetText((int)Texts.ItemCountValueText).text = $"{count}";
 
-    switch (data.MaterialGrade)
+    switch (data.materialGrade)
     {
       case EMaterialGrade.Common:
         GetImage((int)Images.MaterialItemBackgroundImage).color = EquipmentUIColors.Common;

@@ -202,16 +202,16 @@ public class TimeManager : MonoBehaviour
 
     string[] spriteName = new string[3];
     int[] count = new int[3];
-    int gold = data.Reward_Gold * 5;
+    int gold = data.reward_Gold * 5;
 
     spriteName[0] = GOLD_SPRITE_NAME;
     count[0] = gold;
 
-    spriteName[1] = Managers.Data.MaterialDic[ID_RANDOM_SCROLL].SpriteName;
-    count[1] = data.FastReward_Scroll;
+    spriteName[1] = Managers.Data.MaterialDic[ID_RANDOM_SCROLL].spriteName;
+    count[1] = data.fastReward_Scroll;
 
-    spriteName[2] = Managers.Data.MaterialDic[ID_SILVER_KEY].SpriteName;
-    count[2] = data.FastReward_Scroll;
+    spriteName[2] = Managers.Data.MaterialDic[ID_SILVER_KEY].spriteName;
+    count[2] = data.fastReward_Scroll;
 
     UI_RewardPopup rewardPopup = (Managers.UI.SceneUI as UI_LobbyScene).RewardPopupUI;
     rewardPopup.gameObject.SetActive(true);
@@ -220,8 +220,8 @@ public class TimeManager : MonoBehaviour
       mission.progress++;
     Managers.Game.FastRewardCount++;
 
-    Managers.Game.ExchangeMaterial(Managers.Data.MaterialDic[Define.ID_RANDOM_SCROLL], data.FastReward_Scroll);
-    Managers.Game.ExchangeMaterial(Managers.Data.MaterialDic[Define.ID_SILVER_KEY], data.FastReward_Scroll);
+    Managers.Game.ExchangeMaterial(Managers.Data.MaterialDic[Define.ID_RANDOM_SCROLL], data.fastReward_Scroll);
+    Managers.Game.ExchangeMaterial(Managers.Data.MaterialDic[Define.ID_SILVER_KEY], data.fastReward_Scroll);
     Managers.Game.ExchangeMaterial(Managers.Data.MaterialDic[Define.ID_GOLD], gold);
 
     rewardPopup.SetInfo(spriteName, count);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using System;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 using static Define;
 
 namespace Data
@@ -123,9 +124,9 @@ namespace Data
     {
         public int acquiredLevel;
         public int dataId;
-        public Define.ESupportSkillType supportSkillType;
-        public Define.ESupportSkillName supportSkillName;
-        public Define.ESupportSkillGrade supportSkillGrade;
+        public ESupportSkillType supportSkillType;
+        public ESupportSkillName supportSkillName;
+        public ESupportSkillGrade supportSkillGrade;
         public string name;
         public string description;
         public string iconLabel;
@@ -158,24 +159,23 @@ namespace Data
 
         public bool CheckRecommendationCondition()
         {
-            if (isLocked == true || Managers.Game.SoulShopList.Contains(this) == true) return false;
+            if (isLocked || Managers.Game.SoulShopList.Contains(this)) return false;
 
-            if (supportSkillType == Define.ESupportSkillType.Special)
+            if (supportSkillType == ESupportSkillType.Special)
             {
-                //내가 가지고 있는 장비스킬이 아니면 false
                 if (Managers.Game.EquippedEquipments.TryGetValue(Define.EEquipmentType.Weapon, out Equipment myWeapon))
                 {
-                    int skillId = myWeapon.EquipmentData.BasicSkill;
-                    ESkillType type = Util.GetSkillTypeFromInt(skillId);
+                    int skillId = myWeapon.equipmentData.basicSkill;
+                    ESkillType type = Utils.GetSkillTypeFromInt(skillId);
 
-                    switch (ESupportSkillName)
+                    switch (supportSkillName)
                     {
-                        case Define.ESupportSkillName.ArrowShot:
-                        case Define.ESupportSkillName.SavageSmash:
-                        case Define.ESupportSkillName.PhotonStrike:
-                        case Define.ESupportSkillName.Shuriken:
-                        case Define.ESupportSkillName.EgoSword:
-                            if (SupportSkillName.ToString() != type.ToString())
+                        case ESupportSkillName.ArrowShot:
+                        case ESupportSkillName.SavageSmash:
+                        case ESupportSkillName.PhotonStrike:
+                        case ESupportSkillName.Shuriken:
+                        case ESupportSkillName.EgoSword:
+                            if (supportSkillName.ToString() != type.ToString())
                                 return false;
                             break;
                     }
@@ -207,7 +207,7 @@ namespace Data
         {
             Dictionary<int, SupportSkillData> dict = new Dictionary<int, SupportSkillData>();
             foreach (SupportSkillData skill in supportSkills)
-                dict.Add(skill.DataId, skill);
+                dict.Add(skill.dataId, skill);
             return dict;
         }
     }
@@ -217,29 +217,29 @@ namespace Data
     [Serializable]
     public class StageData
     {
-        public int StageIndex = 1;
-        public string StageName;
-        public int StageLevel = 1;
-        public string MapName;
-        public int StageSkill;
+        public int stageIndex = 1;
+        public string stageName;
+        public int stageLevel = 1;
+        public string mapName;
+        public int stageSkill;
 
-        public int FirstWaveCountValue;
-        public int FirstWaveClearRewardItemId;
-        public int FirstWaveClearRewardItemValue;
+        public int firstWaveCountValue;
+        public int firstWaveClearRewardItemId;
+        public int firstWaveClearRewardItemValue;
 
-        public int SecondWaveCountValue;
-        public int SecondWaveClearRewardItemId;
-        public int SecondWaveClearRewardItemValue;
+        public int secondWaveCountValue;
+        public int secondWaveClearRewardItemId;
+        public int secondWaveClearRewardItemValue;
 
-        public int ThirdWaveCountValue;
-        public int ThirdWaveClearRewardItemId;
-        public int ThirdWaveClearRewardItemValue;
+        public int thirdWaveCountValue;
+        public int thirdWaveClearRewardItemId;
+        public int thirdWaveClearRewardItemValue;
 
-        public int ClearReward_Gold;
-        public int ClearReward_Exp;
-        public string StageImage;
-        public List<int> AppearingMonsters;
-        public List<WaveData> WaveArray;
+        public int clearRewardGold;
+        public int clearRewardExp;
+        public string stageImage;
+        public List<int> appearingMonsters;
+        public List<WaveData> waveArray;
     }
     public class StageDataLoader : ILoader<int, StageData>
     {
@@ -249,7 +249,7 @@ namespace Data
         {
             Dictionary<int, StageData> dict = new Dictionary<int, StageData>();
             foreach (StageData stage in stages)
-                dict.Add(stage.StageIndex, stage);
+                dict.Add(stage.stageIndex, stage);
             return dict;
         }
     }
@@ -259,23 +259,23 @@ namespace Data
     [System.Serializable]
     public class WaveData
     {
-        public int StageIndex = 1;
-        public int WaveIndex = 1;
-        public float SpawnInterval = 0.5f;
-        public int OnceSpawnCount;
-        public List<int> MonsterId;
-        public List<int> EleteId;
-        public List<int> BossId;
-        public float RemainsTime;
-        public Define.WaveType WaveType;
-        public float FirstMonsterSpawnRate;
-        public float HpIncreaseRate;
+        public int stageIndex = 1;
+        public int waveIndex = 1;
+        public float spawnInterval = 0.5f;
+        public int onceSpawnCount;
+        public List<int> monsterId;
+        public List<int> eliteId;
+        public List<int> bossId;
+        public float remainsTime;
+        public EWaveType waveType;
+        public float firstMonsterSpawnRate;
+        public float hpIncreaseRate;
         public float nonDropRate;
-        public float SmallGemDropRate;
-        public float GreenGemDropRate;
-        public float BlueGemDropRate;
-        public float YellowGemDropRate;
-        public List<int> EliteDropItemId;
+        [FormerlySerializedAs("SmallGemDropRate")] public float smallGemDropRate;
+        [FormerlySerializedAs("GreenGemDropRate")] public float greenGemDropRate;
+        [FormerlySerializedAs("BlueGemDropRate")] public float blueGemDropRate;
+        [FormerlySerializedAs("YellowGemDropRate")] public float yellowGemDropRate;
+        [FormerlySerializedAs("EliteDropItemId")] public List<int> eliteDropItemId;
     }
 
     public class WaveDataLoader : ILoader<int, WaveData>
@@ -286,7 +286,7 @@ namespace Data
         {
             Dictionary<int, WaveData> dict = new Dictionary<int, WaveData>();
             foreach (WaveData wave in waves)
-                dict.Add(wave.WaveIndex, wave);
+                dict.Add(wave.waveIndex, wave);
             return dict;
         }
     }
@@ -343,24 +343,23 @@ namespace Data
     [Serializable]
     public class MaterialData
     {
-        public int DataId;
-        public Define.MaterialType MaterialType;
-        public Define.MaterialGrade MaterialGrade;
-        public string NameTextID;
-        public string DescriptionTextID;
-        public string SpriteName;
-
+        public int dataId;
+        public EMaterialType materialType;
+        public EMaterialGrade materialGrade;
+        public string nameTextID;
+        public string descriptionTextID;
+        public string spriteName;
     }
 
     [Serializable]
     public class MaterialDataLoader : ILoader<int, MaterialData>
     {
-        public List<MaterialData> Materials = new List<MaterialData>();
+        public List<MaterialData> materials = new List<MaterialData>();
         public Dictionary<int, MaterialData> MakeDict()
         {
             Dictionary<int, MaterialData> dict = new Dictionary<int, MaterialData>();
-            foreach (MaterialData mat in Materials)
-                dict.Add(mat.DataId, mat);
+            foreach (MaterialData mat in materials)
+                dict.Add(mat.dataId, mat);
             return dict;
         }
     }
@@ -370,9 +369,9 @@ namespace Data
     [Serializable]
     public class EquipmentLevelData
     {
-        public int Level;
-        public int UpgradeCost;
-        public int UpgradeRequiredItems;
+        public int level;
+        public int upgradeCost;
+        public int upgradeRequiredItems;
     }
 
     [Serializable]
@@ -384,7 +383,7 @@ namespace Data
             Dictionary<int, EquipmentLevelData> dict = new Dictionary<int, EquipmentLevelData>();
 
             foreach (EquipmentLevelData levelData in levels)
-                dict.Add(levelData.Level, levelData);
+                dict.Add(levelData.level, levelData);
             return dict;
         }
     }
@@ -393,21 +392,21 @@ namespace Data
     #region DropItemData
     public class DropItemData
     {
-        public int DataId;
-        public Define.DropItemType DropItemType;
-        public string NameTextID;
-        public string DescriptionTextID;
-        public string SpriteName;
+        public int dataId;
+        public EDropItemType dropItemType;
+        public string nameTextID;
+        public string descriptionTextID;
+        public string spriteName;
     }
     [Serializable]
     public class DropItemDataLoader : ILoader<int, DropItemData>
     {
-        public List<DropItemData> DropItems = new List<DropItemData>();
+        public List<DropItemData> dropItems = new List<DropItemData>();
         public Dictionary<int, DropItemData> MakeDict()
         {
             Dictionary<int, DropItemData> dict = new Dictionary<int, DropItemData>();
-            foreach (DropItemData dtm in DropItems)
-                dict.Add(dtm.DataId, dtm);
+            foreach (DropItemData dropItem in dropItems)
+                dict.Add(dropItem.dataId, dropItem);
             return dict;
         }
     }
@@ -417,7 +416,7 @@ namespace Data
     #region GachaData
     public class GachaTableData
     {
-        public Define.EGachaType type;
+        public EGachaType type;
         public List<GachaRateData> gachaRateTable = new List<GachaRateData>();
     }
 
@@ -440,20 +439,19 @@ namespace Data
     {
         public string equipmentID;
         public float gachaRate;
-        public Define.EEquipmentGrade equipGrade;
+        public EEquipmentGrade equipGrade;
     }
-
     #endregion
 
     #region StagePackageData
     public class StagePackageData
     {
-        public int StageIndex;
-        public int DiaValue;
-        public int GoldValue;
-        public int RandomScrollValue;
-        public int GoldKeyValue;
-        public int ProductCostValue;
+        public int stageIndex;
+        public int diaValue;
+        public int goldValue;
+        public int randomScrollValue;
+        public int goldKeyValue;
+        public int productCostValue;
     }
 
     [Serializable]
@@ -464,7 +462,7 @@ namespace Data
         {
             Dictionary<int, StagePackageData> dict = new Dictionary<int, StagePackageData>();
             foreach (StagePackageData stp in stagePackages)
-                dict.Add(stp.StageIndex, stp);
+                dict.Add(stp.stageIndex, stp);
             return dict;
         }
     }
@@ -473,13 +471,13 @@ namespace Data
     #region MissionData
     public class MissionData
     {
-        public int MissionId;
-        public Define.MissionType MissionType;
-        public string DescriptionTextID;
-        public Define.EMissionTarget MissionTarget;
-        public int MissionTargetValue;
-        public int ClearRewardItmeId;
-        public int RewardValue;
+        public int missionId;
+        public EMissionType missionType;
+        public string descriptionTextID;
+        public EMissionTarget missionTarget;
+        public int missionTargetValue;
+        public int clearRewardItmeId;
+        public int rewardValue;
     }
 
     [Serializable]
@@ -490,7 +488,7 @@ namespace Data
         {
             Dictionary<int, MissionData> dict = new Dictionary<int, MissionData>();
             foreach (MissionData mis in missions)
-                dict.Add(mis.MissionId, mis);
+                dict.Add(mis.missionId, mis);
             return dict;
         }
     }
@@ -500,17 +498,16 @@ namespace Data
     [Serializable]
     public class AchievementData
     {
-        public int AchievementID;
-        public string DescriptionTextID;
-        public Define.EMissionTarget MissionTarget;
-        public int MissionTargetValue;
-        public int ClearRewardItmeId;
-        public int RewardValue;
-        public bool IsCompleted;
-        public bool IsRewarded;
-        public int ProgressValue;
+        public int achievementID;
+        public string descriptionTextID;
+        public EMissionTarget missionTarget;
+        public int missionTargetValue;
+        public int clearRewardItemId;
+        public int rewardValue;
+        public bool isCompleted;
+        public bool isRewarded;
+        public int progressValue;
     }
-
     [Serializable]
     public class AchievementDataLoader : ILoader<int, AchievementData>
     {
@@ -519,7 +516,7 @@ namespace Data
         {
             Dictionary<int, AchievementData> dict = new Dictionary<int, AchievementData>();
             foreach (AchievementData ach in achievements)
-                dict.Add(ach.AchievementID, ach);
+                dict.Add(ach.achievementID, ach);
             return dict;
         }
     }
@@ -528,9 +525,9 @@ namespace Data
     #region CheckOutData
     public class CheckOutData
     {
-        public int Day;
-        public int RewardItemId;
-        public int MissionTarRewardItemValuegetValue;
+        public int day;
+        public int rewardItemId;
+        public int missionTargetRewardItemValue;
     }
 
     [Serializable]
@@ -541,7 +538,7 @@ namespace Data
         {
             Dictionary<int, CheckOutData> dict = new Dictionary<int, CheckOutData>();
             foreach (CheckOutData chk in checkouts)
-                dict.Add(chk.Day, chk);
+                dict.Add(chk.day, chk);
             return dict;
         }
     }
@@ -550,11 +547,11 @@ namespace Data
     #region OfflineRewardData
     public class OfflineRewardData
     {
-        public int StageIndex;
-        public int Reward_Gold;
-        public int Reward_Exp;
-        public int FastReward_Scroll;
-        public int FastReward_Box;
+        public int stageIndex;
+        public int reward_Gold;
+        public int reward_Exp;
+        public int fastReward_Scroll;
+        public int fastReward_Box;
     }
 
     [Serializable]
@@ -565,7 +562,7 @@ namespace Data
         {
             Dictionary<int, OfflineRewardData> dict = new Dictionary<int, OfflineRewardData>();
             foreach (OfflineRewardData ofr in offlines)
-                dict.Add(ofr.StageIndex, ofr);
+                dict.Add(ofr.stageIndex, ofr);
             return dict;
         }
     }
@@ -574,13 +571,13 @@ namespace Data
     #region BattlePassData
     public class BattlePassData
     {
-        public int PassLevel;
-        public int FreeRewardItemId;
-        public int FreeRewardItemValue;
-        public int RareRewardItemId;
-        public int RareRewardItemValue;
-        public int EpicRewardItemId;
-        public int EpicRewardItemValue;
+        public int passLevel;
+        public int freeRewardItemId;
+        public int freeRewardItemValue;
+        public int rareRewardItemId;
+        public int rareRewardItemValue;
+        public int epicRewardItemId;
+        public int epicRewardItemValue;
     }
 
     [Serializable]
@@ -591,7 +588,7 @@ namespace Data
         {
             Dictionary<int, BattlePassData> dict = new Dictionary<int, BattlePassData>();
             foreach (BattlePassData bts in battles)
-                dict.Add(bts.PassLevel, bts);
+                dict.Add(bts.passLevel, bts);
             return dict;
         }
     }
@@ -600,11 +597,11 @@ namespace Data
     #region DailyShopData
     public class DailyShopData
     {
-        public int Index;
-        public int BuyItemId;
-        public int CostItemId;
-        public int CostValue;
-        public float DiscountValue;
+        public int index;
+        public int buyItemId;
+        public int costItemId;
+        public int costValue;
+        public float discountValue;
     }
 
     [Serializable]
@@ -615,7 +612,7 @@ namespace Data
         {
             Dictionary<int, DailyShopData> dict = new Dictionary<int, DailyShopData>();
             foreach (DailyShopData dai in dailys)
-                dict.Add(dai.Index, dai);
+                dict.Add(dai.index, dai);
             return dict;
         }
     }
@@ -624,13 +621,13 @@ namespace Data
     #region AccountPassData
     public class AccountPassData
     {
-        public int AccountLevel;
-        public int FreeRewardItemId;
-        public int FreeRewardItemValue;
-        public int RareRewardItemId;
-        public int RareRewardItemValue;
-        public int EpicRewardItemId;
-        public int EpicRewardItemValue;
+        public int accountLevel;
+        public int freeRewardItemId;
+        public int freeRewardItemValue;
+        public int rareRewardItemId;
+        public int rareRewardItemValue;
+        public int epicRewardItemId;
+        public int epicRewardItemValue;
     }
 
     [Serializable]
@@ -641,7 +638,7 @@ namespace Data
         {
             Dictionary<int, AccountPassData> dict = new Dictionary<int, AccountPassData>();
             foreach (AccountPassData aps in accounts)
-                dict.Add(aps.AccountLevel, aps);
+                dict.Add(aps.accountLevel, aps);
             return dict;
         }
     }

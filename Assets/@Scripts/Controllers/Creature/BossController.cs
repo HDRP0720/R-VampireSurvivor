@@ -64,8 +64,8 @@ public class BossController : MonsterController
 
   public override void InitCreatureStat(bool isFullHp = true)
   {
-    MaxHp = (creatureData.maxHp + (creatureData.maxHpBonus * Managers.Game.CurrentStageData.StageLevel)) * creatureData.hpRate;
-    Atk = (creatureData.atk + (creatureData.atkBonus * Managers.Game.CurrentStageData.StageLevel)) * creatureData.atkRate;
+    MaxHp = (creatureData.maxHp + (creatureData.maxHpBonus * Managers.Game.CurrentStageData.stageLevel)) * creatureData.hpRate;
+    Atk = (creatureData.atk + (creatureData.atkBonus * Managers.Game.CurrentStageData.stageLevel)) * creatureData.atkRate;
     Hp = MaxHp;
     MoveSpeed = creatureData.moveSpeed * creatureData.moveSpeedRate;
   }

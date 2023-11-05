@@ -154,8 +154,82 @@ public class UI_EquipmentInfoPopup : UI_Popup
     _equipment = equipment;
     Refresh();
   }
+
+  private void Refresh()
+  {
+    
+  }
   
-  private void OnClickMergeButton() // 합성 버튼
+  private void OnClickBackgroundButton()
+  {
+    Managers.Sound.PlayPopupClose();
+    gameObject.SetActive(false);
+    (Managers.UI.SceneUI as UI_LobbyScene)?.EquipmentPopupUI.SetInfo();
+  }
+  private void OnClickEquipmentResetButton()
+  {
+    Managers.Sound.PlayButtonClick();
+    UI_EquipmentResetPopup resetPopup = (Managers.UI.SceneUI as UI_LobbyScene).EquipmentResetPopupUI;
+    resetPopup.SetInfo(_equipment);
+    resetPopup.gameObject.SetActive(true);
+  }
+  private void OnClickEquipButton()
+  {
+    Managers.Sound.Play(Define.ESound.Effect, "Equip_Equipment");
+
+    // 장비를 장착한다
+    Managers.Game.EquipItem(_equipment.equipmentData.equipmentType, _equipment);
+    Refresh();
+
+    gameObject.SetActive(false);
+    (Managers.UI.SceneUI as UI_LobbyScene)?.EquipmentPopupUI.SetInfo();
+  }
+  private void OnClickUnequipButton()
+  {
+    Managers.Sound.PlayButtonClick();
+  
+    Managers.Game.UnEquipItem(_equipment);
+    Refresh();
+
+    gameObject.SetActive(false);
+    (Managers.UI.SceneUI as UI_LobbyScene)?.EquipmentPopupUI.SetInfo();
+  }
+  private void OnClickLevelupButton()
+  {
+    Managers.Sound.PlayButtonClick();
+
+    //장비레벨이 맥스레벨보다 작아야함
+    if (_equipment.Level >= _equipment.equipmentData.maxLevel) return;
+     
+    int UpgradeCost = Managers.Data.EquipLevelDataDic[_equipment.Level].upgradeCost;
+    int UpgradeRequiredItems = Managers.Data.EquipLevelDataDic[_equipment.Level].upgradeRequiredItems;
+
+    // 장비의 현재 레벨 
+    // _equipment.Level
+
+    //현재 나의 재화
+    // TEMP : 재화 임시로 증가시킴 나중에 지우기
+    int numMaterial = 0;
+    Managers.Game.ItemDictionary.TryGetValue(_equipment.equipmentData.levelupMaterialID, out numMaterial);
+       
+    if (Managers.Game.Gold >= UpgradeCost && numMaterial >= UpgradeRequiredItems)
+    {
+      _equipment.LevelUp();
+
+      Managers.Game.Gold -= UpgradeCost;
+      Managers.Game.RemoveMaterialItem(_equipment.equipmentData.levelupMaterialID, UpgradeRequiredItems);
+      Managers.Sound.Play(Define.ESound.Effect, "Levelup_Equipment");
+
+      Refresh();
+    }
+    else
+    {
+      Managers.UI.ShowToast("재화가 부족합니다.");
+    }
+   
+    (Managers.UI.SceneUI as UI_LobbyScene)?.EquipmentPopupUI.SetInfo();
+  }
+  private void OnClickMergeButton()
   {
     Managers.Sound.PlayButtonClick();
     if (_equipment.IsEquipped) return;

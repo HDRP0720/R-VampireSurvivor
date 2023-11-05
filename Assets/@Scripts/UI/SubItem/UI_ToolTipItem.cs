@@ -84,14 +84,14 @@ public class UI_ToolTipItem : UI_Base
   // Tooltip for materials
   public void SetInfo(Data.MaterialData materialData, RectTransform targetPos, RectTransform parentsCanvas)
   {
-    GetImage((int)Images.TargetImage).sprite = Managers.Resource.Load<Sprite>(materialData.SpriteName);
+    GetImage((int)Images.TargetImage).sprite = Managers.Resource.Load<Sprite>(materialData.spriteName);
     GetText((int)Texts.TargetNameText).gameObject.SetActive(true); 
-    GetText((int)Texts.TargetNameText).text = materialData.NameTextID;
+    GetText((int)Texts.TargetNameText).text = materialData.nameTextID;
     GetText((int)Texts.TargetDescriptionText).gameObject.SetActive(true); 
-    GetText((int)Texts.TargetDescriptionText).text = materialData.DescriptionTextID;
+    GetText((int)Texts.TargetDescriptionText).text = materialData.descriptionTextID;
     
     // Change background colors by material grade
-    switch (materialData.MaterialGrade)
+    switch (materialData.materialGrade)
     {
       case EMaterialGrade.Common:
         GetImage((int)Images.BackgroundImage).color = EquipmentUIColors.Common;

@@ -3,36 +3,47 @@ using UnityEngine;
 
 public class SpawningPool : MonoBehaviour
 {
-  private float _spawnInterval = 0.1f;
-  private int _maxMonsterCount = 100;
   private Coroutine _coUpdateSpawningPool;
-  
-  // Property
-  public bool IsStopped { get; set; } = false;
+  private GameManager _game;
 
-  private void Start()
+  public void StartSpawn()
   {
-    _coUpdateSpawningPool = StartCoroutine(CoUpdateSpawningPool());
+    _game = Managers.Game;
+    if (_coUpdateSpawningPool == null)
+      _coUpdateSpawningPool = StartCoroutine(CoUpdateSpawningPool());
   }
 
   private IEnumerator CoUpdateSpawningPool()
   {
     while (true)
     {
-      TrySpawn();
-      yield return new WaitForSeconds(_spawnInterval);
-    }
-  }
+      if (_game.CurrentWaveData.monsterId.Count == 1)
+      {
+        for (int i = 0; i < _game.CurrentWaveData.onceSpawnCount; i++)
+        {
+          Vector2 spawnPos = Utils.GenerateMonsterSpawnPosition(Managers.Game.Player.PlayerCenterPos);
+          Managers.Object.Spawn<MonsterController>(spawnPos, _game.CurrentWaveData.monsterId[0]);
+        }
+        yield return new WaitForSeconds(_game.CurrentWaveData.spawnInterval);
+      }
+      else
+      {
+        for (int i = 0; i < _game.CurrentWaveData.onceSpawnCount; i++)
+        {
+          Vector2 spawnPos = Utils.GenerateMonsterSpawnPosition(Managers.Game.Player.PlayerCenterPos);
 
-  private void TrySpawn()
-  {
-    if (IsStopped) return;
-    
-    int monsterCount = Managers.Object.Monsters.Count;
-    if (monsterCount >= _maxMonsterCount) return;
-    
-    // TODO: change temp ID to Data ID
-    Vector3 randPos = Utils.GenerateMonsterSpawnPosition(Managers.Game.Player.transform.position, 10, 15);
-    MonsterController mc = Managers.Object.Spawn<MonsterController>(randPos, Random.Range(0, 2) + 1);
+          if (Random.value <= Managers.Game.CurrentWaveData.firstMonsterSpawnRate) // 90%의 확률로 첫번째 MonsterId 사용
+          {
+            Managers.Object.Spawn<MonsterController>(spawnPos, _game.CurrentWaveData.monsterId[0]);
+          }
+          else // 10%의 확률로 다른 MonsterId 사용
+          {
+            int randomIndex = Random.Range(1, _game.CurrentWaveData.monsterId.Count);
+            Managers.Object.Spawn<MonsterController>(spawnPos, _game.CurrentWaveData.monsterId[randomIndex]);
+          }
+        }
+        yield return new WaitForSeconds(_game.CurrentWaveData.spawnInterval);
+      }
+    }
   }
 }

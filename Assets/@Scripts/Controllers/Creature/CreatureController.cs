@@ -118,11 +118,11 @@ public abstract class CreatureController : BaseController
   
   public virtual void InitCreatureStat(bool isFullHp = true)
   {
-    float waveRate = Managers.Game.CurrentWaveData.HpIncreaseRate;
+    float waveRate = Managers.Game.CurrentWaveData.hpIncreaseRate;
     
     // Only for Elite monster, monsters except boss, player
-    MaxHp = (creatureData.maxHp + (creatureData.maxHpBonus * Managers.Game.CurrentStageData.StageLevel)) * (creatureData.hpRate + waveRate);
-    Atk = (creatureData.atk + (creatureData.atkBonus * Managers.Game.CurrentStageData.StageLevel)) * creatureData.atkRate;
+    MaxHp = (creatureData.maxHp + (creatureData.maxHpBonus * Managers.Game.CurrentStageData.stageLevel)) * (creatureData.hpRate + waveRate);
+    Atk = (creatureData.atk + (creatureData.atkBonus * Managers.Game.CurrentStageData.stageLevel)) * creatureData.atkRate;
     Hp = MaxHp;
     MoveSpeed = creatureData.moveSpeed * creatureData.moveSpeedRate;
   }

@@ -123,8 +123,8 @@ public class ContinueData
   public int waveIndex;
   
   // Property
-  public bool IsContinue { get { return savedBattleSkill.Count > 0; } }
-  
+  public bool IsContinue => savedBattleSkill.Count > 0;
+
   public void Clear()
   {
     // 각 변수의 초기값 설정
@@ -164,6 +164,7 @@ public class GameManager
 {
   public bool isLoaded = false;
   public bool isGameEnd = false;
+  public float timeRemaining = 60;
   
   private GameData _gameData = new GameData();
   private int _gem;
@@ -378,7 +379,7 @@ public class GameManager
     get => _gameData.currentStage;
     set => _gameData.currentStage = value;
   }
-  public WaveData CurrentWaveData => CurrentStageData.WaveArray[CurrentWaveIndex];
+  public WaveData CurrentWaveData => CurrentStageData.waveArray[CurrentWaveIndex];
   public int CurrentWaveIndex
   {
     get => _gameData.continueInfo.waveIndex;
@@ -481,13 +482,128 @@ public class GameManager
   }
   #endregion
 
+  public void Init()
+  {
+    _path = Application.persistentDataPath + "/SaveData.json";
+    if (LoadGame()) return;
+    
+    PlayerPrefs.SetInt("ISFIRST", 1);
+    
+    Character character = new Character();
+    character.SetInfo(CHARACTER_DEFAULT_ID);
+    character.isCurrentCharacter = true;
+
+    Characters = new List<Character>();
+    Characters.Add(character);
+
+    CurrentStageData = Managers.Data.StageDic[1];
+    
+    foreach (StageData stage in Managers.Data.StageDic.Values)
+    {
+      StageClearInfo info = new StageClearInfo 
+      {
+        stageIndex = stage.stageIndex,
+        maxWaveIndex = 0,
+        isOpenFirstBox = false,
+        isOpenSecondBox = false,
+        isOpenThirdBox = false,
+      };
+      _gameData.dicStageClearInfo.Add(stage.stageIndex, info);
+    }
+    
+    Managers.Time.LastRewardTime = DateTime.Now;
+    Managers.Time.LastGeneratedStaminaTime = DateTime.Now;
+
+    SetBaseEquipment();
+
+    Managers.Achievement.Init();
+
+    ExchangeMaterial(Managers.Data.MaterialDic[Define.ID_BRONZE_KEY], 10);
+    ExchangeMaterial(Managers.Data.MaterialDic[Define.ID_GOLD_KEY], 30);
+    ExchangeMaterial(Managers.Data.MaterialDic[Define.ID_DIA], 1000);
+    ExchangeMaterial(Managers.Data.MaterialDic[Define.ID_GOLD], 100000);
+    ExchangeMaterial(Managers.Data.MaterialDic[Define.ID_WEAPON_SCROLL], 15);
+    ExchangeMaterial(Managers.Data.MaterialDic[Define.ID_GLOVES_SCROLL], 15);
+    ExchangeMaterial(Managers.Data.MaterialDic[Define.ID_RING_SCROLL], 15);
+    ExchangeMaterial(Managers.Data.MaterialDic[Define.ID_BELT_SCROLL], 15);
+    ExchangeMaterial(Managers.Data.MaterialDic[Define.ID_ARMOR_SCROLL], 15);
+    ExchangeMaterial(Managers.Data.MaterialDic[Define.ID_BOOTS_SCROLL], 15);
+    
+    isLoaded = true;
+    SaveGame();
+  }
+
+  public void ExchangeMaterial(MaterialData data, int count)
+  {
+    switch (data.materialType)
+    {
+      case EMaterialType.Dia:
+        Dia += count;
+        break;
+      case EMaterialType.Gold:
+        Gold += count;
+        break;
+      case EMaterialType.Stamina:
+        Stamina += count;
+        break;
+      case EMaterialType.BronzeKey:
+      case EMaterialType.SilverKey:
+      case EMaterialType.GoldKey:
+        AddMaterialItem(data.dataId, count);
+        break;
+      case EMaterialType.RandomScroll:
+        int randScroll = Random.Range(50101, 50106);
+        AddMaterialItem(randScroll, count);
+        break;
+      case EMaterialType.WeaponScroll:
+        AddMaterialItem(ID_WEAPON_SCROLL, count);
+        break;
+      case EMaterialType.GlovesScroll:
+        AddMaterialItem(ID_GLOVES_SCROLL, count);
+        break;
+      case EMaterialType.RingScroll:
+        AddMaterialItem(ID_RING_SCROLL, count);
+        break;
+      case EMaterialType.BeltScroll:
+        AddMaterialItem(ID_BELT_SCROLL, count);
+        break;
+      case EMaterialType.ArmorScroll:
+        AddMaterialItem(ID_ARMOR_SCROLL, count);
+        break;
+      case EMaterialType.BootsScroll:
+        AddMaterialItem(ID_BOOTS_SCROLL, count);
+        break;
+      default: 
+        // TODO:
+        break;
+    }
+  }
+  
+  public void AddMaterialItem(int id, int quantity)
+  {
+    if (ItemDictionary.ContainsKey(id))
+      ItemDictionary[id] += quantity;
+    else
+      ItemDictionary[id] = quantity;
+    
+    SaveGame();
+  }
+  public void RemoveMaterialItem(int id, int quantity)
+  {
+    if (ItemDictionary.ContainsKey(id))
+    {
+      ItemDictionary[id] -= quantity;
+      SaveGame();
+    }
+  }
+
   #region Functions For In-Game
   public GemInfo GetGemInfo()
   {
-    float smallGemChance = CurrentWaveData.SmallGemDropRate;
-    float greenGemChance = CurrentWaveData.GreenGemDropRate + smallGemChance;
-    float blueGemChance = CurrentWaveData.BlueGemDropRate + greenGemChance;
-    float yellowGemChance = CurrentWaveData.YellowGemDropRate + blueGemChance;
+    float smallGemChance = CurrentWaveData.smallGemDropRate;
+    float greenGemChance = CurrentWaveData.greenGemDropRate + smallGemChance;
+    float blueGemChance = CurrentWaveData.blueGemDropRate + greenGemChance;
+    float yellowGemChance = CurrentWaveData.yellowGemDropRate + blueGemChance;
     float rand = Random.value;
 
     if (rand < smallGemChance)

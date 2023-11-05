@@ -2,48 +2,118 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class UI_Joystick : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IDragHandler
+using DG.Tweening;
+
+public class UI_Joystick : UI_Scene
 {
-  [SerializeField] private Image background;
-  [SerializeField] private Image handler;
-
-  private float _joystickRadius;
-  private Vector2 _touchPosition;
+  enum GameObjects
+  {
+    JoystickBG,
+    Handler,
+  }
+  
+  private GameObject _joystickBG;
+  private GameObject _handler;
   private Vector2 _moveDir;
+  private float _joystickRadius;
+  private Vector2 _joystickOriginalPos;
+  private Vector2 _joystickTouchPos;
 
-  private void Start()
+  private void OnDestroy()
   {
-    _joystickRadius = background.gameObject.GetComponent<RectTransform>().sizeDelta.y / 2;
+    Managers.UI.OnTimeScaleChanged -= HandleOnTimeScaleChanged;
   }
 
-  public void OnPointerClick(PointerEventData eventData)
+  protected override bool Init()
   {
+    if (base.Init() == false) return false;
 
+    Managers.UI.OnTimeScaleChanged += HandleOnTimeScaleChanged;
+
+    BindObject(typeof(GameObjects));
+    _handler = GetObject((int)GameObjects.Handler);
+
+    _joystickBG = GetObject((int)GameObjects.JoystickBG);
+    _joystickOriginalPos = _joystickBG.transform.position;
+    _joystickRadius = _joystickBG.GetComponent<RectTransform>().sizeDelta.y / 5;
+    gameObject.BindEvent(OnPointerDown, null, type: Define.UIEvent.PointerDown);
+    gameObject.BindEvent(OnPointerUp, null,  type: Define.UIEvent.PointerUp);
+    gameObject.BindEvent(null, OnDrag, type: Define.UIEvent.Drag);
+
+    SetActiveJoystick(false);
+
+    return true;
+  }
+  
+  private void SetActiveJoystick(bool isActive)
+  {
+    if (isActive == true)
+    {
+      _handler.GetComponent<Image>().DOFade(1, 0.5f);
+      _joystickBG.GetComponent<Image>().DOFade(1, 0.5f);
+    }
+    else
+    {
+      _handler.GetComponent<Image>().DOFade(0, 0.5f);
+      _joystickBG.GetComponent<Image>().DOFade(0, 0.5f);
+    }
   }
 
-  public void OnPointerDown(PointerEventData eventData)
+  private void HandleOnTimeScaleChanged(int timeScale)
   {
-    background.transform.position = eventData.position;
-    handler.transform.position = eventData.position;
-    _touchPosition = eventData.position;
+    if (timeScale == 1)
+    { 
+      gameObject.SetActive(true);
+      OnPointerUp();
+    }
+    else
+      gameObject.SetActive(false);
   }
 
-  public void OnPointerUp(PointerEventData eventData)
+  private void OnPointerUp()
   {
-    handler.transform.position = _touchPosition;
     _moveDir = Vector2.zero;
-
+    _handler.transform.position = _joystickOriginalPos;
+    _joystickBG.transform.position = _joystickOriginalPos;
     Managers.Game.MoveDir = _moveDir;
+    SetActiveJoystick(false);
   }
-
-  public void OnDrag(PointerEventData eventData)
+  private void OnPointerDown()
   {
-    Vector2 touchDir = eventData.position - _touchPosition;
-    float moveDist = Mathf.Min(touchDir.magnitude, _joystickRadius);
-    _moveDir = touchDir.normalized;
-    Vector2 newPosition = _touchPosition + _moveDir * moveDist;
-    handler.transform.position = newPosition;
-    
+    SetActiveJoystick(true);
+
+    _joystickTouchPos = Input.mousePosition;
+
+    if (Managers.Game.JoystickType == Define.EJoystickType.Flexible)
+    {
+      _handler.transform.position = Input.mousePosition;
+      _joystickBG.transform.position = Input.mousePosition;
+    }
+  }
+  private void OnDrag(BaseEventData baseEventData)
+  {
+    PointerEventData pointerEventData = baseEventData as PointerEventData;
+    Vector2 dragPos = pointerEventData.position;
+
+    _moveDir = Managers.Game.JoystickType == Define.EJoystickType.Fixed
+      ? (dragPos - _joystickOriginalPos).normalized
+      : (dragPos - _joystickTouchPos).normalized;
+  
+    float joystickDist = (dragPos - _joystickOriginalPos).sqrMagnitude;
+
+    Vector3 newPos;
+    if (joystickDist < _joystickRadius)
+    {
+      newPos = _joystickTouchPos + _moveDir * joystickDist;
+    }
+    else
+    {
+      newPos = Managers.Game.JoystickType == Define.EJoystickType.Fixed
+        ? _joystickOriginalPos + _moveDir * _joystickRadius
+        : _joystickTouchPos + _moveDir * _joystickRadius;
+    }
+
+    _handler.transform.position = newPos;
     Managers.Game.MoveDir = _moveDir;
   }
 }

@@ -70,7 +70,7 @@ public class UI_GameoverPopup : UI_Popup
   
   public void SetInfo()
   {
-    GetText((int)Texts.GameoverStageValueText).text = $"{Managers.Game.CurrentStageData.StageIndex} STAGE";
+    GetText((int)Texts.GameoverStageValueText).text = $"{Managers.Game.CurrentStageData.stageIndex} STAGE";
     GetText((int)Texts.GameoverLastWaveValueText).text = $"{Managers.Game.CurrentWaveIndex + 1}";
     GetText((int)Texts.GameoverKillValueText).text = $"{Managers.Game.Player.KillCount}";
     
@@ -93,12 +93,12 @@ public class UI_GameoverPopup : UI_Popup
     Managers.Sound.PlayButtonClick();
 
     StageClearInfo info;
-    if (Managers.Game.DicStageClearInfo.TryGetValue(Managers.Game.CurrentStageData.StageIndex, out info))
+    if (Managers.Game.DicStageClearInfo.TryGetValue(Managers.Game.CurrentStageData.stageIndex, out info))
     {
       if (Managers.Game.CurrentWaveIndex > info.maxWaveIndex)
       {
         info.maxWaveIndex = Managers.Game.CurrentWaveIndex;
-        Managers.Game.DicStageClearInfo[Managers.Game.CurrentStageData.StageIndex] = info;
+        Managers.Game.DicStageClearInfo[Managers.Game.CurrentStageData.stageIndex] = info;
       }
     }
 

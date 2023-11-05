@@ -53,6 +53,15 @@ public class Utils
     return null;
   }
 
+  public static Vector2 RandomPointInAnnulus(Vector2 origin, float minRadius = 6, float maxRadius = 12)
+  {
+    float randomDist = Random.Range(minRadius, maxRadius);
+    Vector2 randomDir = new Vector2(Random.Range(-100, 100), Random.Range(-100, 100)).normalized;
+
+    var point = origin + randomDir * randomDist;
+    return point;
+  }
+  
   public static Vector2 GenerateMonsterSpawnPosition(Vector2 characterPosition, float minDistance = 20.0f, float maxDistance = 25.0f)
   {
     float angle = Random.Range(0, 360) * Mathf.Deg2Rad;

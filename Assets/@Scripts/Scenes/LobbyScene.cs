@@ -14,7 +14,7 @@ public class LobbyScene : BaseScene
     Managers.UI.ShowSceneUI<UI_LobbyScene>();
     Screen.sleepTimeout = SleepTimeout.SystemSetting;
 
-    Managers.Sound.Play(ESound.BGM, "Bgm_Lobby");
+    Managers.Sound.Play(ESound.BGM, "BGM_Lobby");
   }
   
   public override void Clear() {}

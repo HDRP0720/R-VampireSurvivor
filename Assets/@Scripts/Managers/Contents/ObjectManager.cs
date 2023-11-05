@@ -321,6 +321,19 @@ public class ObjectManager
     }
   }
   
+  public void CollectAllItems()
+  {
+    foreach (GemController gem in Gems.ToList())
+    {
+      gem.GetItem();
+    }
+
+    foreach (SoulController soul in Souls.ToList())
+    {
+      soul.GetItem();
+    }
+  }
+  
   public void DespawnAllMonsters()
   {
     var monsters = Monsters.ToList();

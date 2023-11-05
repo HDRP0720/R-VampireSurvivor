@@ -244,6 +244,62 @@ public class UI_GameScene : UI_Scene
     Vector2 uiPos = GetObject((int)GameObjects.SoulImage).transform.position;
     Managers.Game.SoulDestination = uiPos;
   }
+  public void HandleMonsterInfoUpdate(MonsterController monster)
+  {
+    if (monster.ObjectType == EObjectType.EliteMonster)
+    {
+      if (monster.CreatureState != ECreatureState.Dead)
+      {
+        GetObject((int)GameObjects.EliteInfoObject).SetActive(true);
+        GetObject((int)GameObjects.EliteHpSliderObject).GetComponent<Slider>().value = monster.Hp / monster.MaxHp;
+        GetText((int)Texts.EliteNameValueText).text = monster.creatureData.descriptionTextID;
+      }
+      else
+      {
+        GetObject((int)GameObjects.EliteInfoObject).SetActive(false);
+      }
+    }
+    else if (monster.ObjectType == EObjectType.Boss)
+    {
+      if (monster.CreatureState != ECreatureState.Dead)
+      {
+        GetObject((int)GameObjects.BossInfoObject).SetActive(true);
+        GetObject((int)GameObjects.BossHpSliderObject).GetComponent<Slider>().value = monster.Hp / monster.MaxHp;
+        GetText((int)Texts.BossNameValueText).text = monster.creatureData.descriptionTextID;
+      }
+      else
+      {
+        GetObject((int)GameObjects.BossInfoObject).SetActive(false);
+      }
+    }
+  }
+  public void HandleOnWaveStart(int currentStageIndex)
+  {
+    GetText((int)Texts.WaveValueText).text = currentStageIndex.ToString();
+  }
+  public void HandleOnSecondChange(int time)
+  {
+    if (time == 3 && Managers.Game.CurrentWaveIndex < 9)
+    {
+      StartCoroutine(SwitchAlarm(AlramType.wave));
+    }
+    
+    if (_game.CurrentWaveData.bossId.Count > 0)
+    {
+      int bossGenTime = Define.BOSS_GEN_TIME;
+      if (time == bossGenTime)
+        StartCoroutine(SwitchAlarm(AlramType.boss));
+    }
+    
+    GetText((int)Texts.TimeLimitValueText).text = time.ToString();
+    
+    if (time == 0)
+      GetText((int)Texts.TimeLimitValueText).text = "";
+  }
+  public void HandleOnWaveEnd()
+  {
+    GetObject((int)GameObjects.MonsterAlarmObject).gameObject.SetActive(false);
+  }
   #endregion
   
   private void Refresh() // 데이터 갱신

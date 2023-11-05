@@ -72,6 +72,7 @@ public static class Define
   }
   
   public enum EStageType { Normal, Boss }
+  public enum EWaveType { None, RedZone, Elite, Boss }
   
   public enum ECreatureState { Idle, Moving, Skill, OnDamaged, Dead }
   public enum EEquipmentSortType { Level, Grade } // TODO: 획득 순 정렬 추가 필요
@@ -94,6 +95,37 @@ public static class Define
     Myth2,
     Myth3
   }
+  
+  public enum EMaterialType
+  {
+    Gold,
+    Dia,
+    Stamina,
+    Exp,
+    WeaponScroll,
+    GlovesScroll,
+    RingScroll,
+    BeltScroll,
+    ArmorScroll,
+    BootsScroll,
+    BronzeKey,
+    SilverKey,
+    GoldKey,
+    RandomScroll,
+    AllRandomEquipmentBox,
+    RandomEquipmentBox,
+    CommonEquipmentBox,
+    UncommonEquipmentBox,
+    RareEquipmentBox,
+    EpicEquipmentBox,
+    LegendaryEquipmentBox,
+    WeaponEnchantStone,
+    GlovesEnchantStone,
+    RingEnchantStone,
+    BeltEnchantStone,
+    ArmorEnchantStone,
+    BootsEnchantStone,
+  }
   public enum EMaterialGrade
   {
     Common,
@@ -108,10 +140,13 @@ public static class Define
     Legendary3,
   }
   
+  public enum EDropItemType { Potion, Magnet, DropBox, Bomb }
+  
   public enum EGachaRarity { Normal, Special }
   public enum EGachaType { None, CommonGacha, AdvancedGacha, PickupGacha, }
   
   // 미션 조건
+  public enum EMissionType { Complete, Daily, Weekly, }
   public enum EMissionTarget 
   {
     DailyComplete,            // 데일리 완료
@@ -204,6 +239,28 @@ public static class Define
     Boots,
   }
   
+  #region DataID
+  public static int ID_GOLD = 50001;
+  public static int ID_DIA = 50002;
+  public static int ID_STAMINA = 50003;
+  public static int ID_BRONZE_KEY = 50201;
+  public static int ID_SILVER_KEY = 50202;
+  public static int ID_GOLD_KEY = 50203;
+  public static int ID_RANDOM_SCROLL = 50301;
+  public static int ID_POTION = 60001;
+  public static int ID_MAGNET = 60004;
+  public static int ID_BOMB = 60008;
+
+  public static int ID_WEAPON_SCROLL = 50101;
+  public static int ID_GLOVES_SCROLL = 50102;
+  public static int ID_RING_SCROLL = 50103;
+  public static int ID_BELT_SCROLL = 50104;
+  public static int ID_ARMOR_SCROLL = 50105;
+  public static int ID_BOOTS_SCROLL = 50106;
+
+  public static string GOLD_SPRITE_NAME = "Gold_Icon";
+  #endregion
+  
   #region Default Character & Equipment ID
   public const int CHARACTER_DEFAULT_ID = 201000;
   public const string WEAPON_DEFAULT_ID = "N00301";
@@ -283,13 +340,20 @@ public static class Define
   };
   #endregion
   
+  //데이터 아이디에 따른 포션 회복량
+  public static readonly Dictionary<int, float> DicPotionAmount = new Dictionary<int, float>
+  {
+    { 60001, 0.3f }, // 에픽 등급 랜덤 장비 상자 
+    { 60002, 0.5f }, // 골드
+    { 60003, 1 }, // 랜덤 스크롤
+  };
+  
   public static int MAX_STAMINA = 50;
   public static int GAME_PER_STAMINA = 3;
   
   public const int GOBLIN_ID = 1;
   public const int SNAKE_ID = 2;
   public const int BOSS_ID = 3;
- 
 
   public const int EGO_SWORD_ID = 10;
   public const int FIRE_BALL_ID = 11;
@@ -302,28 +366,6 @@ public static class Define
   public static int STAMINA_RECHARGE_INTERVAL = 300;
   public static int MAX_SKILL_LEVEL = 6;
   public static int MAX_SKILL_COUNT = 6;
-  
-  #region DataID
-  public static int ID_GOLD = 50001;
-  public static int ID_DIA = 50002;
-  public static int ID_STAMINA = 50003;
-  public static int ID_BRONZE_KEY = 50201;
-  public static int ID_SILVER_KEY = 50202;
-  public static int ID_GOLD_KEY = 50203;
-  public static int ID_RANDOM_SCROLL = 50301;
-  public static int ID_POTION = 60001;
-  public static int ID_MAGNET = 60004;
-  public static int ID_BOMB = 60008;
-
-  public static int ID_WEAPON_SCROLL = 50101;
-  public static int ID_GLOVES_SCROLL = 50102;
-  public static int ID_RING_SCROLL = 50103;
-  public static int ID_BELT_SCROLL = 50104;
-  public static int ID_ARMOR_SCROLL = 50105;
-  public static int ID_BOOTS_SCROLL = 50106;
-
-  public static string GOLD_SPRITE_NAME = "Gold_Icon";
-  #endregion
   
   #region sortingOrder
   public static readonly int UI_GAMESCENE_SORT_CLOSED = 321;

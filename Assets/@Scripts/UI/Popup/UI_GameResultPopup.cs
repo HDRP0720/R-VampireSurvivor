@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class UI_GameResultPopup : UI_Base
+public class UI_GameResultPopup : UI_Popup
 {
   #region Enum For Searching Objects
   enum GameObjects

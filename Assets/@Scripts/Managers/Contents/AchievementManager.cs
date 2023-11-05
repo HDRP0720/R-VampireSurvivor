@@ -24,10 +24,10 @@ public class AchievementManager
 
   public void CompleteAchievement(int dataId)
   {
-    AchievementData achievement = Achievements.Find(a => a.AchievementID == dataId);
-    if (achievement != null && achievement.IsCompleted == false)
+    AchievementData achievement = Achievements.Find(a => a.achievementID == dataId);
+    if (achievement != null && achievement.isCompleted == false)
     {
-      achievement.IsCompleted = true;
+      achievement.isCompleted = true;
       OnAchievementCompleted?.Invoke(achievement);
       Managers.Game.SaveGame();
     }
@@ -35,23 +35,23 @@ public class AchievementManager
   
   public void RewardedAchievement(int dataId)
   {
-    AchievementData achievement = Achievements.Find(a => a.AchievementID == dataId);
-    if (achievement != null && achievement.IsRewarded == false)
+    AchievementData achievement = Achievements.Find(a => a.achievementID == dataId);
+    if (achievement != null && achievement.isRewarded == false)
     {
-      achievement.IsRewarded = true;
-      achievement.IsCompleted = true;
+      achievement.isRewarded = true;
+      achievement.isCompleted = true;
       Managers.Game.SaveGame();
     }
   }
   
   public void Attendance()
   {
-    List<AchievementData> list = Achievements.Where(data => data.MissionTarget == Define.EMissionTarget.Login).ToList();
+    List<AchievementData> list = Achievements.Where(data => data.missionTarget == Define.EMissionTarget.Login).ToList();
 
     foreach (AchievementData achievement in list)
     {
-      if (!achievement.IsCompleted && achievement.MissionTargetValue == Managers.Time.AttendanceDay)
-        CompleteAchievement(achievement.AchievementID);
+      if (!achievement.isCompleted && achievement.missionTargetValue == Managers.Time.AttendanceDay)
+        CompleteAchievement(achievement.achievementID);
     }
   }
   
@@ -61,17 +61,17 @@ public class AchievementManager
     
     foreach(Define.EMissionTarget missionTarget in Enum.GetValues(typeof(Define.EMissionTarget)))
     {
-      List<AchievementData> list = Achievements.Where(data => data.MissionTarget == missionTarget).ToList();
+      List<AchievementData> list = Achievements.Where(data => data.missionTarget == missionTarget).ToList();
       for(int i = 0; i < list.Count; i++)
       {
-        if (list[i].IsCompleted == false)
+        if (list[i].isCompleted == false)
         {
           resultList.Add(list[i]);
           break;
         }
         else 
         {
-          if (list[i].IsRewarded == false)
+          if (list[i].isRewarded == false)
           {
             resultList.Add(list[i]);
             break;
@@ -153,8 +153,8 @@ public class AchievementManager
   
   public AchievementData GetNextAchievment(int dataId)
   {
-    AchievementData achievement = Achievements.Find(a => a.AchievementID == dataId + 1);
-    if (achievement != null && achievement.IsRewarded == false)
+    AchievementData achievement = Achievements.Find(a => a.achievementID == dataId + 1);
+    if (achievement != null && achievement.isRewarded == false)
       return achievement;
     
     return null;
@@ -164,88 +164,88 @@ public class AchievementManager
   {
     int maxStageClearIndex = Managers.Game.GetMaxStageClearIndex();
 
-    List<AchievementData> list = Achievements.Where(data => data.MissionTarget == Define.EMissionTarget.StageClear).ToList();
+    List<AchievementData> list = Achievements.Where(data => data.missionTarget == Define.EMissionTarget.StageClear).ToList();
     foreach (AchievementData achievement in list)
     {
-      if (!achievement.IsCompleted && achievement.MissionTargetValue == maxStageClearIndex)
-        CompleteAchievement(achievement.AchievementID);
+      if (!achievement.isCompleted && achievement.missionTargetValue == maxStageClearIndex)
+        CompleteAchievement(achievement.achievementID);
     }
   }
   
   public void CommonOpen()
   {
-    List<AchievementData> list = Achievements.Where(data => data.MissionTarget == Define.EMissionTarget.StageClear).ToList();
+    List<AchievementData> list = Achievements.Where(data => data.missionTarget == Define.EMissionTarget.StageClear).ToList();
 
     foreach (AchievementData achievement in Achievements)
     {
-      if (!achievement.IsCompleted && achievement.MissionTargetValue == Managers.Game.CommonGachaOpenCount)
-        CompleteAchievement(achievement.AchievementID);
+      if (!achievement.isCompleted && achievement.missionTargetValue == Managers.Game.CommonGachaOpenCount)
+        CompleteAchievement(achievement.achievementID);
     }
   }
   
   public void AdvancedOpen()
   {
-    List<AchievementData> list = Achievements.Where(data => data.MissionTarget == Define.EMissionTarget.AdvancedGachaOpen).ToList();
+    List<AchievementData> list = Achievements.Where(data => data.missionTarget == Define.EMissionTarget.AdvancedGachaOpen).ToList();
 
     foreach (AchievementData achievement in list)
     {
-      if (!achievement.IsCompleted && achievement.MissionTargetValue == Managers.Game.AdvancedGachaOpenCount)
-        CompleteAchievement(achievement.AchievementID);
+      if (!achievement.isCompleted && achievement.missionTargetValue == Managers.Game.AdvancedGachaOpenCount)
+        CompleteAchievement(achievement.achievementID);
     }
   }
   
   public void OfflineReward()
   {
-    List<AchievementData> list = Achievements.Where(data => data.MissionTarget == Define.EMissionTarget.OfflineRewardGet).ToList();
+    List<AchievementData> list = Achievements.Where(data => data.missionTarget == Define.EMissionTarget.OfflineRewardGet).ToList();
 
     foreach (AchievementData achievement in list)
     {
-      if (!achievement.IsCompleted && achievement.MissionTargetValue == Managers.Game.OfflineRewardCount)
-        CompleteAchievement(achievement.AchievementID);
+      if (!achievement.isCompleted && achievement.missionTargetValue == Managers.Game.OfflineRewardCount)
+        CompleteAchievement(achievement.achievementID);
     }
   }
   
   public void FastReward()
   {
-    List<AchievementData> list = Achievements.Where(data => data.MissionTarget == Define.EMissionTarget.FastOfflineRewardGet).ToList();
+    List<AchievementData> list = Achievements.Where(data => data.missionTarget == Define.EMissionTarget.FastOfflineRewardGet).ToList();
        
     foreach (AchievementData achievement in list)
     {
-      if (!achievement.IsCompleted && achievement.MissionTargetValue == Managers.Game.FastRewardCount)
-        CompleteAchievement(achievement.AchievementID);
+      if (!achievement.isCompleted && achievement.missionTargetValue == Managers.Game.FastRewardCount)
+        CompleteAchievement(achievement.achievementID);
     }
   }
   
   public void MonsterKill()
   {
-    List<AchievementData> list = Achievements.Where(data => data.MissionTarget == Define.EMissionTarget.MonsterKill).ToList();
+    List<AchievementData> list = Achievements.Where(data => data.missionTarget == Define.EMissionTarget.MonsterKill).ToList();
 
     foreach (AchievementData achievement in list)
     {
-      if (!achievement.IsCompleted && achievement.MissionTargetValue == Managers.Game.TotalMonsterKillCount)
-        CompleteAchievement(achievement.AchievementID);
+      if (!achievement.isCompleted && achievement.missionTargetValue == Managers.Game.TotalMonsterKillCount)
+        CompleteAchievement(achievement.achievementID);
     }
   }
   
   public void EliteKill()
   {
-    List<AchievementData> list = Achievements.Where(data => data.MissionTarget == Define.EMissionTarget.EliteMonsterKill).ToList();
+    List<AchievementData> list = Achievements.Where(data => data.missionTarget == Define.EMissionTarget.EliteMonsterKill).ToList();
 
     foreach (AchievementData achievement in list)
     {
-      if (!achievement.IsCompleted && achievement.MissionTargetValue == Managers.Game.TotalEliteKillCount)
-        CompleteAchievement(achievement.AchievementID);
+      if (!achievement.isCompleted && achievement.missionTargetValue == Managers.Game.TotalEliteKillCount)
+        CompleteAchievement(achievement.achievementID);
     }
   }
   
   public void BossKill()
   {
-    List<AchievementData> list = Achievements.Where(data => data.MissionTarget == Define.EMissionTarget.BossKill).ToList();
+    List<AchievementData> list = Achievements.Where(data => data.missionTarget == Define.EMissionTarget.BossKill).ToList();
 
     foreach (AchievementData achievement in list)
     {
-      if (!achievement.IsCompleted && achievement.MissionTargetValue == Managers.Game.TotalBossKillCount)
-        CompleteAchievement(achievement.AchievementID);
+      if (!achievement.isCompleted && achievement.missionTargetValue == Managers.Game.TotalBossKillCount)
+        CompleteAchievement(achievement.achievementID);
     }
   }
   #endregion
