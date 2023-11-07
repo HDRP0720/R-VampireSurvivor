@@ -21,7 +21,7 @@ public class SoundManager
         Object.DontDestroyOnLoad(_soundRoot);
         
         string[] soundTypeNames = Enum.GetNames(typeof(Define.ESound));
-        for (int count = 0; count < soundTypeNames.Length; count++)
+        for (int count = 0; count < soundTypeNames.Length - 1; count++)
         {
           GameObject go = new GameObject { name = soundTypeNames[count] };
           _audioSources[count] = go.AddComponent<AudioSource>();

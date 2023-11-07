@@ -10,15 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Maps
+  m_Name: Sound
   m_EditorClassIdentifier: 
-  m_GroupName: Maps
+  m_GroupName: Sound
   m_Data:
     m_SerializedData: []
-  m_GUID: 50086cc200767d643a5cf9f8cebf8355
+  m_GUID: eda65b5ef3ed1364ebda7815189d9823
   m_SerializeEntries:
-  - m_GUID: c429e5c56afc5cb48ab7d751f1cf7b1c
-    m_Address: Map.prefab
+  - m_GUID: 31e54fca08b39b2459ea2db895bfc867
+    m_Address: BGM_Lobby.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 4720fbfdfbae9b14fa8202abcbd35247
+    m_Address: BGM_Game.wav
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload
@@ -26,5 +31,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: 612673dc2b4536b43b12c7d3f407b27a, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 1693ec773a78a8444bc093216e0984fa, type: 2}
-    - {fileID: 11400000, guid: 5f9479d550f2a0840986c7b83cc38553, type: 2}
+    - {fileID: 11400000, guid: ec9acfdcae0026f4db509aaf91ff0bd3, type: 2}
+    - {fileID: 11400000, guid: 81869fa9e80d84e42bf0be9fc6db1b71, type: 2}
