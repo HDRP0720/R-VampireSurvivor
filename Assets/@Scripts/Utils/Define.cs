@@ -48,9 +48,9 @@ public static class Define
   {
     None = 0,
     EnergyBolt = 10001,       //100001 ~ 100005 
-    IcicleArrow = 10011,          //100011 ~ 100015 
+    IcicleArrow = 10011,      //100011 ~ 100015 
     PoisonField = 10021,      //100021 ~ 100025 
-    EletronicField = 10031,   //100031 ~ 100035 
+    ElectronicField = 10031,   //100031 ~ 100035 
     Meteor = 10041,           //100041 ~ 100045 
     FrozenHeart = 10051,      //100051 ~ 100055 
     WindCutter = 10061,       //100061 ~ 100065 
@@ -349,18 +349,6 @@ public static class Define
   };
   
   public static int MAX_STAMINA = 50;
-  public static int GAME_PER_STAMINA = 3;
-  
-  public const int GOBLIN_ID = 1;
-  public const int SNAKE_ID = 2;
-  public const int BOSS_ID = 3;
-
-  public const int EGO_SWORD_ID = 10;
-  public const int FIRE_BALL_ID = 11;
-
-  public const string EXP_GEM_PREFAB = "EXPGem.prefab";
-  public const string FIRE_PROJECTILE = "FireProjectile.prefab";
-  
   public static float POTION_COLLECT_DISTANCE = 2.6F;
   public static float BOX_COLLECT_DISTANCE = 2.6F;
   public static int STAMINA_RECHARGE_INTERVAL = 300;
