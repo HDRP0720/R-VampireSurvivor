@@ -5,13 +5,13 @@ using UnityEngine;
 
 using static Define;
 
-using GoogleMobileAds.Api;
+// using GoogleMobileAds.Api;    // GoogleMobileAds-v8.5.3.unitypackage
 
 public class AdsManager
 {
   public enum EAdsStateType { None, Failed, Success }
 
-  private RewardedAd _rewardedAd;
+  // private RewardedAd _rewardedAd;
   private Coroutine _coroutine;
   
   // Action
@@ -19,7 +19,7 @@ public class AdsManager
   
   public void Init()
   {
-    List<String> deviceIds = new List<String>() { AdRequest.TestDeviceSimulator };
+    // List<String> deviceIds = new List<String>() { AdRequest.TestDeviceSimulator };
 
     // Add some test device IDs (replace with your own device IDs).
 #if UNITY_IPHONE
@@ -29,13 +29,15 @@ public class AdsManager
         deviceIds.Add("27A2FD423D2B1C06FF3A253C63E03940213"); // TODO: change dummy id to genuine id.
 #endif
     Debug.Log("@>> Init Admanager");
-    MobileAds.Initialize((InitializationStatus initStatus) =>
-    {
-      // This callback is called once the MobileAds SDK is initialized.
-      Debug.Log("@>> MobileAds.Initialize()");
-      RequestAndLoadRewardedAd();
-    });
+    // MobileAds.Initialize((InitializationStatus initStatus) =>
+    // {
+    //   // This callback is called once the MobileAds SDK is initialized.
+    //   Debug.Log("@>> MobileAds.Initialize()");
+    //   RequestAndLoadRewardedAd();
+    // });
   }
+  
+  
   private void RequestAndLoadRewardedAd()
   {
     Debug.Log("@>> Requesting Rewarded ad.");
@@ -51,70 +53,70 @@ public class AdsManager
 #endif
     
     // create new rewarded ad instance
-    RewardedAd.Load(adUnitId, CreateAdRequest(),
-      (RewardedAd ad, LoadAdError loadError) =>
-      {
-        if (loadError != null)
-        {
-          Debug.Log("@>> Rewarded ad failed to load with error: " + loadError.GetMessage());
-          return;
-        }
-        else if (ad == null)
-        {
-          Debug.Log("@>> Rewarded ad failed to load.");
-          return;
-        }
-
-        Debug.Log("@>> Rewarded ad loaded.");
-        _rewardedAd = ad;
-
-        ad.OnAdFullScreenContentOpened += () =>
-        {
-          Debug.Log("@>> Rewarded ad opening.");
-        };
-        ad.OnAdFullScreenContentClosed += () =>
-        {
-          Debug.Log("@>> Rewarded ad closed.");
-          RequestAndLoadRewardedAd();
-        };
-        ad.OnAdImpressionRecorded += () =>
-        {
-          Debug.Log("@>> Rewarded ad recorded an impression.");
-        };
-        ad.OnAdClicked += () =>
-        {
-          Debug.Log("@>> Rewarded ad recorded a click.");
-        };
-        ad.OnAdFullScreenContentFailed += (AdError error) =>
-        {
-          Debug.Log("Rewarded ad failed to show with error: " +
-                    error.GetMessage());
-        };
-        ad.OnAdPaid += (AdValue adValue) =>
-        {
-          string msg = string.Format("{0} (currency: {1}, value: {2}",
-            "Rewarded ad received a paid event.",
-            adValue.CurrencyCode,
-            adValue.Value);
-          Debug.Log(msg);
-        };
-      });
+    // RewardedAd.Load(adUnitId, CreateAdRequest(),
+    //   (RewardedAd ad, LoadAdError loadError) =>
+    //   {
+    //     if (loadError != null)
+    //     {
+    //       Debug.Log("@>> Rewarded ad failed to load with error: " + loadError.GetMessage());
+    //       return;
+    //     }
+    //     else if (ad == null)
+    //     {
+    //       Debug.Log("@>> Rewarded ad failed to load.");
+    //       return;
+    //     }
+    //
+    //     Debug.Log("@>> Rewarded ad loaded.");
+    //     _rewardedAd = ad;
+    //
+    //     ad.OnAdFullScreenContentOpened += () =>
+    //     {
+    //       Debug.Log("@>> Rewarded ad opening.");
+    //     };
+    //     ad.OnAdFullScreenContentClosed += () =>
+    //     {
+    //       Debug.Log("@>> Rewarded ad closed.");
+    //       RequestAndLoadRewardedAd();
+    //     };
+    //     ad.OnAdImpressionRecorded += () =>
+    //     {
+    //       Debug.Log("@>> Rewarded ad recorded an impression.");
+    //     };
+    //     ad.OnAdClicked += () =>
+    //     {
+    //       Debug.Log("@>> Rewarded ad recorded a click.");
+    //     };
+    //     ad.OnAdFullScreenContentFailed += (AdError error) =>
+    //     {
+    //       Debug.Log("Rewarded ad failed to show with error: " +
+    //                 error.GetMessage());
+    //     };
+    //     ad.OnAdPaid += (AdValue adValue) =>
+    //     {
+    //       string msg = string.Format("{0} (currency: {1}, value: {2}",
+    //         "Rewarded ad received a paid event.",
+    //         adValue.CurrencyCode,
+    //         adValue.Value);
+    //       Debug.Log(msg);
+    //     };
+    //   });
   }
   
   public void ShowRewardedAd(Action callback)
   {
-    if (_rewardedAd != null)
-    {
-      _rewardedAd.Show((Reward reward) =>
-      {
-        CoroutineManager.StartCoroutine(CoRewardEnd(callback));              
-        Debug.Log("Rewarded ad granted a reward: " + reward.Amount);
-      });
-    }
-    else
-    {
-      Debug.Log("Rewarded ad is not ready yet.");
-    }
+    // if (_rewardedAd != null)
+    // {
+    //   _rewardedAd.Show((Reward reward) =>
+    //   {
+    //     CoroutineManager.StartCoroutine(CoRewardEnd(callback));              
+    //     Debug.Log("Rewarded ad granted a reward: " + reward.Amount);
+    //   });
+    // }
+    // else
+    // {
+    //   Debug.Log("Rewarded ad is not ready yet.");
+    // }
   }
   private IEnumerator CoRewardEnd(Action callback)
   {
@@ -125,11 +127,11 @@ public class AdsManager
     callback?.Invoke();
   }
   
-  private AdRequest CreateAdRequest()
-  {
-    AdRequest adRequest = new AdRequest();
-    adRequest.Keywords.Add("unity-admob-sample");
-
-    return adRequest;
-  }
+  // private AdRequest CreateAdRequest()
+  // {
+  //   AdRequest adRequest = new AdRequest();
+  //   adRequest.Keywords.Add("unity-admob-sample");
+  //
+  //   return adRequest;
+  // }
 }
