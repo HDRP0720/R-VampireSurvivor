@@ -10,25 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: UI
+  m_Name: UI_Scene
   m_EditorClassIdentifier: 
-  m_GroupName: UI
+  m_GroupName: UI_Scene
   m_Data:
     m_SerializedData: []
   m_GUID: 79c8212400b45a844ade6b2a6f6c2318
   m_SerializeEntries:
+  - m_GUID: 86c85d52519c75141946788480d38e64
+    m_Address: UI_GameScene.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
   - m_GUID: cbad925bb0a4627449928989348fa3b6
     m_Address: UI_Joystick.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
-  - m_GUID: 84d073433a833014e8e99ba50adee07a
-    m_Address: UI_SkillSelectPopup.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
-  - m_GUID: a9e7dde11dd3895419edde18324d648d
-    m_Address: UI_SkillCardItem.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload

@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: UI_SubItem
+  m_EditorClassIdentifier: 
+  m_GroupName: UI_SubItem
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 2aaf109ffcfa0df4aa52d25bd595160a
+  m_SerializeEntries:
+  - m_GUID: cf3ba0a0644170440b9cd5be7e1f2a2e
+    m_Address: UI_AchievementItem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 0fc46580f79b9ec48bc242a1ce9b7f86
+    m_Address: UI_CheckOutItem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: f41d1d8408dd5c04ba678e2faf0d204d
+    m_Address: UI_EquipItem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 13a5c90f239942246834b348773b38af
+    m_Address: UI_GachaRateItem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: b757278f1f4f48b4381439095829f2c0
+    m_Address: UI_MaterialItem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: ef54ed2c18865ff489f456a05bd5397a
+    m_Address: UI_MergeEquipItem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 53b3f33c02cf61046ba2a5839fe7ea27
+    m_Address: UI_MissionItem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 89c8975fbbe99534fb496464a408b957
+    m_Address: UI_MonsterInfoItem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: a9e7dde11dd3895419edde18324d648d
+    m_Address: UI_SkillCardItem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 037efe1e6ca08e1448bd3c2499393951
+    m_Address: UI_SkillDamageItem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 9f3ffda84307ed34ea02028b1b8227ec
+    m_Address: UI_SkillSlotItem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 2b5cbc4ccfd78ba4e828609f2eca77a4
+    m_Address: UI_StageInfoItem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: d7ff909ae5e34144ba369d9a310763f2
+    m_Address: UI_SupportCardItem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 42dff5cc8d007674cb900b2a89ab1477
+    m_Address: UI_SupportSkillItem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 3be90ea594b91e64a8385e77326e5372
+    m_Address: UI_Toast.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 1ef2a0e5d2befd747af65fe03a28a772
+    m_Address: UI_ToolTipItem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: de5236b5d12e66247b5571b971958818
+    m_Address: UI_UserInfoItem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 612673dc2b4536b43b12c7d3f407b27a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 2f79242ba660ec04088ab3146e4a0bab, type: 2}
+    - {fileID: 11400000, guid: 9a619043a6b249948bbd3a35ffab140e, type: 2}

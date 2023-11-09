@@ -197,6 +197,25 @@ public class TimeManager : MonoBehaviour
       return false;
   }
   
+  public void GiveOfflineReward(OfflineRewardData data)
+  {
+    string[] spriteName = new string[1];
+    int[] count = new int[1];
+    int gold = (int)CalculateGoldPerMinute(data.reward_Gold);
+
+    spriteName[0] = Define.GOLD_SPRITE_NAME;
+    count[0] = gold;
+
+    Managers.Game.Gold += gold;
+    LastRewardTime = DateTime.Now;
+    if (Managers.Game.DicMission.TryGetValue(EMissionTarget.OfflineRewardGet, out MissionInfo info))
+      info.progress++;
+    Managers.Game.OfflineRewardCount++;
+
+    UI_RewardPopup rewardPopup = (Managers.UI.SceneUI as UI_LobbyScene).RewardPopupUI;
+    rewardPopup.gameObject.SetActive(true);
+    rewardPopup.SetInfo(spriteName, count);
+  }
   public void GiveFastOfflineReward(OfflineRewardData data)
   {
 

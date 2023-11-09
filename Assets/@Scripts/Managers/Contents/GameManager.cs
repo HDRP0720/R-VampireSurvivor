@@ -780,6 +780,19 @@ public class GameManager
   }
   #endregion
   
+  public void SetNextStage()
+  { 
+    CurrentStageData = Managers.Data.StageDic[CurrentStageData.stageIndex + 1];
+  }
+  public int GetMaxStageIndex()
+  {
+    foreach(StageClearInfo clearInfo in _gameData.dicStageClearInfo.Values) 
+    {
+      if (clearInfo.maxWaveIndex != 10)
+        return clearInfo.stageIndex;
+    }
+    return 0;
+  }
   public int GetMaxStageClearIndex()
   {
     int MaxStageClearIndex = 0;

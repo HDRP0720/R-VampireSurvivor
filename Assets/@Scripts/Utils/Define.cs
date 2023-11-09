@@ -349,6 +349,8 @@ public static class Define
   };
   
   public static int MAX_STAMINA = 50;
+  public static int GAME_PER_STAMINA = 3;
+  
   public static float POTION_COLLECT_DISTANCE = 2.6F;
   public static float BOX_COLLECT_DISTANCE = 2.6F;
   public static int STAMINA_RECHARGE_INTERVAL = 300;

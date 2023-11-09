@@ -25,11 +25,10 @@ public class UI_BackToHomePopup : UI_Popup
   enum Texts
   {
     BackToHomeTitleText,
-    BackToHameContentText,
+    BackToHomeContentText,
     ResumeText,
     QuitText,
   }
-
   #endregion
   
   private void Awake()
