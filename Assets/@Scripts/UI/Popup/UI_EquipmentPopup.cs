@@ -18,8 +18,8 @@ public class UI_EquipmentPopup : UI_Popup
   // ItemInventoryObject : 보유하고 있는 아이템이 들어갈 부모개체
 
   // 로컬라이징 텍스트
-  // EquipInventoryTlileText : 장비
-  // ItemInventoryTlileText : 아이템
+  // EquipInventoryTitleText : 장비
+  // ItemInventoryTitleText : 아이템
   #endregion
   
   #region Enum For Bindigng UI Automatically

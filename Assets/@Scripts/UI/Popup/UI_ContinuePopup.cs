@@ -69,6 +69,7 @@ public class UI_ContinuePopup : UI_Popup
     GetButton((int)Buttons.ContinueButton).GetOrAddComponent<UI_ButtonAnimation>();
     GetButton((int)Buttons.ADContinueButton).gameObject.BindEvent(OnClickADContinueButton);
     GetButton((int)Buttons.ADContinueButton).GetOrAddComponent<UI_ButtonAnimation>();
+    
     Refresh();
     return true;
   }

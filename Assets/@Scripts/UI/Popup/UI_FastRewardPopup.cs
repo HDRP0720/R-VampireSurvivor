@@ -40,8 +40,8 @@ public class UI_FastRewardPopup : UI_Popup
     FastRewardCommentText,
     ADFreeText,
     ClaimCostValueText,
-    EemainingCommentText,
-    EemainingCountValueText,
+    RemainingCommentText,
+    RemainingCountValueText,
   }
   #endregion
   
@@ -104,7 +104,7 @@ public class UI_FastRewardPopup : UI_Popup
     UI_MaterialItem box = Managers.UI.MakeSubItem<UI_MaterialItem>(container.transform);
     box.SetInfo("Key_Silver_Icon", _offlineRewardData.fastReward_Box);
 
-    GetText((int)Texts.EemainingCountValueText).text = Managers.Game.FastRewardCountStamina.ToString();
+    GetText((int)Texts.RemainingCountValueText).text = Managers.Game.FastRewardCountStamina.ToString();
 
     LayoutRebuilder.ForceRebuildLayoutImmediate(GetButton((int)Buttons.ADFreeButton).gameObject.GetComponent<RectTransform>());
     LayoutRebuilder.ForceRebuildLayoutImmediate(GetButton((int)Buttons.ClaimButton).gameObject.GetComponent<RectTransform>());

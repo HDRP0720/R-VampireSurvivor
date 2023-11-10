@@ -19,7 +19,7 @@ public class UI_DiaChargePopup : UI_Popup
   {
     BackgroundText,
     BuyADText,
-    UI_DiaChargePopupTitleText,
+    DiaChargePopupTitleText,
     ADChargeValueText,
     ADRemainingValueText,
   }

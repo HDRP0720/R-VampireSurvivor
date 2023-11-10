@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Define;
 
 public class UI_GameResultPopup : UI_Popup
 {
@@ -61,10 +62,24 @@ public class UI_GameResultPopup : UI_Popup
 
   private void OnClickStatisticsButton()
   {
-    Debug.Log("OnClickStatisticsButton");
+    Managers.Sound.PlayButtonClick();
+    Managers.UI.ShowPopupUI<UI_TotalDamagePopup>().SetInfo();
   }
   private void OnClickConfirmButton()
   {
-    Debug.Log("OnClickConfirmButton");
+    Managers.Sound.PlayButtonClick();
+
+    StageClearInfo info;
+    if (Managers.Game.DicStageClearInfo.TryGetValue(Managers.Game.CurrentStageData.stageIndex, out info))
+    {
+      if (Managers.Game.CurrentWaveIndex > info.maxWaveIndex)
+      {
+        info.maxWaveIndex = Managers.Game.CurrentWaveIndex;
+        Managers.Game.DicStageClearInfo[Managers.Game.CurrentStageData.stageIndex] = info;
+      }
+    }
+
+    Managers.Game.ClearContinueData();
+    Managers.Scene.LoadScene(EScene.LobbyScene, transform);
   }
 }
