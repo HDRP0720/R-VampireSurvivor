@@ -70,9 +70,8 @@ public class UI_SkillSelectPopup : UI_Popup
   
   protected override bool Init()
   {
-    if (base.Init() == false)
-      return false;
-    #region Object Bind
+    if (base.Init() == false) return false;
+  
     BindObject(typeof(GameObjects));
     BindButton(typeof(Buttons));
     BindText(typeof(Texts));
@@ -81,12 +80,9 @@ public class UI_SkillSelectPopup : UI_Popup
     GetButton((int)Buttons.CardRefreshButton).gameObject.BindEvent(OnClickCardRefreshButton);
     GetButton((int)Buttons.ADRefreshButton).gameObject.BindEvent(OnClickADRefreshButton);
     GetObject((int)GameObjects.DisabledObject).gameObject.SetActive(false);
-    #endregion
 
     _game = Managers.Game;
-
     Refresh();
-
     SetRecommendSkills();
     List<SkillBase> activeSkills = Managers.Game.Player.Skills.SkillList.Where(skill => skill.IsLearnedSkill).ToList();
 
@@ -115,11 +111,11 @@ public class UI_SkillSelectPopup : UI_Popup
   private void SetRecommendSkills()
   {
     GameObject container = GetObject((int)GameObjects.SkillCardSelectListObject);
-    //초기화
-    container.DestroyChildren();
-    List<SkillBase> List = Managers.Game.Player.Skills.RecommendSkills();
 
-    foreach (SkillBase skill in List)
+    container.DestroyChildren();
+    List<SkillBase> list = Managers.Game.Player.Skills.RecommendSkills();
+
+    foreach (SkillBase skill in list)
     {
       UI_SkillCardItem item = Managers.UI.MakeSubItem<UI_SkillCardItem>(container.transform);
       item.GetComponent<UI_SkillCardItem>().SetInfo(skill);
@@ -132,7 +128,6 @@ public class UI_SkillSelectPopup : UI_Popup
     GetImage(index).enabled = true;
   }
 
-  #region MyRegion
   private void OnClickCardRefreshButton()
   {
     Managers.Sound.PlayButtonClick();
@@ -148,7 +143,7 @@ public class UI_SkillSelectPopup : UI_Popup
     Managers.Sound.PlayButtonClick();
     if (Managers.Game.SkillRefreshCountAds > 0)
     {
-      // TODO: set ad callback
+      // TODO: 광고 갱신 로직 활성화 필요
       // Managers.Ads.ShowRewardedAd(() =>
       // {
       //   Managers.Game.SkillRefreshCountAds--;
@@ -160,5 +155,4 @@ public class UI_SkillSelectPopup : UI_Popup
       Managers.UI.ShowToast("더이상 사용 할 수 없습니다.");
     }
   }
-  #endregion
 }

@@ -119,8 +119,8 @@ public class UI_MergePopup : UI_Popup
     SecondCostEquipSelectObject,
     MergeAllButtonRedDotObject,
     EquipInventoryScrollContentObject,
-    MurgeStartEffect,
-    MurgeFinishEffect,
+    MergeStartEffect,
+    MergeFinishEffect,
   }
   enum Buttons
   {
@@ -153,7 +153,7 @@ public class UI_MergePopup : UI_Popup
     FirstSelectEquipEnforceValueText,
     SecondSelectEquipLevelValueText,
     SecondSelectEquipEnforceValueText,
-    EquipmentTlileText,
+    EquipmentTitleText,
     SortButtonText,
     MergeAllButtonText,
     SelectEquipmentCommentText,
@@ -167,6 +167,7 @@ public class UI_MergePopup : UI_Popup
     SelectedEquipEnforceBackgroundImage,
     SelectedEquipTypeBackgroundImage,
     SelectedEquipTypeImage,
+    GradeArrowImage,
     LevelArrowImage,
     ATKArrowImage,
     HPArrowImage,
@@ -223,8 +224,8 @@ public class UI_MergePopup : UI_Popup
     GetText((int)Texts.SelectMergeCommentText).gameObject.SetActive(false); 
     GetObject((int)GameObjects.OptionResultObject).gameObject.SetActive(false); // 옵션 결과
 
-    GetObject((int)GameObjects.MurgeStartEffect).gameObject.SetActive(false); // 합성 시작 이펙트
-    GetObject((int)GameObjects.MurgeFinishEffect).gameObject.SetActive(false); // 합성 끝 이펙트
+    GetObject((int)GameObjects.MergeStartEffect).gameObject.SetActive(false); // 합성 시작 이펙트
+    GetObject((int)GameObjects.MergeFinishEffect).gameObject.SetActive(false); // 합성 끝 이펙트
 
     GetButton((int)Buttons.FirstCostButton).gameObject.BindEvent(OnClickFirstCostButton);
     GetObject((int)GameObjects.FirstCostEquipNeedObject).gameObject.SetActive(false); // 첫번째 재료
@@ -590,8 +591,8 @@ public class UI_MergePopup : UI_Popup
     if (_equipment == null)
     {
       GetButton((int)Buttons.MergeButton).gameObject.SetActive(false);
-      GetObject((int)GameObjects.MurgeStartEffect).gameObject.SetActive(false); // 합성 시작 이펙트
-      GetObject((int)GameObjects.MurgeFinishEffect).gameObject.SetActive(false); // 합성 끝 이펙트
+      GetObject((int)GameObjects.MergeStartEffect).gameObject.SetActive(false); // 합성 시작 이펙트
+      GetObject((int)GameObjects.MergeFinishEffect).gameObject.SetActive(false); // 합성 끝 이펙트
       return false;
     }
 
@@ -599,8 +600,8 @@ public class UI_MergePopup : UI_Popup
     {
       GetButton((int)Buttons.MergeButton).gameObject.SetActive(false);
       GetImage((int)Images.MergePossibleOutlineImage).gameObject.SetActive(false); // 아웃라인
-      GetObject((int)GameObjects.MurgeStartEffect).gameObject.SetActive(false); // 합성 시작 이펙트
-      GetObject((int)GameObjects.MurgeFinishEffect).gameObject.SetActive(false); // 합성 끝 이펙트
+      GetObject((int)GameObjects.MergeStartEffect).gameObject.SetActive(false); // 합성 시작 이펙트
+      GetObject((int)GameObjects.MergeFinishEffect).gameObject.SetActive(false); // 합성 끝 이펙트
       return false;
     }
 
@@ -608,16 +609,16 @@ public class UI_MergePopup : UI_Popup
     {
       GetButton((int)Buttons.MergeButton).gameObject.SetActive(false);
       GetImage((int)Images.MergePossibleOutlineImage).gameObject.SetActive(false); // 아웃라인
-      GetObject((int)GameObjects.MurgeStartEffect).gameObject.SetActive(false); // 합성 시작 이펙트
-      GetObject((int)GameObjects.MurgeFinishEffect).gameObject.SetActive(false); // 합성 끝 이펙트
+      GetObject((int)GameObjects.MergeStartEffect).gameObject.SetActive(false); // 합성 시작 이펙트
+      GetObject((int)GameObjects.MergeFinishEffect).gameObject.SetActive(false); // 합성 끝 이펙트
       return false;
     }
         
     GetObject((int)GameObjects.OptionResultObject).gameObject.SetActive(true); // 옵션 결과
     GetText((int)Texts.SelectEquipmentCommentText).gameObject.SetActive(false); // 장비 코맨트
     GetText((int)Texts.SelectMergeCommentText).gameObject.SetActive(false); // 재료 코멘트
-    GetObject((int)GameObjects.MurgeStartEffect).gameObject.SetActive(true); // 합성 시작 이펙트
-    GetObject((int)GameObjects.MurgeFinishEffect).gameObject.SetActive(false); // 합성 끝 이펙트
+    GetObject((int)GameObjects.MergeStartEffect).gameObject.SetActive(true); // 합성 시작 이펙트
+    GetObject((int)GameObjects.MergeFinishEffect).gameObject.SetActive(false); // 합성 끝 이펙트
 
     #endregion
     

@@ -2,11 +2,11 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+using Newtonsoft.Json;
 using Data;
 using static Define;
 
@@ -113,7 +113,7 @@ public class ContinueData
   public float soulBonusRate = 1;
   public float collectDistBonus = 1;
   public int killCount;
-  public int skillRefreshCount = 3;
+  public int skillRefreshCount = 1;
   public float soulCount;
 
   public List<SupportSkillData> soulShopList = new List<SupportSkillData>();
@@ -127,7 +127,7 @@ public class ContinueData
 
   public void Clear()
   {
-    // 각 변수의 초기값 설정
+    // 각 변수들의 초기값을 재설정
     playerDataId = 0;
     hp = 0f;
     maxHp = 0f;
@@ -152,7 +152,7 @@ public class ContinueData
         
     killCount = 0;
     soulCount = 0f;
-    skillRefreshCount = 3;
+    skillRefreshCount = 1;
 
     soulShopList.Clear();
     savedSupportSkill.Clear();
@@ -170,6 +170,7 @@ public class GameManager
   private int _gem;
   private int _killCount;
   private Vector2 _moveDir;
+  private string _path; // save & load를 위한 경로
   
   // Delegate
   public event Action<Vector2> OnMoveDirChanged;
@@ -779,6 +780,64 @@ public class GameManager
     return (hpBonus, atkBonus);
   }
   #endregion
+
+  #region Functions For Gacha
+  public List<Equipment> DoGacha(EGachaType gachaType, int count = 1)
+  {
+    List<Equipment> ret = new List<Equipment>();
+
+    for (int i = 0; i < count; i++)
+    {
+      EEquipmentGrade grade = GetRandomGrade(PICKUP_GACHA_GRADE_PROB);
+      switch (gachaType)
+      {
+        case EGachaType.CommonGacha:
+          grade = GetRandomGrade(COMMON_GACHA_GRADE_PROB);
+          CommonGachaOpenCount++;
+          break;
+        case EGachaType.PickupGacha:
+          grade = GetRandomGrade(PICKUP_GACHA_GRADE_PROB);
+          break;
+        case EGachaType.AdvancedGacha:
+          grade = GetRandomGrade(ADVENCED_GACHA_GRADE_PROB);
+          AdvancedGachaOpenCount++;
+          break;
+      }
+
+      List<GachaRateData> list = Managers.Data.GachaTableDataDic[gachaType].gachaRateTable.Where(item => item.equipGrade == grade).ToList();
+
+      int index = Random.Range(0, list.Count);
+      string key = list[index].equipmentID;
+
+      if (Managers.Data.EquipDataDic.ContainsKey(key))
+        ret.Add(AddEquipment(key));
+    }
+
+    return ret;
+  }
+  private static EEquipmentGrade GetRandomGrade(float[] prob)
+  {
+    float randomValue = Random.value;
+    if (randomValue < prob[(int)EEquipmentGrade.Common])
+    {
+      return EEquipmentGrade.Common;
+    }
+    else if (randomValue < prob[(int)EEquipmentGrade.Common] + prob[(int)EEquipmentGrade.Uncommon])
+    {
+      return EEquipmentGrade.Uncommon;
+    }
+    else if (randomValue < prob[(int)EEquipmentGrade.Common] + prob[(int)EEquipmentGrade.Uncommon] + prob[(int)EEquipmentGrade.Rare])
+    {
+      return EEquipmentGrade.Rare;
+    }
+    else if (randomValue < prob[(int)EEquipmentGrade.Common] + prob[(int)EEquipmentGrade.Uncommon] + prob[(int)EEquipmentGrade.Rare] + prob[(int)EEquipmentGrade.Epic])
+    {
+      return EEquipmentGrade.Epic;
+    }
+
+    return EEquipmentGrade.Common;
+  }
+  #endregion
   
   public void SetNextStage()
   { 
@@ -806,8 +865,7 @@ public class GameManager
   }
   
 
-  #region Save & Load
-  private string _path;
+  #region Functions For Save & Load
   public void SaveGame()
   {
     if (Player != null )
