@@ -1,9 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Xml.Serialization;
-using System;
-using System.Collections.Generic;
-using UnityEngine.Serialization;
 using static Define;
 
 namespace Data
@@ -271,11 +267,11 @@ namespace Data
         public float firstMonsterSpawnRate;
         public float hpIncreaseRate;
         public float nonDropRate;
-        [FormerlySerializedAs("SmallGemDropRate")] public float smallGemDropRate;
-        [FormerlySerializedAs("GreenGemDropRate")] public float greenGemDropRate;
-        [FormerlySerializedAs("BlueGemDropRate")] public float blueGemDropRate;
-        [FormerlySerializedAs("YellowGemDropRate")] public float yellowGemDropRate;
-        [FormerlySerializedAs("EliteDropItemId")] public List<int> eliteDropItemId;
+        public float smallGemDropRate;
+        public float greenGemDropRate;
+        public float blueGemDropRate;
+        public float yellowGemDropRate;
+        public List<int> eliteDropItemId;
     }
 
     public class WaveDataLoader : ILoader<int, WaveData>

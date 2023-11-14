@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Sprites
+  m_Name: UI_WorldSpace
   m_EditorClassIdentifier: 
-  m_GroupName: Sprites
+  m_GroupName: UI_Worldspace
   m_Data:
     m_SerializedData: []
-  m_GUID: d8cf819b82df31c49a784048ef85f133
+  m_GUID: bae20f4540e127a4bb2ec715900623ac
   m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 612673dc2b4536b43b12c7d3f407b27a, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 5e1f78e21f001c341b7c85b2aa193cb5, type: 2}
-    - {fileID: 11400000, guid: f686eb28418e07446acd0fa02397f951, type: 2}
+    - {fileID: 11400000, guid: a42bd26945eab8648b5d97c07848a446, type: 2}
+    - {fileID: 11400000, guid: a6eb2f66b73a39b4995ffc7964d647db, type: 2}

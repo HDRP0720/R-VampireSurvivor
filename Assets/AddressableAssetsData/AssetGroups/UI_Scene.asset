@@ -18,22 +18,22 @@ MonoBehaviour:
   m_GUID: 79c8212400b45a844ade6b2a6f6c2318
   m_SerializeEntries:
   - m_GUID: 86c85d52519c75141946788480d38e64
-    m_Address: UI_GameScene.prefab
+    m_Address: UI_GameScene
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload
   - m_GUID: cbad925bb0a4627449928989348fa3b6
-    m_Address: UI_Joystick.prefab
+    m_Address: UI_Joystick
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload
   - m_GUID: 0cf2c8cf405375d4d82156b0cf170a64
-    m_Address: UI_LobbyScene.prefab
+    m_Address: UI_LobbyScene
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload
   - m_GUID: 840a157d3e7db0e409b0866497da729d
-    m_Address: UI_TitleScene.prefab
+    m_Address: UI_TitleScene
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload

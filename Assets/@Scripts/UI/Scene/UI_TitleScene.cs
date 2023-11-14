@@ -29,7 +29,7 @@ public class UI_TitleScene : UI_Scene
   }
   private void Start()
   {
-    Managers.Resource.LoadAllAsync<Object>("PreLoad", (key, count, totalCount) =>
+    Managers.Resource.LoadAllAsync<Object>("Preload", (key, count, totalCount) =>
     {
       GetObject((int)GameObjects.Slider).GetComponent<Slider>().value = (float)count/totalCount;
       if (count == totalCount)

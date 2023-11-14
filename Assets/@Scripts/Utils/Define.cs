@@ -24,11 +24,8 @@ public static class Define
   }
   
   public enum EScene { Unknown, TitleScene, LobbyScene, GameScene }
-  
   public enum EJoystickType { Fixed, Flexible }
-  
   public enum ESound { BGM, Effect, Max }
-
   public enum EObjectType
   {
     Player,
@@ -43,7 +40,6 @@ public static class Define
     Magnet,
     Bomb
   }
-  
   public enum ESkillType
   {
     None = 0,
@@ -70,10 +66,8 @@ public static class Define
     CircleShot = 100601,
     ComboShot = 100701,
   }
-  
   public enum EStageType { Normal, Boss }
   public enum EWaveType { None, RedZone, Elite, Boss }
-  
   public enum ECreatureState { Idle, Moving, Skill, OnDamaged, Dead }
   public enum EEquipmentSortType { Level, Grade } // TODO: 획득 순 정렬 추가 필요
   public enum EMergeEquipmentType{ None, ItemCode, Grade }
@@ -95,7 +89,6 @@ public static class Define
     Myth2,
     Myth3
   }
-  
   public enum EMaterialType
   {
     Gold,
@@ -139,9 +132,7 @@ public static class Define
     Legendary2,
     Legendary3,
   }
-  
   public enum EDropItemType { Potion, Magnet, DropBox, Bomb }
-  
   public enum EGachaRarity { Normal, Special }
   public enum EGachaType { None, CommonGacha, AdvancedGacha, PickupGacha, }
   
@@ -170,7 +161,6 @@ public static class Define
     GachaOpen,                // 가챠 오픈 (일반, 고급가챠 포함)
     ADWatchIng,               // 광고 시청
   }
-  
   public enum ESupportSkillType
   {
     General,
@@ -228,7 +218,6 @@ public static class Define
     PhotonStrike,
     StormBlade,
   }
-  
   public enum EEquipmentType
   {
     Weapon,
@@ -239,7 +228,7 @@ public static class Define
     Boots,
   }
   
-  #region DataID
+  #region Item Data ID
   public static int ID_GOLD = 50001;
   public static int ID_DIA = 50002;
   public static int ID_STAMINA = 50003;

@@ -18,12 +18,12 @@ MonoBehaviour:
   m_GUID: eda65b5ef3ed1364ebda7815189d9823
   m_SerializeEntries:
   - m_GUID: 31e54fca08b39b2459ea2db895bfc867
-    m_Address: BGM_Lobby.wav
+    m_Address: BGM_Lobby
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload
   - m_GUID: 4720fbfdfbae9b14fa8202abcbd35247
-    m_Address: BGM_Game.wav
+    m_Address: BGM_Game
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload
