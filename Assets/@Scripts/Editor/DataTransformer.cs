@@ -49,7 +49,7 @@ public class DataTransformer : EditorWindow
     ParseMaterialData("Material");
     ParseSupportSkillData("SupportSkill");
     ParseDropItemData("DropItem");
-    ParseGachaDataData("GachaTable");
+    ParseGachaTableData("GachaTable");
     ParseStagePackageData("StagePackage");
     ParseMissionData("Mission");
     ParseAchievementData("Achievement");
@@ -58,8 +58,6 @@ public class DataTransformer : EditorWindow
     ParseBattlePassData("BattlePass");
     ParseDailyShopData("DailyShop");
     ParseAccountPassDataData("AccountPass");
-    // ParseBossData("Boss");
-    // ParseChapterResourceData("ChapterResource");
     Debug.Log("Complete DataTransformer");
   }
   
@@ -67,7 +65,7 @@ public class DataTransformer : EditorWindow
   {
     SkillDataLoader loader = new SkillDataLoader();
 
-    #region Change Excel CSV Skill Data
+    #region Change Excel CSV Data To Skill Data
     string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
     for (int y = 1; y < lines.Length; y++)
     {
@@ -121,7 +119,7 @@ public class DataTransformer : EditorWindow
   {
     SupportSkillDataLoader loader = new SupportSkillDataLoader();
 
-    #region Change Excel CSV Support Skill Data
+    #region Change Excel CSV Data To Support Skill Data
     string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
     for (int y = 1; y < lines.Length; y++)
     {
@@ -176,7 +174,7 @@ public class DataTransformer : EditorWindow
     Dictionary<int, List<WaveData>> waveTable = ParseWaveData("Wave");
     StageDataLoader loader = new StageDataLoader();
 
-    #region Change Excel CSV Data Stage Data
+    #region Change Excel CSV Data To Stage Data
     string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
     for (int y = 1; y < lines.Length; y++)
     {
@@ -222,7 +220,7 @@ public class DataTransformer : EditorWindow
   {
     Dictionary<int, List<WaveData>> waveTable = new Dictionary<int, List<WaveData>>();
 
-    #region Change Excel CSV Wave Data
+    #region Change Excel CSV Data To Wave Data
     string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
     for (int y = 1; y < lines.Length; y++)
     {
@@ -259,22 +257,19 @@ public class DataTransformer : EditorWindow
     #endregion
     return waveTable;
   }
-  
-  // TODO: 들여쓰기 정리 필요
   private static void ParseCreatureData(string filename)
   {
     CreatureDataLoader loader = new CreatureDataLoader();
 
-    #region ExcelData
+    #region Change Excel CSV Data To Creature Data
     string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
-
     for (int y = 1; y < lines.Length; y++)
     {
       string[] row = lines[y].Replace("\r", "").Split(',');
 
       if (row.Length == 0) continue;
            
-      if (string.IsNullOrEmpty(row[0]))    continue;
+      if (string.IsNullOrEmpty(row[0])) continue;
 
       int i = 0;
       CreatureData cd = new CreatureData();
@@ -306,18 +301,15 @@ public class DataTransformer : EditorWindow
   {
     LevelDataLoader loader = new LevelDataLoader();
 
-    #region ExcelData
+    #region Change Excel CSV Data To Level Data
     string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
-
     for (int y = 1; y < lines.Length; y++)
     {
       string[] row = lines[y].Replace("\r", "").Split(',');
-
-      if (row.Length == 0)
-        continue;
-      if (string.IsNullOrEmpty(row[0]))
-        continue;
-
+      if (row.Length == 0)  continue;
+      
+      if (string.IsNullOrEmpty(row[0])) continue;
+       
       int i = 0;
       LevelData data = new LevelData();
       data.level = ConvertValue<int>(row[i++]);
@@ -334,27 +326,22 @@ public class DataTransformer : EditorWindow
   {
     EquipmentLevelDataLoader loader = new EquipmentLevelDataLoader();
 
-    #region ExcelData
+    #region Change Excel CSV Data To Equipment Level Data
     string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
-
     for (int y = 1; y < lines.Length; y++)
     {
       string[] row = lines[y].Replace("\r", "").Split(',');
-
-      if (row.Length == 0)
-        continue;
-      if (string.IsNullOrEmpty(row[0]))
-        continue;
+      if (row.Length == 0) continue;
+   
+      if (string.IsNullOrEmpty(row[0])) continue;
 
       int i = 0;
       EquipmentLevelData data = new EquipmentLevelData();
       data.level = ConvertValue<int>(row[i++]);
       data.upgradeCost = ConvertValue<int>(row[i++]);
       data.upgradeRequiredItems = ConvertValue<int>(row[i++]);
-
       loader.levels.Add(data);
     }
-
     #endregion
 
     string jsonStr = JsonConvert.SerializeObject(loader, Formatting.Indented);
@@ -365,17 +352,14 @@ public class DataTransformer : EditorWindow
   {
     EquipmentDataLoader loader = new EquipmentDataLoader();
 
-    #region ExcelData
+    #region Change Excel CSV Data To Equipment Data
     string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
-
     for (int y = 1; y < lines.Length; y++)
     {
       string[] row = lines[y].Replace("\r", "").Split(',');
-
-      if (row.Length == 0)
-          continue;
-      if (string.IsNullOrEmpty(row[0]))
-          continue;
+      if (row.Length == 0) continue;
+     
+      if (string.IsNullOrEmpty(row[0])) continue;
 
       int i = 0;
       EquipmentData ed = new EquipmentData();
@@ -407,7 +391,6 @@ public class DataTransformer : EditorWindow
       ed.downgradeMaterialCount = ConvertValue<int>(row[i++]);
       loader.equipments.Add(ed);
     }
-
     #endregion
 
     string jsonStr = JsonConvert.SerializeObject(loader, Formatting.Indented);
@@ -418,19 +401,16 @@ public class DataTransformer : EditorWindow
   {
     MaterialDataLoader loader = new MaterialDataLoader();
 
-    #region ExcelData
+    #region Change Excel CSV Data To Material Data
     string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
-
     for (int y = 1; y < lines.Length; y++)
     {
       string[] row = lines[y].Replace("\r", "").Split(',');
-      if (row.Length == 0)
-        continue;
-      if (string.IsNullOrEmpty(row[0]))
-        continue;
+      if (row.Length == 0) continue;
+
+      if (string.IsNullOrEmpty(row[0])) continue;
 
       int i = 0;
-
       MaterialData material = new MaterialData();
       material.dataId = ConvertValue<int>(row[i++]);
       material.materialType = ConvertValue<EMaterialType>(row[i++]);
@@ -438,7 +418,6 @@ public class DataTransformer : EditorWindow
       material.nameTextID = ConvertValue<string>(row[i++]);
       material.descriptionTextID = ConvertValue<string>(row[i++]);
       material.spriteName = ConvertValue<string>(row[i++]);
-
       loader.materials.Add(material);
     }
     #endregion
@@ -451,26 +430,22 @@ public class DataTransformer : EditorWindow
   {
     DropItemDataLoader loader = new DropItemDataLoader();
 
-    #region ExcelData
+    #region Change Excel CSV Data To DropItem Data
     string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
-
     for (int y = 1; y < lines.Length; y++)
     {
       string[] row = lines[y].Replace("\r", "").Split(',');
-      if (row.Length == 0)
-        continue;
-      if (string.IsNullOrEmpty(row[0]))
-        continue;
-
+      if (row.Length == 0) continue;
+      
+      if (string.IsNullOrEmpty(row[0])) continue;
+  
       int i = 0;
-
       DropItemData dropItem = new DropItemData();
       dropItem.dataId = ConvertValue<int>(row[i++]);
       dropItem.dropItemType = ConvertValue<EDropItemType>(row[i++]);
       dropItem.nameTextID = ConvertValue<string>(row[i++]);
       dropItem.descriptionTextID = ConvertValue<string>(row[i++]);
       dropItem.spriteName = ConvertValue<string>(row[i++]);
-
       loader.dropItems.Add(dropItem);
     }
     #endregion
@@ -479,29 +454,26 @@ public class DataTransformer : EditorWindow
     File.WriteAllText($"{Application.dataPath}/@Resources/Data/JsonData/{filename}Data.json", jsonStr);
     AssetDatabase.Refresh();
   }
-  private static void ParseGachaDataData(string filename)
+  private static void ParseGachaTableData(string filename)
   {
     Dictionary<EGachaType, List<GachaRateData>> gachaTable = ParseGachaRateData("GachaTable");
     GachaDataLoader loader = new GachaDataLoader();
 
-    #region ExcelData
-    /*        string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
-
-            for (int y = 1; y < lines.Length; y++)
-            {
-                string[] row = lines[y].Replace("\r", "").Split(',');
-                if (row.Length == 0)
-                    continue;
-                if (string.IsNullOrEmpty(row[0]))
-                    continue;
-
-                int i = 0;
-
-                GachaData gacha = new GachaData();
-                gacha.DropItemType = ConvertValue<Define.DropItemType>(row[i++]);
-
-                loader.Gachas.Add(gacha);
-            }*/
+    #region Change Excel CSV Data To GachaTable Data
+    // string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
+    // for (int y = 1; y < lines.Length; y++)
+    // {
+    //   string[] row = lines[y].Replace("\r", "").Split(',');
+    //   if (row.Length == 0) continue;
+    //       
+    //   if (string.IsNullOrEmpty(row[0])) continue;
+    //
+    //   int i = 0;
+    //   GachaData gacha = new GachaData();
+    //   gacha.DropItemType = ConvertValue<Define.DropItemType>(row[i++]);
+    //
+    //   loader.Gachas.Add(gacha);
+    // }
     for (int i = 0; i < gachaTable.Count+1; i++)
     {
       GachaTableData gachaData = new GachaTableData()
@@ -523,17 +495,14 @@ public class DataTransformer : EditorWindow
   {
     Dictionary<EGachaType, List<GachaRateData>> gachaTable = new Dictionary<EGachaType, List<GachaRateData>>();
 
-    #region ExcelData
+    #region Change Excel CSV Data To Gacha Rate Data
     string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
-
     for(int y=1; y<lines.Length; y++)
     {
       string[] row = lines[y].Replace("\r", "").Split(',');
-      if (row.Length == 0)
-        continue;
+      if (row.Length == 0) continue;
 
-      if (string.IsNullOrEmpty(row[0]))
-        continue;
+      if (string.IsNullOrEmpty(row[0])) continue;
 
       int i = 0;
       EGachaType dropType = (EGachaType)Enum.Parse(typeof(EGachaType), row[i++]);
@@ -557,17 +526,14 @@ public class DataTransformer : EditorWindow
   {
     StagePackageDataLoader loader = new StagePackageDataLoader();
 
-    #region ExcelData
+    #region Change Excel CSV Data To Stage Package Data
     string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
-
     for (int y = 1; y < lines.Length; y++)
     {
       string[] row = lines[y].Replace("\r", "").Split(',');
-
-      if (row.Length == 0)
-        continue;
-      if (string.IsNullOrEmpty(row[0]))
-        continue;
+      if (row.Length == 0) continue;
+       
+      if (string.IsNullOrEmpty(row[0])) continue;
 
       int i = 0;
       StagePackageData stp = new StagePackageData();
@@ -577,10 +543,8 @@ public class DataTransformer : EditorWindow
       stp.randomScrollValue = ConvertValue<int>(row[i++]);
       stp.goldKeyValue = ConvertValue<int>(row[i++]);
       stp.productCostValue = ConvertValue<int>(row[i++]);
-
       loader.stagePackages.Add(stp);
     }
-
     #endregion
 
     string jsonStr = JsonConvert.SerializeObject(loader, Formatting.Indented);
@@ -591,17 +555,14 @@ public class DataTransformer : EditorWindow
   {
     MissionDataLoader loader = new MissionDataLoader();
 
-    #region ExcelData
+    #region Change Excel CSV Data To Mission Data
     string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
-
     for (int y = 1; y < lines.Length; y++)
     {
       string[] row = lines[y].Replace("\r", "").Split(',');
-
-      if (row.Length == 0)   continue;
-             
+      if (row.Length == 0) continue;
+      
       if (string.IsNullOrEmpty(row[0])) continue;
-               
 
       int i = 0;
       MissionData missionData = new MissionData();
@@ -612,10 +573,8 @@ public class DataTransformer : EditorWindow
       missionData.missionTargetValue = ConvertValue<int>(row[i++]);
       missionData.clearRewardItmeId = ConvertValue<int>(row[i++]);
       missionData.rewardValue = ConvertValue<int>(row[i++]);
-
       loader.missions.Add(missionData);
     }
-
     #endregion
 
     string jsonStr = JsonConvert.SerializeObject(loader, Formatting.Indented);
@@ -626,17 +585,14 @@ public class DataTransformer : EditorWindow
   {
     AchievementDataLoader loader = new AchievementDataLoader();
 
-    #region ExcelData
+    #region Change Excel CSV Data To Achievement Data
     string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
-
     for (int y = 1; y < lines.Length; y++)
     {
       string[] row = lines[y].Replace("\r", "").Split(',');
-
-      if (row.Length == 0)
-        continue;
-      if (string.IsNullOrEmpty(row[0]))
-        continue;
+      if (row.Length == 0) continue;
+      
+      if (string.IsNullOrEmpty(row[0])) continue;
 
       int i = 0;
       AchievementData ach = new AchievementData();
@@ -646,10 +602,8 @@ public class DataTransformer : EditorWindow
       ach.missionTargetValue = ConvertValue<int>(row[i++]);
       ach.clearRewardItemId = ConvertValue<int>(row[i++]);
       ach.rewardValue = ConvertValue<int>(row[i++]);
-
       loader.achievements.Add(ach);
     }
-
     #endregion
 
     string jsonStr = JsonConvert.SerializeObject(loader, Formatting.Indented);
@@ -660,27 +614,22 @@ public class DataTransformer : EditorWindow
   {
     CheckOutDataLoader loader = new CheckOutDataLoader();
 
-    #region ExcelData
+    #region Change Excel CSV Data To CheckOut Data
     string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
-
     for (int y = 1; y < lines.Length; y++)
     {
       string[] row = lines[y].Replace("\r", "").Split(',');
-
-      if (row.Length == 0)
-        continue;
-      if (string.IsNullOrEmpty(row[0]))
-        continue;
+      if (row.Length == 0) continue;
+  
+      if (string.IsNullOrEmpty(row[0])) continue;
 
       int i = 0;
       CheckOutData chk = new CheckOutData();
       chk.day = ConvertValue<int>(row[i++]);
       chk.rewardItemId = ConvertValue<int>(row[i++]);
       chk.missionTargetRewardItemValue = ConvertValue<int>(row[i++]);
-
       loader.checkouts.Add(chk);
     }
-
     #endregion
 
     string jsonStr = JsonConvert.SerializeObject(loader, Formatting.Indented);
@@ -691,18 +640,15 @@ public class DataTransformer : EditorWindow
   {
     OfflineRewardDataLoader loader = new OfflineRewardDataLoader();
 
-    #region ExcelData
+    #region Change Excel CSV Data To Offline Reward Data
     string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
-
     for (int y = 1; y < lines.Length; y++)
     {
       string[] row = lines[y].Replace("\r", "").Split(',');
-
-      if (row.Length == 0)
-        continue;
-      if (string.IsNullOrEmpty(row[0]))
-        continue;
-
+      if (row.Length == 0) continue;
+  
+      if (string.IsNullOrEmpty(row[0])) continue;
+    
       int i = 0;
       OfflineRewardData ofr = new OfflineRewardData();
       ofr.stageIndex = ConvertValue<int>(row[i++]);
@@ -710,10 +656,8 @@ public class DataTransformer : EditorWindow
       ofr.reward_Exp = ConvertValue<int>(row[i++]);
       ofr.fastReward_Scroll = ConvertValue<int>(row[i++]);
       ofr.fastReward_Box = ConvertValue<int>(row[i++]);
-
       loader.offlines.Add(ofr);
     }
-
     #endregion
 
     string jsonStr = JsonConvert.SerializeObject(loader, Formatting.Indented);
@@ -724,18 +668,15 @@ public class DataTransformer : EditorWindow
   {
     BattlePassDataLoader loader = new BattlePassDataLoader();
 
-    #region ExcelData
+    #region Change Excel CSV Data To Battle Pass Data
     string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
-
     for (int y = 1; y < lines.Length; y++)
     {
       string[] row = lines[y].Replace("\r", "").Split(',');
-
-      if (row.Length == 0)
-        continue;
-      if (string.IsNullOrEmpty(row[0]))
-        continue;
-
+      if (row.Length == 0) continue;
+  
+      if (string.IsNullOrEmpty(row[0])) continue;
+    
       int i = 0;
       BattlePassData bts = new BattlePassData();
       bts.passLevel = ConvertValue<int>(row[i++]);
@@ -745,10 +686,8 @@ public class DataTransformer : EditorWindow
       bts.rareRewardItemValue = ConvertValue<int>(row[i++]);
       bts.epicRewardItemId = ConvertValue<int>(row[i++]);
       bts.epicRewardItemValue = ConvertValue<int>(row[i++]);
-
       loader.battles.Add(bts);
     }
-
     #endregion
 
     string jsonStr = JsonConvert.SerializeObject(loader, Formatting.Indented);
@@ -759,17 +698,14 @@ public class DataTransformer : EditorWindow
   {
     DailyShopDataLoader loader = new DailyShopDataLoader();
 
-    #region ExcelData
+    #region Change Excel CSV Data To Daily Shop Data
     string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
-
     for (int y = 1; y < lines.Length; y++)
     {
       string[] row = lines[y].Replace("\r", "").Split(',');
-
-      if (row.Length == 0)
-        continue;
-      if (string.IsNullOrEmpty(row[0]))
-        continue;
+      if (row.Length == 0) continue;
+        
+      if (string.IsNullOrEmpty(row[0])) continue;
 
       int i = 0;
       DailyShopData dai = new DailyShopData();
@@ -778,10 +714,8 @@ public class DataTransformer : EditorWindow
       dai.costItemId = ConvertValue<int>(row[i++]);
       dai.costValue = ConvertValue<int>(row[i++]);
       dai.discountValue = ConvertValue<float>(row[i++]);
-
       loader.dailys.Add(dai);
     }
-
     #endregion
 
     string jsonStr = JsonConvert.SerializeObject(loader, Formatting.Indented);
@@ -792,17 +726,14 @@ public class DataTransformer : EditorWindow
   {
     AccountPassDataLoader loader = new AccountPassDataLoader();
 
-    #region ExcelData
+    #region Change Excel CSV Data To Account Pass Data
     string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");
-
     for (int y = 1; y < lines.Length; y++)
     {
       string[] row = lines[y].Replace("\r", "").Split(',');
-
-      if (row.Length == 0)
-        continue;
-      if (string.IsNullOrEmpty(row[0]))
-        continue;
+      if (row.Length == 0) continue;
+      
+      if (string.IsNullOrEmpty(row[0])) continue;
 
       int i = 0;
       AccountPassData aps = new AccountPassData();
@@ -813,7 +744,6 @@ public class DataTransformer : EditorWindow
       aps.rareRewardItemValue = ConvertValue<int>(row[i++]);
       aps.epicRewardItemId = ConvertValue<int>(row[i++]);
       aps.epicRewardItemValue = ConvertValue<int>(row[i++]);
-        
       loader.accounts.Add(aps);
     }
     #endregion

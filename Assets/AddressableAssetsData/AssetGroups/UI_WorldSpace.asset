@@ -12,11 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
   m_Name: UI_WorldSpace
   m_EditorClassIdentifier: 
-  m_GroupName: UI_Worldspace
+  m_GroupName: UI_WorldSpace
   m_Data:
     m_SerializedData: []
   m_GUID: bae20f4540e127a4bb2ec715900623ac
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 926a211f294b4f349b66e7be35012e41
+    m_Address: UI_HPBar
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 612673dc2b4536b43b12c7d3f407b27a, type: 2}
   m_SchemaSet:

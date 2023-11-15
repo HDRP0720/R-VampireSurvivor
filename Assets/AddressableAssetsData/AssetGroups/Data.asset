@@ -17,13 +17,93 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 01437823563160f478d038f052811431
   m_SerializeEntries:
-  - m_GUID: 4d4d9a78ad66430892330507d56a69db
-    m_Address: PlayerData.xml
+  - m_GUID: 8185f6b08664fd94c877ffb22faf8432
+    m_Address: AccountPassData
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload
-  - m_GUID: af5fb273c468da342a0d01ca5146c6a4
-    m_Address: SkillData.xml
+  - m_GUID: bb9320198d0e8fb4ba973e37a9713f18
+    m_Address: AchievementData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 42cdbda99a27b6a419ec049e40dca0e5
+    m_Address: BattlePassData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: a03d34eabcf9f1545aa9be0b09597d39
+    m_Address: CheckOutData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 2db2df5ad1fb03b4ab5cfa5f37386f2a
+    m_Address: CreatureData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: cc618f71318061843a4cb114b994726a
+    m_Address: DailyShopData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 4c46aa710855fb44da92de15eb712026
+    m_Address: DropItemData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: dccb83fb6428c6a4390a2a3b52abc42e
+    m_Address: EquipmentData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 4aa58d554578ec9418628a1be5714f5c
+    m_Address: EquipmentLevelData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 08f5825064681154c9c1f518087b6d8e
+    m_Address: GachaTableData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: e0e3b1c93622edb44ba70bf44ef91f80
+    m_Address: LevelData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: b5070c83f04de764ca5d6c702817ab25
+    m_Address: MaterialData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 87bfdb152390e6e408ee5748ec16f3b3
+    m_Address: MissionData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: f0a0b0ca9c8815e4699d20c2930a27fd
+    m_Address: OfflineRewardData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 41dfd52da5abba149b54c1864f92755f
+    m_Address: SkillData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 3aea94ea04c839a46a5f4811e8760cf8
+    m_Address: StageData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: e271d44dc3b3638448fa0fd36bf1005f
+    m_Address: StagePackageData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 18f583af603ad58459ceb7b9b1eafc27
+    m_Address: SupportSkillData
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload
