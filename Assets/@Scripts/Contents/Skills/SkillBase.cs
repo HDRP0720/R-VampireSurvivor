@@ -13,7 +13,7 @@ public class SkillBase : BaseController
 
   #region Properties
   public CreatureController Owner { get; set; }
-  public ESkillType SkillType
+  public ESkillType  SkillType
   {
     get => _skillType;
     protected set => _skillType = value;

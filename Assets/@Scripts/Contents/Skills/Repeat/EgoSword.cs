@@ -23,7 +23,7 @@ public class EgoSword : RepeatSkill
     {
       Vector3 dir = Managers.Game.Player.PlayerDirection;
       _attackCount++;
-      Shoot(dir);
+      SwingSword(dir);
       
       if (_attackCount == 4)  // 일정 공격 횟수 마다 특수 공격
       {
@@ -31,7 +31,7 @@ public class EgoSword : RepeatSkill
         for (int i = 0; i < 7; i++)
         {
           dir = Quaternion.AngleAxis((45 + 45 * i) * -1, Vector3.forward) * dir;
-          Shoot2(dir);
+          SwingSwordFinal(dir);
           yield return new WaitForSeconds(SkillData.attackInterval);
         }
       }
@@ -40,7 +40,7 @@ public class EgoSword : RepeatSkill
     yield return null;
   }
   
-  private void Shoot(Vector3 dir)
+  private void SwingSword(Vector3 dir)
   {
     string prefabName = SkillData.prefabLabel;
     Vector3 startPos = Managers.Game.Player.PlayerCenterPos;
@@ -52,7 +52,7 @@ public class EgoSword : RepeatSkill
       GenerateProjectile(Managers.Game.Player, prefabName, startPos, res.normalized, Vector3.zero, this);
     }
   }
-  private void Shoot2(Vector3 dir)
+  private void SwingSwordFinal(Vector3 dir)
   {
     string prefabName = SkillData.prefabLabel;
     Vector3 startPos = Managers.Game.Player.PlayerCenterPos;
