@@ -12,7 +12,9 @@ public class Meteor : RepeatSkill
   
   private IEnumerator GenerateMeteor()
   {
+    string prefabName = Level == 6 ? "Meteor_Final" : "Meteor";
     List<MonsterController> targets = Managers.Object.GetMonsterWithinCamera(SkillData.numProjectiles);
+    
     if (targets == null) yield break;
    
     foreach (var target in targets)
@@ -20,7 +22,7 @@ public class Meteor : RepeatSkill
       if (target.IsValid())
       { 
         Vector2 startPos = GetMeteorPosition(target.CenterPosition);
-        GenerateProjectile(Managers.Game.Player, "MeteorProjectile", startPos, Vector3.zero, target.CenterPosition, this);
+        GenerateProjectile(Managers.Game.Player, prefabName, startPos, Vector3.zero, target.CenterPosition, this);
         yield return new WaitForSeconds(SkillData.attackInterval);
       }
     }
@@ -29,8 +31,8 @@ public class Meteor : RepeatSkill
   {
     float angleInRadians = 60f * Mathf.Deg2Rad;
     float spawnMargin = 1f;
-    float halfHeight = Camera.main.orthographicSize;  // 화면의 높이 절반
-    float halfWidth = Camera.main.aspect * halfHeight;     // 화면의 너비 절반
+    float halfHeight = Camera.main.orthographicSize;    // 화면의 높이 절반
+    float halfWidth = Camera.main.aspect * halfHeight;  // 화면의 너비 절반
 
     float spawnX = target.x + (halfWidth + spawnMargin) * Mathf.Cos(angleInRadians);
     float spawnY = target.y + (halfHeight + spawnMargin) * Mathf.Sin(angleInRadians);
@@ -41,6 +43,6 @@ public class Meteor : RepeatSkill
   
   protected override void DoSkillJob()
   {
-    throw new System.NotImplementedException();
+    StartCoroutine(GenerateMeteor());
   }
 }

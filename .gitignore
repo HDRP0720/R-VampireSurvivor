@@ -78,3 +78,6 @@ crashlytics-build.properties
 # Licensed Assets
 /Assets/Licensed Assets
 /Assets/@Resources
+/Packages/com.heurekagames.assethunterpro/
+/Packages/com.heurekagames.utils/
+/Packages/com.singularitygroup.hotreload/

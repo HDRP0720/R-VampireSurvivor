@@ -21,6 +21,7 @@ public class ProjectileController : SkillBase
   private Rigidbody2D _rigid;
   private int _numPenetrations;
   private GameObject _meteorShadow;
+  private GameObject _meteorMagicCircle;
   private List<CreatureController> _enteredColliderList = new List<CreatureController>();
   private Coroutine _coDotDamage;
   
@@ -146,6 +147,8 @@ public class ProjectileController : SkillBase
         _rigid.velocity = _dir * skill.SkillData.projSpeed;
         _meteorShadow = Managers.Resource.Instantiate("MeteorShadow", pooling: true);
         _meteorShadow.transform.position = target;
+        _meteorMagicCircle = Managers.Resource.Instantiate("MeteorMagicCircle", pooling: true);
+        _meteorMagicCircle.transform.position = target;
         if (gameObject.activeInHierarchy)
           StartCoroutine(CoMeteor());
         break;
@@ -293,7 +296,6 @@ public class ProjectileController : SkillBase
   {
     while (true)
     {
-
       if (_meteorShadow != null)
       {
         Vector2 shadowPosition = _meteorShadow.transform.position;

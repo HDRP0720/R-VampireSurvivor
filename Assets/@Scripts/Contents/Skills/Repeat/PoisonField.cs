@@ -19,7 +19,7 @@ public class PoisonField : RepeatSkill
 
       Vector3 spawnPos = Managers.Game.Player.PlayerCenterPos;
 
-      string prefabName = Level == 6 ? "PoisonFieldProjectile_Final" : "PoisonFieldProjectile";
+      string prefabName = Level == 6 ? "PoisonField_Final" : "PoisonField";
       if (SkillData.numProjectiles == 1)
         GenerateProjectile(Managers.Game.Player, prefabName, spawnPos, dir, spawnPos, this);
       else

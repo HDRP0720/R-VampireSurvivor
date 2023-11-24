@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using static Define;
 
-public class ElectronicField : RepeatSkill
+public class ElectricField : RepeatSkill
 {
   [SerializeField] private GameObject _normalEffect;
   [SerializeField] private GameObject _finalEffect;
@@ -56,7 +56,7 @@ public class ElectronicField : RepeatSkill
 
     if (target.IsValid() == false) return;
 
-    if (target?.IsMonster() == false) return;
+    if (target.IsMonster() == false) return;
 
     _targets.Add(target);
     

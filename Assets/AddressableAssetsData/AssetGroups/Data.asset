@@ -87,11 +87,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload
-  - m_GUID: 41dfd52da5abba149b54c1864f92755f
-    m_Address: SkillData
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
   - m_GUID: 3aea94ea04c839a46a5f4811e8760cf8
     m_Address: StageData
     m_ReadOnly: 0
