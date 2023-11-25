@@ -4,13 +4,8 @@ using UnityEngine;
 public class Map : MonoBehaviour
 {
   public SpriteRenderer spriteBackground;
-  public SpriteRenderer spritePattern;
-  public BoxCollider2D[] borderCollider;  // left right top bottom
   public GridController grid;
   public GameObject demarcation;
-  
-  public Color backgroundColor;
-  public Color patternColor;
   
   // Property
   public Vector2 MapSize
@@ -29,6 +24,6 @@ public class Map : MonoBehaviour
     Vector3 currentSize = Vector3.one * 20f;
     if(Managers.Game.CurrentWaveIndex > 7) return;
     
-    demarcation.transform.DOScale(currentSize * (10 - Managers.Game.CurrentWaveIndex) * 0.1f, 3);
+    demarcation.transform.DOScale(currentSize * ((10 - Managers.Game.CurrentWaveIndex) * 0.1f), 3);
   }
 }

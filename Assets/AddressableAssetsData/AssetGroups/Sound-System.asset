@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Sound-System
+  m_EditorClassIdentifier: 
+  m_GroupName: Sound-System
+  m_Data:
+    m_SerializedData: []
+  m_GUID: ba96aeaeade84ac4db44cfc084c3beb2
+  m_SerializeEntries:
+  - m_GUID: 591a6a8ec260ad740818d7cb8a73eb39
+    m_Address: Drop_Box
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 9be230e2a5525324d8ac5ad85ae9e1b6
+    m_Address: Equip_Equipment
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: bcacaeaeaa3f15c478c27e3b381597c0
+    m_Address: Levelup_Character
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 47636e1dda1bade48a47cdd616b34d51
+    m_Address: Levelup_Equipment
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: b1540a5e651fbce4a865666908a5a75e
+    m_Address: Merge_Equipment
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 7781b5c971cdd484e8e743354b9ab720
+    m_Address: Result_CommonMerge
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 2d0d1ed646d01234baa01c1e88afe48d
+    m_Address: Warning_Boss
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: f8b5400fe58f1d4478ace4c1034f5a78
+    m_Address: Warning_Stage
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 2be034196cf1f494183c574fc09b5d8b
+    m_Address: Warning_Wave
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 612673dc2b4536b43b12c7d3f407b27a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: a712917922cd4334a9b46cebcc9f00c3, type: 2}
+    - {fileID: 11400000, guid: 86163470e18b3494b8472e6ba6410281, type: 2}

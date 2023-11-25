@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Prefab-DropItem
+  m_EditorClassIdentifier: 
+  m_GroupName: Prefab-DropItem
+  m_Data:
+    m_SerializedData: []
+  m_GUID: edb98b7ab7c46fd4abbb5650b7df59e0
+  m_SerializeEntries:
+  - m_GUID: bc3bad10c4eb9e4498182443b7dd029a
+    m_Address: Bomb
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 33b2fa110340fce4c9970a019cccc751
+    m_Address: DropBox
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 2d581550b73c67340a4beab6451ddd25
+    m_Address: ExpGem
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: c1a52ba3a3ed1894fb0bdf726a6ee8b1
+    m_Address: Magnet
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: aa4f63827ad3a434db374509b51ec673
+    m_Address: Potion
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 87f6478657b0d564a9805e90333b6094
+    m_Address: Soul
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 612673dc2b4536b43b12c7d3f407b27a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 154e967455556464b880e7502881b48a, type: 2}
+    - {fileID: 11400000, guid: 901429b5c708f0246868857403225e70, type: 2}

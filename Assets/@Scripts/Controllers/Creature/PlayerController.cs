@@ -433,31 +433,42 @@ public class PlayerController : CreatureController
       Managers.Resource.Instantiate("HealEffect", transform);
   }
   
-
-  
-
-
+  public void OnSafetyZoneEnter(BaseController attacker)
+  {
+    creatureSprite.color = new Color(1, 1, 1, 1f);
+  }
+  public void OnSafetyZoneExit(BaseController attacker)
+  {
+    float damage = MaxHp * 0.1f;
+    OnDamaged(attacker, null, damage);
+    creatureSprite.color = new Color(1, 1, 1, 0.5f);
+    OnPlayerDamaged?.Invoke();
+  }
 
   public override void OnDamaged(BaseController attacker, SkillBase skill = null, float damage = 0)
   {
-    //무적 시 코드 주석 #Neo
     float totalDamage = 0;
     CreatureController creatureController = attacker as CreatureController;
     if (creatureController != null)
     {
-      //몬스터와 닿았을때
       if (skill == null)
         totalDamage = creatureController.Atk;
-      else//몬스터 스킬맞았을때
+      else
         totalDamage = creatureController.Atk + (creatureController.Atk * skill.SkillData.damageMultiplier);
     }
-    else// 중력장에 닿았을때
+    else
+    {
       totalDamage = damage;
-
+    }
+    
     totalDamage *= 1 - DamageReduction;
+    
     Managers.Game.CameraController.ShakeCamera();
     base.OnDamaged(attacker, null, totalDamage);
-
+  }
+  public override void OnDead()
+  {
+    OnPlayerDead?.Invoke();
   }
 
   private void HandleOnMoveDirChanged(Vector2 dir)
@@ -476,7 +487,7 @@ public class PlayerController : CreatureController
   }
 }
 
-// This is for viewing the data in the inspector
+// This is for only observing data in the inspector
 [Serializable]
 public class PlayerStat
 {

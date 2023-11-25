@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Etc
+  m_EditorClassIdentifier: 
+  m_GroupName: Etc
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 78986f868d87ba240887502a1f5bf27d
+  m_SerializeEntries:
+  - m_GUID: ca800ba2b7bc272429cf4ddee6a52b3b
+    m_Address: DamagedEffectMat
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: b967b240f011a29428f7c6c93f42bb40
+    m_Address: CreatureDefaultMat
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 612673dc2b4536b43b12c7d3f407b27a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 2da08cc7b0961ca4c97ba2b9be3dbb8a, type: 2}
+    - {fileID: 11400000, guid: 4352512be37291847a769f32b76adeea, type: 2}

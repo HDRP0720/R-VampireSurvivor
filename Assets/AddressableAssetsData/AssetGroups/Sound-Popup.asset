@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Sound-Popup
+  m_EditorClassIdentifier: 
+  m_GroupName: Sound-Popup
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 2bf6b9adfc980f444bad6d20891e0ccf
+  m_SerializeEntries:
+  - m_GUID: 7ebb3d81c8173474baffa63841b1dbb9
+    m_Address: Click_CommonButton
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 4362b7f8a32f8cd4e9ebe80ae2067c64
+    m_Address: PopupClose_Common
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 8b1a8a3160e79a44188eba5e7a8f2c38
+    m_Address: PopupOpen_Gameover
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: ca47d538a58028049b45c559a9e47b5a
+    m_Address: PopupOpen_GameResult
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: b6711251e09431343bdd8e6fc34e820d
+    m_Address: PopupOpen_Reward
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: a8f134e970701be439169ae0c9c8aabc
+    m_Address: PopupOpen_SkillSelect
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 62147bfaf98779a43ad096407bf63458
+    m_Address: PopupOpen_SoulShop
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 612673dc2b4536b43b12c7d3f407b27a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: bc13eb4687c5d824d90baa481519c2d7, type: 2}
+    - {fileID: 11400000, guid: 6ffc591a79c59b746a25e6a603fbf079, type: 2}

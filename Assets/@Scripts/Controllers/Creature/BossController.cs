@@ -1,36 +1,19 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using static Define;
 
 public class BossController : MonsterController
 {
+  private Queue<SkillBase> _skillQueue;
+  
   private void Start()
   {
     Init();
     CreatureState = ECreatureState.Skill;
     Skills.StartNextSequenceSkill();
     InvokeMonsterData();
-  }
-
-  public override void OnCollisionEnter2D(Collision2D other)
-  {
-    base.OnCollisionEnter2D(other);
-    
-    PlayerController target = other.gameObject.GetComponent<PlayerController>();
-    if (target.IsValid() == false) return;
-  
-    if (this.IsValid() == false) return;
-  }
-
-  public override void OnCollisionExit2D(Collision2D other)
-  {
-    base.OnCollisionExit2D(other);
-    
-    PlayerController target = other.gameObject.GetComponent<PlayerController>();
-    if (target.IsValid() == false) return;
-  
-    if (this.IsValid() == false) return;
   }
 
   public override bool Init()
@@ -68,5 +51,25 @@ public class BossController : MonsterController
     Atk = (creatureData.atk + (creatureData.atkBonus * Managers.Game.CurrentStageData.stageLevel)) * creatureData.atkRate;
     Hp = MaxHp;
     MoveSpeed = creatureData.moveSpeed * creatureData.moveSpeedRate;
+  }
+  
+  public override void OnCollisionEnter2D(Collision2D other)
+  {
+    base.OnCollisionEnter2D(other);
+    
+    PlayerController target = other.gameObject.GetComponent<PlayerController>();
+    if (target.IsValid() == false) return;
+  
+    if (this.IsValid() == false) return;
+  }
+
+  public override void OnCollisionExit2D(Collision2D other)
+  {
+    base.OnCollisionExit2D(other);
+    
+    PlayerController target = other.gameObject.GetComponent<PlayerController>();
+    if (target.IsValid() == false) return;
+  
+    if (this.IsValid() == false) return;
   }
 }

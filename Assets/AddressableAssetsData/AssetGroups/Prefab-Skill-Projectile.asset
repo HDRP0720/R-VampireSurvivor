@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Prefab-Skill-Projectile
+  m_EditorClassIdentifier: 
+  m_GroupName: Prefab-Skill-Projectile
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 01b8131a9635d944db3c3cd35db63fea
+  m_SerializeEntries:
+  - m_GUID: 9debaed59504ac144877d131e79cca24
+    m_Address: ArrowShot
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 2eff8bfaa6bcf2a43a57f78791a61de8
+    m_Address: ArrowShot_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: ced29fbfa53b89c4291796a11a6bc036
+    m_Address: BossProjectile
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: ff1b1f49d93881748b130751eaefc108
+    m_Address: EgoSword
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 222b8cfe9aefdbb42ba772ca3f9ebefc
+    m_Address: EgoSword_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: a61347b9cdb9f334bb962b3bac8ed7bd
+    m_Address: EnergyBolt
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: fac093d291d426246a95bd3e51681df5
+    m_Address: EnergyBolt_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: fce6208eaad7f09448c23b0380e08d16
+    m_Address: IcicleArrow
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 00b2f29171e93fd4f90526dcc34c41cd
+    m_Address: IcicleArrow_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 4fb082204ed79494787f96f0a32df1cb
+    m_Address: MonsterProjectile
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: a48be487dae62764aae144e7adaff22b
+    m_Address: PhotonStrike
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: cf331f7f31a92504ea33e3f2e4596f5c
+    m_Address: PhotonStrike_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: b387c7f37c502594586c48d2c387319d
+    m_Address: Shuriken
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 2a88b66bc0c803549867c01a4f2ced00
+    m_Address: Shuriken_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 590fe45fa1aada24493725189ecb6eea
+    m_Address: StormBlade
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 1e8f6b54a024b1646a8f206331dac821
+    m_Address: StormBlade_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 095431be1705d5c49960e555ddd0799b
+    m_Address: WindCutter
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 4e76469e5682c77408588e0c25b8e810
+    m_Address: WindCutter_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 612673dc2b4536b43b12c7d3f407b27a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 36f9350a31a8ae140b7a3b88ff32303b, type: 2}
+    - {fileID: 11400000, guid: 9dde949949b776548bc44b4b6c4d32e1, type: 2}

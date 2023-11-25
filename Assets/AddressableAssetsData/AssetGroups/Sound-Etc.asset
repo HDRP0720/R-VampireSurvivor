@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Sound-Etc
+  m_EditorClassIdentifier: 
+  m_GroupName: Sound-Etc
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 40843466c8826f64ba8bb5fa10996519
+  m_SerializeEntries:
+  - m_GUID: 8e1effc7adfd11a42a6a48cd51690976
+    m_Address: ExpGet_01
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: b40f028a952489f45a721226f6ca8ba6
+    m_Address: ExpGet_02
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: e25c744dfa5b7fe49a22ab0cceed437f
+    m_Address: SoulGet_01
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 612673dc2b4536b43b12c7d3f407b27a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 64c3cedea7940bc4eb1c568c67d8d06b, type: 2}
+    - {fileID: 11400000, guid: 75ef0e5649046204fa3adccd22776f19, type: 2}

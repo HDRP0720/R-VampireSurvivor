@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Prefab-Skill-Area
+  m_EditorClassIdentifier: 
+  m_GroupName: Prefab-Skill-Area
+  m_Data:
+    m_SerializedData: []
+  m_GUID: fb2d021f7355ca24b8721ac7ed2120bf
+  m_SerializeEntries:
+  - m_GUID: 84667cb18692cb84e8b7f6b60b9a0eea
+    m_Address: ElectricField
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 5b29b90648784fc4e9855855b2ec0cdd
+    m_Address: FrozenHeart
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 164ff1ab86abe4a48bdedfb7adb8dc44
+    m_Address: SavageSmash
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 96a87c75f9d24374095f71f7f9024a39
+    m_Address: PoisonField
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 47641fc87836a3d45834961c07ccc528
+    m_Address: PoisonField_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: ebc73c602f03d3b44b45ec75cd4e3bb6
+    m_Address: PoisonFieldEffect
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 046696756756f4e4c97bce66a4a88a48
+    m_Address: PoisonFieldEffect_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: f2fd74c968e052f478a8cb48d7e9ab00
+    m_Address: Meteor
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 172351e4212f44a4ca267359008240a8
+    m_Address: Meteor_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 8b04731a44c4f6f40bbfff564046d8f9
+    m_Address: MeteorHitEffect
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: aa487f8bdddc58a4986428b19fa2aa3a
+    m_Address: MeteorHitEffect_Final
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: c82850faa71b4c64b971d88b570046fc
+    m_Address: MeteorMagicCircle
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: da2dbc598fe926d49987b3f193a83640
+    m_Address: MeteorShadow
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 612673dc2b4536b43b12c7d3f407b27a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 96e1fadd3f6004f4680c0d61f844d407, type: 2}
+    - {fileID: 11400000, guid: 7ccf9780853aa1a4ba6df7dcaa564a2d, type: 2}

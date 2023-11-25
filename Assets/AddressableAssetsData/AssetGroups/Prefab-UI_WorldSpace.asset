@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Prefab-UI_WorldSpace
+  m_EditorClassIdentifier: 
+  m_GroupName: Prefab-UI_WorldSpace
+  m_Data:
+    m_SerializedData: []
+  m_GUID: bae20f4540e127a4bb2ec715900623ac
+  m_SerializeEntries:
+  - m_GUID: 926a211f294b4f349b66e7be35012e41
+    m_Address: UI_HPBar
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 612673dc2b4536b43b12c7d3f407b27a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: a42bd26945eab8648b5d97c07848a446, type: 2}
+    - {fileID: 11400000, guid: a6eb2f66b73a39b4995ffc7964d647db, type: 2}
