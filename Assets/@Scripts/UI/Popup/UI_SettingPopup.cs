@@ -48,7 +48,7 @@ public class UI_SettingPopup : UI_Popup
 
   enum Texts
   {
-    SettingTlileText,
+    SettingTitleText,
     // TODO: UserInfoText,
     // TODO: UseIDValueText,
     SoundEffectText,

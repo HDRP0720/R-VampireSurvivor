@@ -9,8 +9,7 @@ public class LobbyScene : BaseScene
     base.Init();
 
     SceneType = EScene.LobbyScene;
-
-    //TitleUI
+ 
     Managers.UI.ShowSceneUI<UI_LobbyScene>();
     Screen.sleepTimeout = SleepTimeout.SystemSetting;
 

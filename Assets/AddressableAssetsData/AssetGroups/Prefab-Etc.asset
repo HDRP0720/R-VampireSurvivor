@@ -20,15 +20,43 @@ MonoBehaviour:
   - m_GUID: d17c2ad623388904f86af8fcb5503844
     m_Address: DamageFont
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Preload
   - m_GUID: ce0650f7f3d511e489cd3e201f163076
     m_Address: CriticalDamageFont
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Preload
   - m_GUID: c0f67bc025501a14e86b0a6a34d5e45f
     m_Address: Player
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: dd12c376510e3d6428b44859e17128a9
+    m_Address: SceneChangeAnimation_Out
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: d86e235f3a46f634f9ef578138a53c8d
+    m_Address: SceneChangeAnimation_In
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: fbde5bcf9ca24694ab25a58385000764
+    m_Address: BossSmashHitEffect
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: f5159bb5a3d48854e911f1818d1cc0cf
+    m_Address: HealEffect
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 9887db843ec473348bad6218869af57a
+    m_Address: RevivalEffect
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 612673dc2b4536b43b12c7d3f407b27a, type: 2}
   m_SchemaSet:

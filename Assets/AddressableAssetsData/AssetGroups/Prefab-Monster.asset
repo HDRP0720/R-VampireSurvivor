@@ -16,7 +16,22 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: ca1c04771945af749b57c40df39531b2
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: f2cdc88f745e23c4390b7eef4713f661
+    m_Address: BasicMonster
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: 6b1a4c2a09a94de46b9c0f21700efebb
+    m_Address: BossMonster
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+  - m_GUID: dcc2e0f5087ab7b46b627b39b873048f
+    m_Address: EliteMonster
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 612673dc2b4536b43b12c7d3f407b27a, type: 2}
   m_SchemaSet:

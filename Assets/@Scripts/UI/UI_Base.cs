@@ -9,7 +9,7 @@ using Object = UnityEngine.Object;
 
 public class UI_Base : MonoBehaviour
 {
-  protected Dictionary<Type, Object[]> _objects = new Dictionary<Type, Object[]>();
+  private Dictionary<Type, Object[]> _objects = new Dictionary<Type, Object[]>();
   protected bool _init = false;
 
   private void Start()
@@ -40,7 +40,7 @@ public class UI_Base : MonoBehaviour
         objects[i] = Utils.FindChild<T>(gameObject, names[i], true);
       
       if(objects[i] == null)
-        Debug.Log($"Failed to bind({names[i]})");
+        Debug.Log($"Failed to bind({gameObject},{names[i]})");
     }
   }
   protected void BindObject(Type type) { Bind<GameObject>(type); }
@@ -49,7 +49,7 @@ public class UI_Base : MonoBehaviour
   protected void BindButton(Type type) { Bind<Button>(type); }
   protected void BindToggle(Type type) { Bind<Toggle>(type); }
 
-  protected T Get<T>(int idx) where T : Object
+  private T Get<T>(int idx) where T : Object
   {
     Object[] objects = null;
     if (_objects.TryGetValue(typeof(T), out objects) == false) return null;

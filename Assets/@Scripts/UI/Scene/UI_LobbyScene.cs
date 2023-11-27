@@ -67,7 +67,6 @@ public class UI_LobbyScene : UI_Scene
   private bool _isSelectedEquipment = false;
   private bool _isSelectedShop = false;
   private UI_BattlePopup _battlePopupUI;
-  private UI_EvolvePopup _evolvePopupUI;
   private UI_EquipmentPopup _equipmentPopupUI;
   private UI_MergePopup _mergePopupUI;
   private UI_EquipmentInfoPopup _equipmentInfoPopupUI;
@@ -75,7 +74,8 @@ public class UI_LobbyScene : UI_Scene
   private UI_RewardPopup _rewardPopupUI;
   private UI_MergeResultPopup _mergeResultPopupUI;
   private UI_ShopPopup _shopPopupUI;
-  private UI_ChallengePopup _challengePopupUI;
+  // private UI_EvolvePopup _evolvePopupUI;
+  // private UI_ChallengePopup _challengePopupUI;
   #endregion
 
   #region Properties
@@ -108,13 +108,13 @@ public class UI_LobbyScene : UI_Scene
     _shopPopupUI = Managers.UI.ShowPopupUI<UI_ShopPopup>();
     _equipmentPopupUI = Managers.UI.ShowPopupUI<UI_EquipmentPopup>();
     _battlePopupUI = Managers.UI.ShowPopupUI<UI_BattlePopup>();
-    _challengePopupUI = Managers.UI.ShowPopupUI<UI_ChallengePopup>();
-    _evolvePopupUI = Managers.UI.ShowPopupUI<UI_EvolvePopup>();
     _equipmentInfoPopupUI = Managers.UI.ShowPopupUI<UI_EquipmentInfoPopup>();
     _mergePopupUI = Managers.UI.ShowPopupUI<UI_MergePopup>();
     _equipmentResetPopupUI = Managers.UI.ShowPopupUI<UI_EquipmentResetPopup>();
     _rewardPopupUI = Managers.UI.ShowPopupUI<UI_RewardPopup>();
     _mergeResultPopupUI = Managers.UI.ShowPopupUI<UI_MergeResultPopup>();
+    // _evolvePopupUI = Managers.UI.ShowPopupUI<UI_EvolvePopup>();
+    // _challengePopupUI = Managers.UI.ShowPopupUI<UI_ChallengePopup>();
   
     TogglesInit();
     GetToggle((int)Toggles.BattleToggle).gameObject.GetComponent<Toggle>().isOn = true;
@@ -139,18 +139,16 @@ public class UI_LobbyScene : UI_Scene
   private void TogglesInit()
   {
     #region 팝업 초기화
-
     _shopPopupUI.gameObject.SetActive(false);
     _equipmentPopupUI.gameObject.SetActive(false);
     _battlePopupUI.gameObject.SetActive(false);
-    _challengePopupUI.gameObject.SetActive(false);
-    _evolvePopupUI.gameObject.SetActive(false);
     _equipmentInfoPopupUI.gameObject.SetActive(false);
     _mergePopupUI.gameObject.SetActive(false);
     _equipmentResetPopupUI.gameObject.SetActive(false);
     _rewardPopupUI.gameObject.SetActive(false);
     _mergeResultPopupUI.gameObject.SetActive(false);
-
+    // _evolvePopupUI.gameObject.SetActive(false);
+    // _challengePopupUI.gameObject.SetActive(false);
     #endregion
 
     #region 토글 버튼 초기화
@@ -195,7 +193,6 @@ public class UI_LobbyScene : UI_Scene
     GetToggle((int)Toggles.BattleToggle).GetComponent<RectTransform>().sizeDelta = new Vector2(200, 150);
     //GetToggle((int)Toggles.ChallengeToggle).GetComponent<RectTransform>().sizeDelta = new Vector2(200, 150);
     //GetToggle((int)Toggles.EvolveToggle).GetComponent<RectTransform>().sizeDelta = new Vector2(200, 150);
-
     #endregion
   }
 
@@ -216,8 +213,8 @@ public class UI_LobbyScene : UI_Scene
   { 
     Managers.Sound.PlayButtonClick();
     GetImage((int)Images.BackgroundImage).color = Utils.HexToColor("525DAD"); // 배경 색상 변경
-    if (_isSelectedShop == true) // 활성화 후 토글 클릭 방지
-        return;
+    if (_isSelectedShop) return;  // 활성화 후 토글 클릭 방지
+        
     ShowUI(_shopPopupUI.gameObject, GetToggle((int)Toggles.ShopToggle), GetText((int)Texts.ShopToggleText), GetObject((int)GameObjects.CheckShopImageObject));
     _isSelectedShop = true;
   }

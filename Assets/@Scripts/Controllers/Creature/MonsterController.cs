@@ -72,7 +72,7 @@ public class MonsterController : CreatureController
     Rb.simulated = true;
     transform.localScale = new Vector3(1f, 1f, 1f);
     
-    // Initialize turn off and on for pooling
+    // Initializing whenever turn off/on for pooling
     SetMonsterPosition();
 
     if (Skills)

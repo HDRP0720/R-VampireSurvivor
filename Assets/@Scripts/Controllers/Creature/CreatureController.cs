@@ -227,7 +227,7 @@ public abstract class CreatureController : BaseController
   public void Resurrection(float healRate, float moveSpeed = 0, float atkRate = 0)
   {
     Healing(healRate, false);
-    Managers.Resource.Instantiate("Revival", transform);
+    Managers.Resource.Instantiate("RevivalEffect", transform);
     MoveSpeedRate += moveSpeed;
     AttackRate += atkRate;
     UpdatePlayerStat();

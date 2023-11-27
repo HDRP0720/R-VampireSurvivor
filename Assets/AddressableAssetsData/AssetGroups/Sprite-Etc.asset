@@ -17,26 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 3b9eb5e5974ba0745a2ae76008044a12
   m_SerializeEntries:
-  - m_GUID: 1efb21ecc3e676c418306d8fed3065e7
-    m_Address: GreenGem.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
-  - m_GUID: 28910816cb514024d9ee6c2b03564560
-    m_Address: BlueGem.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
-  - m_GUID: 8909945f1d8834a4b824d209b9231d92
-    m_Address: YellowGem.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
-  - m_GUID: 7f7215c89cea4c34f8b7af0044cfd972
-    m_Address: SmallGem.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
   - m_GUID: 7a1eeb44fa6b32648bd623892d7f6459
     m_Address: EqptBox_Icon.sprite
     m_ReadOnly: 0
@@ -122,18 +102,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload
-  - m_GUID: 4d7b6e2147aabd74091a2f51162aa351
-    m_Address: CommonBox_Icon.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
   - m_GUID: b60e7af940d881f47a090a1b10c9c1e3
     m_Address: Dia_Icon.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
-  - m_GUID: 84edb3a7006589d4e85cfa95bfdb1a93
-    m_Address: EpicBox_Icon.sprite
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload
@@ -159,31 +129,6 @@ MonoBehaviour:
     - Preload
   - m_GUID: 53cec652d07b3204c8afb09ded6fa75b
     m_Address: Key_Silver_Icon.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
-  - m_GUID: 6641665ddfabf864480528cddd865181
-    m_Address: Magnet_Icon.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
-  - m_GUID: 6904d33901a14d24fae9901ee3735e7c
-    m_Address: Potion_Full_Icon.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
-  - m_GUID: eb12e58c44ad10e4cbace4f8f0724fbc
-    m_Address: Potion_High_Icon.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
-  - m_GUID: 756e1eb98d0821d44a548887c5777438
-    m_Address: Potion_Icon.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
-  - m_GUID: 124fc50498d7f714692f46693e4cf8a4
-    m_Address: RareBox_Icon.sprite
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload
