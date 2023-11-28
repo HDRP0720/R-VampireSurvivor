@@ -96,7 +96,7 @@ public class UI_FastRewardPopup : UI_Popup
 
     UI_MaterialItem item = Managers.UI.MakeSubItem<UI_MaterialItem>(container.transform);
     int count = (_offlineRewardData.reward_Gold) * 5;
-    item.SetInfo(GOLD_SPRITE_NAME, count);
+    item.SetInfo("Gold_Icon", count);
 
     UI_MaterialItem scroll = Managers.UI.MakeSubItem<UI_MaterialItem>(container.transform);
     scroll.SetInfo("Scroll_Random_Icon", _offlineRewardData.fastReward_Scroll);

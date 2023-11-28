@@ -14,7 +14,7 @@ public class ElectricField : RepeatSkill
   
   private void Awake()
   {
-    SkillType = ESkillType.ElectronicField;
+    SkillType = ESkillType.ElectricField;
     gameObject.SetActive(false);
   }
   private void Update()

@@ -46,7 +46,7 @@ public static class Define
     EnergyBolt = 10001,       //100001 ~ 100005 
     IcicleArrow = 10011,      //100011 ~ 100015 
     PoisonField = 10021,      //100021 ~ 100025 
-    ElectronicField = 10031,   //100031 ~ 100035 
+    ElectricField = 10031,   //100031 ~ 100035 
     Meteor = 10041,           //100041 ~ 100045 
     FrozenHeart = 10051,      //100051 ~ 100055 
     WindCutter = 10061,       //100061 ~ 100065 

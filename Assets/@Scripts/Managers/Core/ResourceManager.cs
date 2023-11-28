@@ -13,6 +13,13 @@ public class ResourceManager
     if (_resources.TryGetValue(key, out Object resource))
       return resource as T;
 
+    if (typeof(T) == typeof(Sprite))
+    {
+      key += ".sprite";
+      if (_resources.TryGetValue(key, out Object temp))
+        return temp as T;
+    }
+
     return null;
   }
 

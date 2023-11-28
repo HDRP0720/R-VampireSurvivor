@@ -37,7 +37,7 @@ public class DataManager
     LevelDataDic = LoadJson<LevelDataLoader, int, LevelData>("LevelData").MakeDict();
     EquipDataDic = LoadJson<EquipmentDataLoader, string, EquipmentData>("EquipmentData").MakeDict();
     EquipLevelDataDic = LoadJson<EquipmentLevelDataLoader, int, EquipmentLevelData>("EquipmentLevelData").MakeDict();
-    GachaTableDataDic = LoadJson<GachaDataLoader, Define.EGachaType, GachaTableData>("GachaTableData").MakeDict();
+    GachaTableDataDic = LoadJson<GachaTableDataLoader, Define.EGachaType, GachaTableData>("GachaTableData").MakeDict();
     MissionDataDic = LoadJson<MissionDataLoader, int, MissionData>("MissionData").MakeDict();
     AchievementDataDic = LoadJson<AchievementDataLoader, int, AchievementData>("AchievementData").MakeDict();
     DropItemDataDic = LoadJson<DropItemDataLoader, int, DropItemData>("DropItemData").MakeDict();

@@ -105,7 +105,7 @@ public class UI_SkillSelectPopup : UI_Popup
     else
       GetText((int)Texts.CardRefreshCountValueText).text = $"<color=red>남은 횟수 : 0</color>";
 
-    LayoutRebuilder.ForceRebuildLayoutImmediate(GetObject((int)GameObjects.CharacterLevelObject).GetComponent<RectTransform>());
+    // LayoutRebuilder.ForceRebuildLayoutImmediate(GetObject((int)GameObjects.CharacterLevelObject).GetComponent<RectTransform>());
   }
   
   private void SetRecommendSkills()

@@ -457,7 +457,7 @@ public class DataTransformer : EditorWindow
   private static void ParseGachaTableData(string filename)
   {
     Dictionary<EGachaType, List<GachaRateData>> gachaTable = ParseGachaRateData("GachaTable");
-    GachaDataLoader loader = new GachaDataLoader();
+    GachaTableDataLoader loader = new GachaTableDataLoader();
 
     #region Change Excel CSV Data To GachaTable Data
     // string[] lines = File.ReadAllText($"{Application.dataPath}/@Resources/Data/Excel/{filename}Data.csv").Split("\n");

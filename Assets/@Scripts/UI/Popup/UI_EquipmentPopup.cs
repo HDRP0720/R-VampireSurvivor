@@ -205,7 +205,7 @@ public class UI_EquipmentPopup : UI_Popup
 
     foreach (int id in Managers.Game.ItemDictionary.Keys)
     {
-      if (Managers.Data.MaterialDic.TryGetValue(id, out MaterialData material) == true)
+      if (Managers.Data.MaterialDic.TryGetValue(id, out MaterialData material))
       {
         UI_MaterialItem item = Managers.UI.MakeSubItem<UI_MaterialItem>(container.transform);
         int count = Managers.Game.ItemDictionary[id];

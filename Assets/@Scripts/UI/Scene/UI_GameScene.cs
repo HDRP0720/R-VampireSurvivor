@@ -79,7 +79,7 @@ public class UI_GameScene : UI_Scene
   enum Buttons
   {
     PauseButton,
-    DevelopButton,
+    // DevelopButton,
     SoulShopButton,
     CardListResetButton,
     SoulShopCloseButton,
@@ -95,31 +95,31 @@ public class UI_GameScene : UI_Scene
     SoulValueText,
     KillValueText,
     CharacterLevelValueText,
-    CardListResetText,
-    ResetCostValueText,
+    // CardListResetText,
+    // ResetCostValueText,
     //BattleSkillCountValueText,
     SupportSkillCountValueText,
 
     EliteNameValueText,
     BossNameValueText,
 
-    MonsterCommentText,
-    BossCommentText,
+    // MonsterCommentText,
+    // BossCommentText,
   }
   enum Images
   {
-    BattleSkilI_Icon_0,
-    BattleSkilI_Icon_1,
-    BattleSkilI_Icon_2,
-    BattleSkilI_Icon_3,
-    BattleSkilI_Icon_4,
-    BattleSkilI_Icon_5,
-    SupportSkilI_Icon_0,
-    SupportSkilI_Icon_1,
-    SupportSkilI_Icon_2,
-    SupportSkilI_Icon_3,
-    SupportSkilI_Icon_4,
-    SupportSkilI_Icon_5,
+    BattleSkill_Icon_0,
+    BattleSkill_Icon_1,
+    BattleSkill_Icon_2,
+    BattleSkill_Icon_3,
+    BattleSkill_Icon_4,
+    BattleSkill_Icon_5,
+    SupportSkill_Icon_0,
+    SupportSkill_Icon_1,
+    SupportSkill_Icon_2,
+    SupportSkill_Icon_3,
+    SupportSkill_Icon_4,
+    SupportSkill_Icon_5,
   }
   enum AlramType
   {
