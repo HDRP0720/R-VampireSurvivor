@@ -215,6 +215,7 @@ public class UI_StageSelectPopup : UI_Popup
   private void OnClickBackButton()
   {
     OnPopupClosed?.Invoke();
+    
     Managers.UI.ClosePopupUI(this);
   }
   private void OnChangeStage(int index)

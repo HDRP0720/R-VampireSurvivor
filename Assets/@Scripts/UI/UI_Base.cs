@@ -99,9 +99,9 @@ public class UI_Base : MonoBehaviour
     }
   }
 
-  public void PopupOpenAnimation(GameObject contentObject)
+  protected void PopupOpenAnimation(GameObject contentObject)
   {
-    contentObject.transform.localPosition = new Vector3(0.8f, 0.8f, 1);
+    contentObject.transform.localScale = new Vector3(0.8f, 0.8f, 1);
     contentObject.transform.DOScale(1f, 0.1f).SetEase(Ease.InOutBack).SetUpdate(true);
   }
 }

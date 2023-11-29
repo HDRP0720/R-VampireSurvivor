@@ -18,7 +18,6 @@ public class SceneManagerEx
       case Define.EScene.LobbyScene:
         SceneChangeAnimation_In anim2 = Managers.Resource.Instantiate("SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_In>();
         anim2.transform.SetParent(parent);
-        Debug.Log("scene transition check");
         Time.timeScale = 1;
         anim2.SetInfo(type, () =>
         {
