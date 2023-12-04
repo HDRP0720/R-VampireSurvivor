@@ -81,10 +81,13 @@ public class UI_ContinuePopup : UI_Popup
   
   private void Refresh()
   {
-    if (Managers.Game.ItemDictionary.TryGetValue(ID_BRONZE_KEY, out int keyCount) == true)
-      GetText((int)Texts.ContinueCostValueText).text = $"1/{keyCount}";
-    else
-      GetText((int)Texts.ContinueCostValueText).text = $"<color=red>0</color>";
+    if (Managers.Game.ItemDictionary.TryGetValue(ID_CLOVER, out int keyCount))
+    {
+      if(keyCount > 0)
+        GetText((int)Texts.ContinueCostValueText).text = $"1/{keyCount}";
+      else
+        GetText((int)Texts.ContinueCostValueText).text = $"<color=red>0</color>";
+    }
 
     LayoutRebuilder.ForceRebuildLayoutImmediate(GetButton((int)Buttons.ADContinueButton).gameObject.GetComponent<RectTransform>());
   }
@@ -116,11 +119,14 @@ public class UI_ContinuePopup : UI_Popup
   {
     Managers.Sound.PlayButtonClick();
 
-    if (Managers.Game.ItemDictionary.TryGetValue(ID_BRONZE_KEY, out int keyCount))
+    if (Managers.Game.ItemDictionary.TryGetValue(ID_CLOVER, out int keyCount))
     {
-      Managers.Game.RemoveMaterialItem(ID_BRONZE_KEY, 1);
-      Managers.Game.Player.Resurrection(1);
-      Managers.UI.ClosePopupUI(this);
+      if (keyCount > 0)
+      {
+        Managers.Game.RemoveMaterialItem(ID_CLOVER, 1);
+        Managers.Game.Player.Resurrection(1);
+        Managers.UI.ClosePopupUI(this);
+      }
     }
   }
   private void OnClickADContinueButton()

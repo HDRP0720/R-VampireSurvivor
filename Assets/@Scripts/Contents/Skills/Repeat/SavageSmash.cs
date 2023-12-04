@@ -15,6 +15,12 @@ public class SavageSmash : RepeatSkill
   {
     SkillType = ESkillType.SavageSmash;
   }
+  private void OnTriggerEnter2D(Collider2D collision)
+  {
+    CreatureController creature = collision.transform.GetComponent<CreatureController>();
+    if (creature != null && creature.IsMonster())
+      creature.OnDamaged(Managers.Game.Player, this);
+  }
   
   public override void OnLevelUp()
   {
@@ -65,13 +71,6 @@ public class SavageSmash : RepeatSkill
       var main = _swingParticle[swingType].main;
       main.startRotation = _radian;
     }
-  }
-  
-  private void OnTriggerEnter2D(Collider2D collision)
-  {
-    CreatureController creature = collision.transform.GetComponent<CreatureController>();
-    if (creature != null && creature.IsMonster())
-      creature.OnDamaged(Managers.Game.Player, this);
   }
   
   protected override void DoSkillJob()

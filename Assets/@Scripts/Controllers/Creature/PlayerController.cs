@@ -9,7 +9,7 @@ using static Define;
 public class PlayerController : CreatureController
 {
   public PlayerStat statViewer = new PlayerStat();
-  public Transform indicator;
+  public GameObject indicator;
   
   [SerializeField] private Transform _indicatorSprite;
   
@@ -339,7 +339,7 @@ public class PlayerController : CreatureController
     MoveSpeed = creatureData.moveSpeed * creatureData.moveSpeedRate;
 
     //장비 합산 데이터 다 가져오기
-    var (equip_hp, equip_attack) = Managers.Game.GetCurrentChracterStat();
+    var (equip_hp, equip_attack) = Managers.Game.GetCurrentCharacterStat();
     MaxHp += equip_hp;
     Atk += equip_attack;
 

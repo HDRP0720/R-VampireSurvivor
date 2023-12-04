@@ -101,7 +101,7 @@ public static class Define
     BeltScroll,
     ArmorScroll,
     BootsScroll,
-    BronzeKey,
+    Clover,
     SilverKey,
     GoldKey,
     RandomScroll,
@@ -232,7 +232,7 @@ public static class Define
   public static int ID_GOLD = 50001;
   public static int ID_DIA = 50002;
   public static int ID_STAMINA = 50003;
-  public static int ID_BRONZE_KEY = 50201;
+  public static int ID_CLOVER = 50201;
   public static int ID_SILVER_KEY = 50202;
   public static int ID_GOLD_KEY = 50203;
   public static int ID_RANDOM_SCROLL = 50301;

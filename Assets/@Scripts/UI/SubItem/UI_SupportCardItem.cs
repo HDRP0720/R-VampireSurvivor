@@ -43,7 +43,7 @@ public class UI_SupportCardItem : UI_Base
   }
   #endregion
   
-  private SupportSkillData _supportSkilllData;
+  private SupportSkillData _supportSkillData;
   
   private void Awake()
   {
@@ -69,43 +69,77 @@ public class UI_SupportCardItem : UI_Base
   public void SetInfo(SupportSkillData supportSkill)
   {
     transform.localScale = Vector3.one;
-    _supportSkilllData = supportSkill;
+    _supportSkillData = supportSkill;
     GetObject((int)GameObjects.SoldOutObject).SetActive(false);
 
     Refresh();
   }
 
-  private void Refresh() { }
+  private void Refresh()
+  {
+    GetText((int)Texts.CardNameText).text = _supportSkillData.name;
+    GetText((int)Texts.SkillDescriptionText).text = _supportSkillData.description;
+    GetText((int)Texts.SoulValueText).text = _supportSkillData.price.ToString();
+    GetImage((int)Images.SupportSkillImage).sprite = Managers.Resource.Load<Sprite>(_supportSkillData.iconLabel);
+    GetObject((int)GameObjects.SoldOutObject).SetActive(_supportSkillData.isPurchased);
+    GetToggle((int)Toggles.LockToggle).isOn = _supportSkillData.isLocked;
+
+    switch (_supportSkillData.supportSkillGrade)
+    {
+      case ESupportSkillGrade.Common:
+        GetImage((int)Images.SupportSkillCardBackgroundImage).color = EquipmentUIColors.Common;
+        GetImage((int)Images.SupportCardTitleImage).color = EquipmentUIColors.CommonNameColor;
+        break;
+      case ESupportSkillGrade.Uncommon:
+        GetImage((int)Images.SupportSkillCardBackgroundImage).color = EquipmentUIColors.Uncommon;
+        GetImage((int)Images.SupportCardTitleImage).color = EquipmentUIColors.UncommonNameColor;
+        break;
+      case ESupportSkillGrade.Rare:
+        GetImage((int)Images.SupportSkillCardBackgroundImage).color = EquipmentUIColors.Rare;
+        GetImage((int)Images.SupportCardTitleImage).color = EquipmentUIColors.RareNameColor;
+        break;
+      case ESupportSkillGrade.Epic:
+        GetImage((int)Images.SupportSkillCardBackgroundImage).color = EquipmentUIColors.Epic;
+        GetImage((int)Images.SupportCardTitleImage).color = EquipmentUIColors.EpicNameColor;
+        break;
+      case ESupportSkillGrade.Legend:
+        GetImage((int)Images.SupportSkillCardBackgroundImage).color = EquipmentUIColors.Legendary;
+        GetImage((int)Images.SupportCardTitleImage).color = EquipmentUIColors.LegendaryNameColor;
+        break;
+      default:
+        break;
+    }
+  }
 
   private void OnClickLockToggle()
   {
     Managers.Sound.PlayButtonClick();
     
-    if (_supportSkilllData.isPurchased) return;
+    if (_supportSkillData.isPurchased) return;
 
     if (GetToggle((int)Toggles.LockToggle).isOn == true)
     {
-      _supportSkilllData.isLocked = true;
-      Managers.Game.Player.Skills.LockedSupportSkills.Add(_supportSkilllData);
+      _supportSkillData.isLocked = true;
+      Managers.Game.Player.Skills.LockedSupportSkills.Add(_supportSkillData);
     }
     else
     {
-      _supportSkilllData.isLocked = false;
-      Managers.Game.Player.Skills.LockedSupportSkills.Remove(_supportSkilllData);
+      _supportSkillData.isLocked = false;
+      Managers.Game.Player.Skills.LockedSupportSkills.Remove(_supportSkillData);
     }
   }
   private void OnClickBuy()
   {
     if (GetObject((int)GameObjects.SoldOutObject).activeInHierarchy == true) return;
    
-    if (Managers.Game.Player.SoulCount >= _supportSkilllData.price)
+    if (Managers.Game.Player.SoulCount >= _supportSkillData.price)
     {
-      Managers.Game.Player.SoulCount -= _supportSkilllData.price;
+      Managers.Game.Player.SoulCount -= _supportSkillData.price;
       
-      if(Managers.Game.Player.Skills.LockedSupportSkills.Contains(_supportSkilllData))
-        Managers.Game.Player.Skills.LockedSupportSkills.Remove(_supportSkilllData);
+      if(Managers.Game.Player.Skills.LockedSupportSkills.Contains(_supportSkillData))
+        Managers.Game.Player.Skills.LockedSupportSkills.Remove(_supportSkillData);
 
-      Managers.Game.Player.Skills.AddSupportSkill(_supportSkilllData);
+      Managers.Game.Player.Skills.AddSupportSkill(_supportSkillData);
       GetObject((int)GameObjects.SoldOutObject).SetActive(true);
       
       //구매완료

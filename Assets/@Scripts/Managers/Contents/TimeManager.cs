@@ -161,17 +161,21 @@ public class TimeManager : MonoBehaviour
       LastLoginTime = DateTime.Now;
             
       // 모든 하루 n번 가능한 변수들 클리어
-      Managers.Game.GachaCountAdsAdvanced = 1;
-      Managers.Game.GachaCountAdsCommon = 1;
-      Managers.Game.GoldCountAds = 1;
-      Managers.Game.RebirthCountAds = 3;
-      Managers.Game.DiaCountAds = 3;
-      Managers.Game.StaminaCountAds = 1;
-      Managers.Game.FastRewardCountAds = 1;
-      Managers.Game.SkillRefreshCountAds = 3;
-      Managers.Game.RemainsStaminaByDia = 3;
-      Managers.Game.BronzeKeyCountAds = 3;
-      Managers.Game.FastRewardCountStamina = 3;
+      Managers.Game.CloverCountAds = 1;         // 상점에서 광고를 보고 클로버(부활권)를 얻을 수 있는 기회
+      Managers.Game.GachaCountAdsAdvanced = 1;  // 상점에서 광고를 보고 고급 가챠를 돌릴 수 있는 기회
+      Managers.Game.GachaCountAdsCommon = 1;    // 상점에서 광고를 보고 일반 가챠를 돌릴 수 있는 기회
+      Managers.Game.GoldCountAds = 1;           // 상점에서 광고를 보고 골드를 얻을 수 있는 기회
+      
+      Managers.Game.SkillRefreshCountAds = 3;   // 전투에서 광고를 보고 추천 스킬을 변경할 수 있는 기회
+      Managers.Game.RebirthCountAds = 3;        // 전투에서 광고를 보고 부활을 할 수 있는 기회
+      
+      Managers.Game.DiaCountAds = 3;            // 로비에서 광고를 보고 다이아 재화를 얻을 수 있는 기회
+      Managers.Game.StaminaCountAds = 1;        // 로비에서 광고를 보고 스태미나를 충전 할 수 있는 기회
+      Managers.Game.FastRewardCountAds = 1;     // 로비에서 광고를 보고 빠른 정찰 보수를 얻을 수 있는 기회
+      
+      Managers.Game.GainStaminaByDia = 3;
+      
+      Managers.Game.FastRewardCountStamina = 3; // 로비에서 스태미나를 사용하여 빠른 정찰 보수를 얻을 수 있는 기회
 
       Managers.Game.DicMission.Clear();
       Managers.Game.DicMission = new Dictionary<EMissionTarget, MissionInfo>()

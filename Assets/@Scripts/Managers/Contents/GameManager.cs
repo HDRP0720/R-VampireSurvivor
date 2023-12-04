@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 
 using Newtonsoft.Json;
 using Data;
+using UnityEngine.Serialization;
 using static Define;
 
 [Serializable]
@@ -34,7 +35,7 @@ public class GameData
   public int userLevel = 1;
   public string userName = "Player";
 
-  public int stamina = Define.MAX_STAMINA;
+  public int stamina = MAX_STAMINA;
   public int gold = 0;
   public int dia = 0;
 
@@ -59,8 +60,8 @@ public class GameData
   public int fastRewardCountAds = 1;
   public int fastRewardCountStamina = 3;
   public int skillRefreshCountAds = 3;
-  public int remainsStaminaByDia = 3;
-  public int bronzeKeyCountAds = 1;
+  public int gainStaminaByDia = 3;
+  public int cloverCountAds = 1;
   #endregion
   
   public bool[] attendanceReceived = new bool[30];
@@ -426,15 +427,15 @@ public class GameManager
     get => _gameData.skillRefreshCountAds;
     set => _gameData.skillRefreshCountAds = value;
   }
-  public int RemainsStaminaByDia
+  public int GainStaminaByDia
   {
-    get => _gameData.remainsStaminaByDia;
-    set => _gameData.remainsStaminaByDia = value;
+    get => _gameData.gainStaminaByDia;
+    set => _gameData.gainStaminaByDia = value;
   }
-  public int BronzeKeyCountAds
+  public int CloverCountAds
   {
-    get => _gameData.bronzeKeyCountAds;
-    set => _gameData.bronzeKeyCountAds = value;
+    get => _gameData.cloverCountAds;
+    set => _gameData.cloverCountAds = value;
   }
   public int FastRewardCountStamina
   {
@@ -518,8 +519,9 @@ public class GameManager
     SetBaseEquipment();
 
     Managers.Achievement.Init();
-
-    ExchangeMaterial(Managers.Data.MaterialDic[Define.ID_BRONZE_KEY], 10);
+    
+    // 처음 접속할 때 주는 보상들
+    ExchangeMaterial(Managers.Data.MaterialDic[Define.ID_CLOVER], 1);
     ExchangeMaterial(Managers.Data.MaterialDic[Define.ID_GOLD_KEY], 30);
     ExchangeMaterial(Managers.Data.MaterialDic[Define.ID_DIA], 1000);
     ExchangeMaterial(Managers.Data.MaterialDic[Define.ID_GOLD], 100000);
@@ -547,7 +549,7 @@ public class GameManager
       case EMaterialType.Stamina:
         Stamina += count;
         break;
-      case EMaterialType.BronzeKey:
+      case EMaterialType.Clover:
       case EMaterialType.SilverKey:
       case EMaterialType.GoldKey:
         AddMaterialItem(data.dataId, count);
@@ -631,18 +633,18 @@ public class GameManager
     Player.StopAllCoroutines();
     Managers.UI.ShowPopupUI<UI_GameoverPopup>().SetInfo();
   }
-  public (int hp, int atk) GetCurrentChracterStat()
+  public (int hp, int atk) GetCurrentCharacterStat()
   {
     int hpBonus = 0;
-    int AtkBonus = 0;
+    int atkBonus = 0;
     var (equipHpBonus, equipAtkBonus) = GetEquipmentBonus();
 
     Character ch = CurrentCharacter;
 
     hpBonus = (equipHpBonus);
-    AtkBonus = (equipAtkBonus);
+    atkBonus = (equipAtkBonus);
 
-    return (hpBonus, AtkBonus);
+    return (hpBonus, atkBonus);
   }
   #endregion
 

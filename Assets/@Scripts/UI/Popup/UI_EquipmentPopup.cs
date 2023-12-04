@@ -169,7 +169,7 @@ public class UI_EquipmentPopup : UI_Popup
     #endregion
     
     #region Character Stats
-    var (hp, attack) = Managers.Game.GetCurrentChracterStat();
+    var (hp, attack) = Managers.Game.GetCurrentCharacterStat();
     GetText((int)Texts.AttackValueText).text = (Managers.Game.CurrentCharacter.Atk + attack).ToString();
     GetText((int)Texts.HealthValueText).text = (Managers.Game.CurrentCharacter.MaxHp + hp).ToString();
     #endregion

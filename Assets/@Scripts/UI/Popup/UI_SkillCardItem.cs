@@ -7,7 +7,7 @@ public class UI_SkillCardItem : UI_Base
   // SkillCardBackgroundImage : 스킬 종류에 따라 배경 색깔 변경
   // - 배틀 스킬 : #FF4E4E
   // - 서포트 스킬 : #B7FF23
-  // NewIImageObject : 새로 입수한 스킬이라면 활성화
+  // NewImageObject : 새로 입수한 스킬이라면 활성화
   // EvoSkillImage : 조합할 스킬 아이콘 표시
   // StarOn_0 ~ 4 : 스킬 레벨에 따라 활성화
   #endregion
@@ -15,7 +15,7 @@ public class UI_SkillCardItem : UI_Base
   #region Enums For Binding UI Automatically
   enum GameObjects
   {
-    NewIImageObject,
+    NewImageObject,
   }
   enum Texts
   {
@@ -42,14 +42,12 @@ public class UI_SkillCardItem : UI_Base
 
   protected override bool Init()
   {
-    if (base.Init() == false)
-      return false;
-    #region Object Bind
+    if (base.Init() == false) return false;
+   
     BindObject(typeof(GameObjects));
     BindText(typeof(Texts));
     BindImage(typeof(Images));
     gameObject.BindEvent(OnClicked);
-    #endregion
 
     return true;
   }
@@ -57,7 +55,7 @@ public class UI_SkillCardItem : UI_Base
   public void SetInfo(SkillBase skill)
   {
     transform.localScale = Vector3.one;
-    GetObject((int)GameObjects.NewIImageObject).gameObject.SetActive(false);
+    GetObject((int)GameObjects.NewImageObject).gameObject.SetActive(false);
 
     _skill = skill;
     GetImage((int)Images.SkillImage).sprite = Managers.Resource.Load<Sprite>(skill.UpdateSkillData().iconLabel);

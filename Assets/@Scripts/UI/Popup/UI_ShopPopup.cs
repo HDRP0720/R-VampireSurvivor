@@ -266,8 +266,8 @@ public class UI_ShopPopup : UI_Popup
     }
     else if (Input.GetKeyDown(KeyCode.F2))
     {
+      // Managers.Game.ExchangeMaterial(Managers.Data.MaterialDic[ID_CLOVER], 10);
       Managers.Game.ExchangeMaterial(Managers.Data.MaterialDic[ID_GOLD_KEY], 10);
-      Managers.Game.ExchangeMaterial(Managers.Data.MaterialDic[ID_BRONZE_KEY], 10);
       Managers.Game.ExchangeMaterial(Managers.Data.MaterialDic[ID_SILVER_KEY], 10);
       Managers.Game.AddMaterialItem(ID_WEAPON_SCROLL, 10);
       Managers.Game.AddMaterialItem(ID_GLOVES_SCROLL, 10);
@@ -401,7 +401,7 @@ public class UI_ShopPopup : UI_Popup
   {
     Managers.Game.ItemDictionary.TryGetValue(ID_GOLD_KEY, out int goldKeyCount);
     Managers.Game.ItemDictionary.TryGetValue(ID_SILVER_KEY, out int silverKeyCount);
-    Managers.Game.ItemDictionary.TryGetValue(ID_BRONZE_KEY, out int bronzeKeyCount);
+    // Managers.Game.ItemDictionary.TryGetValue(ID_CLOVER, out int cloverCount);
         
     GetText((int)Texts.CommonGachaCostValueText).text = $"{silverKeyCount}/1";
     GetText((int)Texts.AdvancedGachaCostValueText).text = $"{goldKeyCount}/1";
@@ -409,7 +409,7 @@ public class UI_ShopPopup : UI_Popup
     GetButton((int)Buttons.ADAdvancedGachaOpenButton).gameObject.SetActive(Managers.Game.GachaCountAdsAdvanced > 0);
     GetButton((int)Buttons.ADCommonGachaOpenButton).gameObject.SetActive(Managers.Game.GachaCountAdsCommon > 0);
     GetObject((int)GameObjects.FreeGoldSoldOutObject).SetActive(Managers.Game.GoldCountAds == 0); // 솔드아웃 표시
-    GetObject((int)GameObjects.AdKeySoldOutObject).SetActive(Managers.Game.BronzeKeyCountAds == 0);
+    GetObject((int)GameObjects.AdKeySoldOutObject).SetActive(Managers.Game.CloverCountAds == 0);
 
     int goldAmount = 0;
     if (Managers.Data.OfflineRewardDataDic.TryGetValue(Managers.Game.GetMaxStageIndex(), out OfflineRewardData offlineReward))
@@ -601,8 +601,23 @@ public class UI_ShopPopup : UI_Popup
   private void OnClickAdKeyButton() // 광고 열쇠 버튼
   {
     Managers.Sound.PlayButtonClick();
-    if (Managers.Game.BronzeKeyCountAds > 0)
+    if (Managers.Game.CloverCountAds > 0)
     {
+      Managers.UI.ShowToast("광고 연동이 필요한 테스트 상황 입니다.");
+      
+      string[] spriteName = new string[1];
+      int[] count = new int[1];
+      
+      spriteName[0] = Managers.Data.MaterialDic[ID_CLOVER].spriteName;
+      count[0] = 1;
+      
+      UI_RewardPopup rewardPopup = (Managers.UI.SceneUI as UI_LobbyScene).RewardPopupUI;
+      rewardPopup.gameObject.SetActive(true);
+      Managers.Game.CloverCountAds--;
+      Managers.Game.ExchangeMaterial(Managers.Data.MaterialDic[ID_CLOVER], 1);
+      Refresh();
+      rewardPopup.SetInfo(spriteName, count);
+      
       // TODO: 광고 연동 필요
       // Managers.Ads.ShowRewardedAd(() =>
       // {
@@ -619,6 +634,10 @@ public class UI_ShopPopup : UI_Popup
       //   Refresh();
       //   rewardPopup.SetInfo(spriteName, count);
       // });
+    }
+    else
+    {
+      Managers.UI.ShowToast("오늘은 더이상 이용할 수 없습니다.");
     }
   }
   private void OnClickSilverKeyProductButton() // 실버 열쇠 구매 버튼

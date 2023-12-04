@@ -39,16 +39,15 @@ public class ChainLightning : RepeatSkill
       }
     }
   }
-
   private List<MonsterController> GetChainMonsters(int numTargets, float minDistance, float maxDistance, float angleRange = 180, int index = 0)
   {
     List<MonsterController> chainMonsters = new List<MonsterController>();
     // projRange 이상의 몬스터만 검색
-    List<MonsterController> nearestMonster = Managers.Object.GetNearestMonsters(SkillData.numProjectiles, (int)SkillData.projRange);
-    if (nearestMonster != null)
+    List<MonsterController> nearestMonsters = Managers.Object.GetNearestMonsters(SkillData.numProjectiles, (int)SkillData.projRange);
+    if (nearestMonsters != null)
     {
-      int idx = Mathf.Min(index, nearestMonster.Count-1);
-      chainMonsters.Add(nearestMonster[idx]);
+      int idx = Mathf.Min(index, nearestMonsters.Count-1);
+      chainMonsters.Add(nearestMonsters[idx]);
 
       for (int i = 1; i < numTargets; i++)
       {
@@ -66,7 +65,6 @@ public class ChainLightning : RepeatSkill
 
     return chainMonsters;
   }
-
   private MonsterController GetChainMonster(Vector3 origin, float minDistance, float maxDistance, float angleRange, List<MonsterController> ignoreMonsters)
   {
     LayerMask targetLayer = LayerMask.GetMask("Monster", "Boss");

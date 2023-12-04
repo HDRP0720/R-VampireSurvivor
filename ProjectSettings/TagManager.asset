@@ -4,7 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - MapBoundary
   - Weapon
+  - MagicField
+  - Monster
   layers:
   - Default
   - TransparentFX
@@ -12,15 +15,15 @@ TagManager:
   - 
   - Water
   - UI
-  - 
   - Monster
+  - Player
+  - PlayerSkill
   - Boss
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - MapBoundary
+  - ExpGem
+  - MonsterSkill
+  - Soul
+  - SafeZone
   - 
   - 
   - 
@@ -41,4 +44,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Soul
+    uniqueID: 3883728577
+    locked: 0
+  - name: UI
+    uniqueID: 3672447391
     locked: 0

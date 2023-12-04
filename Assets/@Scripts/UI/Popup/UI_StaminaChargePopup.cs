@@ -81,7 +81,7 @@ public class UI_StaminaChargePopup : UI_Popup
   private void Refresh()
   {
     GetText((int)Texts.HaveStaminaValueText).text = "+1";
-    GetText((int)Texts.DiaRemainingValueText).text = $"오늘 남은 횟수 : {Managers.Game.RemainsStaminaByDia}";
+    GetText((int)Texts.DiaRemainingValueText).text = $"오늘 남은 횟수 : {Managers.Game.GainStaminaByDia}";
     GetText((int)Texts.ADRemainingValueText).text = $"오늘 남은 횟수 : {Managers.Game.StaminaCountAds}";
   }
   
@@ -106,7 +106,7 @@ public class UI_StaminaChargePopup : UI_Popup
   private void OnClickBuyDiaButton()
   {
     Managers.Sound.PlayButtonClick();
-    if (Managers.Game.RemainsStaminaByDia > 0 && Managers.Game.Dia >= 100)
+    if (Managers.Game.GainStaminaByDia > 0 && Managers.Game.Dia >= 100)
     {
       string[] spriteName = new string[1];
       int[] count = new int[1];
@@ -118,7 +118,7 @@ public class UI_StaminaChargePopup : UI_Popup
       if (rewardPopup != null)
       {
         rewardPopup.gameObject.SetActive(true);
-        Managers.Game.RemainsStaminaByDia--;
+        Managers.Game.GainStaminaByDia--;
         Managers.Game.Dia -= 100;
         Managers.Game.Stamina += 15;
         rewardPopup.SetInfo(spriteName, count);

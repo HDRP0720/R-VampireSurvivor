@@ -21,7 +21,7 @@ public class UI_SkillSlotItem : UI_Base
   }
   enum Images
   {
-    BattleSkilIImage,
+    BattleSkillImage,
   }
   #endregion
   
@@ -38,6 +38,7 @@ public class UI_SkillSlotItem : UI_Base
     
     BindObject(typeof(SkillLevelObjects));
     BindImage(typeof(Images));
+    
     gameObject.GetComponent<RectTransform>().localScale = Vector3.one;
 
     return true;
@@ -45,7 +46,7 @@ public class UI_SkillSlotItem : UI_Base
   
   public void SetUI(string iconLabel, int skillLevel = 1)
   {
-    GetImage((int)Images.BattleSkilIImage).sprite = Managers.Resource.Load<Sprite>(iconLabel);
+    GetImage((int)Images.BattleSkillImage).sprite = Managers.Resource.Load<Sprite>(iconLabel);
 
     for (int i = 0; i < 6; i++)
       GetObject(i).SetActive(false);
