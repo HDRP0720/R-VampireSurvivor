@@ -56,18 +56,22 @@ public class GameData
   public int goldCountAds = 1;
   public int rebirthCountAds = 3;
   public int diaCountAds = 3;
-  public int staminaCountAds = 1;
+  
   public int fastRewardCountAds = 1;
   public int fastRewardCountStamina = 3;
+  
   public int skillRefreshCountAds = 3;
+  
+  public int gainStaminaByAds = 1;
   public int gainStaminaByDia = 3;
+  
   public int cloverCountAds = 1;
   #endregion
   
   public bool[] attendanceReceived = new bool[30];
   public bool BGMOn = true;
   public bool effectSoundOn = true;
-  public Define.EJoystickType joystickType = Define.EJoystickType.Flexible;
+  public EJoystickType joystickType = EJoystickType.Flexible;
   public List<Character> characters = new List<Character>();
   public List<Equipment> ownedEquipments = new List<Equipment>();
   public ContinueData continueInfo = new ContinueData();
@@ -412,20 +416,25 @@ public class GameManager
     get => _gameData.diaCountAds;
     set => _gameData.diaCountAds = value;
   }
-  public int StaminaCountAds
-  {
-    get => _gameData.staminaCountAds;
-    set => _gameData.staminaCountAds = value;
-  }
   public int FastRewardCountAds
   {
     get => _gameData.fastRewardCountAds;
     set => _gameData.fastRewardCountAds = value;
   }
+  public int FastRewardCountStamina
+  {
+    get => _gameData.fastRewardCountStamina;
+    set => _gameData.fastRewardCountStamina = value;
+  }
   public int SkillRefreshCountAds
   {
     get => _gameData.skillRefreshCountAds;
     set => _gameData.skillRefreshCountAds = value;
+  }
+  public int GainStaminaByAds
+  {
+    get => _gameData.gainStaminaByAds;
+    set => _gameData.gainStaminaByAds = value;
   }
   public int GainStaminaByDia
   {
@@ -436,11 +445,6 @@ public class GameManager
   {
     get => _gameData.cloverCountAds;
     set => _gameData.cloverCountAds = value;
-  }
-  public int FastRewardCountStamina
-  {
-    get => _gameData.fastRewardCountStamina;
-    set => _gameData.fastRewardCountStamina = value;
   }
   public bool[] AttendanceReceived 
   {

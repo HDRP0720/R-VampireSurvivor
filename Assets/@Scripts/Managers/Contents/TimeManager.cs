@@ -170,11 +170,11 @@ public class TimeManager : MonoBehaviour
       Managers.Game.RebirthCountAds = 3;        // 전투에서 광고를 보고 부활을 할 수 있는 기회
       
       Managers.Game.DiaCountAds = 3;            // 로비에서 광고를 보고 다이아 재화를 얻을 수 있는 기회
-      Managers.Game.StaminaCountAds = 1;        // 로비에서 광고를 보고 스태미나를 충전 할 수 있는 기회
+      
+      Managers.Game.GainStaminaByAds = 1;        // 로비에서 광고를 보고 스태미나를 충전 할 수 있는 기회
+      Managers.Game.GainStaminaByDia = 3;       // 로비에서 다이아 재화로 스태미나를 충전 할 수 있는 기회   
+      
       Managers.Game.FastRewardCountAds = 1;     // 로비에서 광고를 보고 빠른 정찰 보수를 얻을 수 있는 기회
-      
-      Managers.Game.GainStaminaByDia = 3;
-      
       Managers.Game.FastRewardCountStamina = 3; // 로비에서 스태미나를 사용하여 빠른 정찰 보수를 얻을 수 있는 기회
 
       Managers.Game.DicMission.Clear();

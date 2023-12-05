@@ -7,21 +7,11 @@ public class Managers : MonoBehaviour
 
   private static Managers Instance { get { Init(); return _instance; } } 
   
-
-  #region Contents
   private GameManager _game = new GameManager();
   private ObjectManager _object = new ObjectManager();
   private TimeManager _time;
   private AchievementManager _achievment = new AchievementManager();
   
-  // properties
-  public static GameManager Game => Instance != null ? Instance._game : null;
-  public static ObjectManager Object => Instance != null ? Instance._object : null;
-  public static TimeManager Time => Instance != null ? Instance._time : null;
-  public static AchievementManager Achievement => Instance != null ? Instance._achievment : null;
-  #endregion
-
-  #region Core
   private DataManager _data = new DataManager();
   private PoolManager _pool = new PoolManager();
   private ResourceManager _resource = new ResourceManager();
@@ -29,7 +19,12 @@ public class Managers : MonoBehaviour
   private SoundManager _sound = new SoundManager();
   private UIManager _ui = new UIManager();
   
-  // properties
+  #region Properties
+  public static GameManager Game => Instance != null ? Instance._game : null;
+  public static ObjectManager Object => Instance != null ? Instance._object : null;
+  public static TimeManager Time => Instance != null ? Instance._time : null;
+  public static AchievementManager Achievement => Instance != null ? Instance._achievment : null;
+  
   public static DataManager Data => Instance != null ? Instance._data : null;
   public static PoolManager Pool => Instance != null ? Instance._pool : null;
   public static ResourceManager Resource => Instance != null ? Instance._resource : null;

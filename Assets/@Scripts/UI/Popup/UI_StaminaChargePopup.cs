@@ -40,6 +40,8 @@ public class UI_StaminaChargePopup : UI_Popup
     HaveStaminaValueText,
   }
   #endregion
+
+  private int _numOfRefresh = 3;
   
   private void Awake()
   {
@@ -82,7 +84,7 @@ public class UI_StaminaChargePopup : UI_Popup
   {
     GetText((int)Texts.HaveStaminaValueText).text = "+1";
     GetText((int)Texts.DiaRemainingValueText).text = $"오늘 남은 횟수 : {Managers.Game.GainStaminaByDia}";
-    GetText((int)Texts.ADRemainingValueText).text = $"오늘 남은 횟수 : {Managers.Game.StaminaCountAds}";
+    GetText((int)Texts.ADRemainingValueText).text = $"오늘 남은 횟수 : {Managers.Game.GainStaminaByAds}";
   }
   
   private IEnumerator CoTimeCheck()
@@ -124,11 +126,13 @@ public class UI_StaminaChargePopup : UI_Popup
         rewardPopup.SetInfo(spriteName, count);
       }
     }
+    
+    Refresh();
   }
   private void OnClickBuyADButton()
   {
     Managers.Sound.PlayButtonClick();
-    if (Managers.Game.StaminaCountAds > 0)
+    if (Managers.Game.GainStaminaByAds > 0)
     {
       // TODO: ShowRewardedAd
       // Managers.Ads.ShowRewardedAd(() => 
