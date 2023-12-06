@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEditor;
-using Unity.Plastic.Newtonsoft.Json;
+using Newtonsoft.Json;
 
 using Data;
 using static Define;

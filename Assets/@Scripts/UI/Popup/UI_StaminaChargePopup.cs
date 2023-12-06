@@ -40,8 +40,6 @@ public class UI_StaminaChargePopup : UI_Popup
     HaveStaminaValueText,
   }
   #endregion
-
-  private int _numOfRefresh = 3;
   
   private void Awake()
   {

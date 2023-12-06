@@ -73,11 +73,11 @@ crashlytics-build.properties
 
 # Rider & RiderFlow
 /.idea
-/Assets/Plugins
+/Assets/Plugins/Editor
 
 # Licensed Assets
-/Assets/Licensed Assets
 /Assets/@Resources
+/Assets/Licensed Assets
+/Assets/Plugins/Demigiant
 /Packages/com.heurekagames.assethunterpro/
 /Packages/com.heurekagames.utils/
-/Packages/com.singularitygroup.hotreload/
