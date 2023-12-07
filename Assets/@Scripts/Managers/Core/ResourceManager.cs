@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Object = UnityEngine.Object;
@@ -11,13 +12,15 @@ public class ResourceManager
   public T Load<T>(string key) where T : Object
   {
     if (_resources.TryGetValue(key, out Object resource))
-      return resource as T;
-
-    if (typeof(T) == typeof(Sprite))
     {
-      key += ".sprite";
-      if (_resources.TryGetValue(key, out Object temp))
-        return temp as T;
+      // 추가된 부분: key에 ".sprite"가 포함되어 있으면 Texture2D로 인식된 resource를 Sprite로 변환
+      if (key.Contains(".sprite") && resource is Texture2D value)
+      {
+        Sprite sprite = Sprite.Create(value, new Rect(0, 0, value.width, value.height), Vector2.zero);
+        return sprite as T;
+      }
+      
+      return resource as T;
     }
 
     return null;
@@ -52,7 +55,25 @@ public class ResourceManager
   }
 
   #region Addressable Function
-  public void LoadAsync<T>(string key, Action<T> callback = null) where T : Object
+  public void LoadAllAsync<T>(string label, Action<string, int, int> callback) where T : Object
+  {
+    var opHandle = Addressables.LoadResourceLocationsAsync(label, typeof(T));
+    opHandle.Completed += (op) =>
+    {
+      int loadCount = 0;
+      int totalCount = op.Result.Count;
+
+      foreach (var result in op.Result)
+      {
+        LoadAsync<T>(result.PrimaryKey, (obj) =>
+        {
+          loadCount++;
+          callback?.Invoke(result.PrimaryKey, loadCount, totalCount);
+        });
+      }
+    };
+  }
+  private void LoadAsync<T>(string key, Action<T> callback = null) where T : Object
   {
     // Check if an object already exists in the dictionary cache
     if (_resources.TryGetValue(key, out Object resource))
@@ -71,25 +92,6 @@ public class ResourceManager
     {
       _resources.Add(key, op.Result);
       callback?.Invoke(op.Result);
-    };
-  }
-  
-  public void LoadAllAsync<T>(string label, Action<string, int, int> callback) where T : Object
-  {
-    var opHandle = Addressables.LoadResourceLocationsAsync(label, typeof(T));
-    opHandle.Completed += (op) =>
-    {
-      int loadCount = 0;
-      int totalCount = op.Result.Count;
-
-      foreach (var result in op.Result)
-      {
-        LoadAsync<T>(result.PrimaryKey, (obj) =>
-        {
-          loadCount++;
-          callback?.Invoke(result.PrimaryKey, loadCount, totalCount);
-        });
-      }
     };
   }
   #endregion

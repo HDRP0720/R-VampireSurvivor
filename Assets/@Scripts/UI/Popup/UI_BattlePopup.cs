@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using Data;
-using Unity.VisualScripting;
+
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.VisualScripting;
+
+using Data;
 using static Define;
 
 public class UI_BattlePopup : UI_Popup
